@@ -472,7 +472,7 @@ class MetaChain:
 
             if tools and create_params['model'].startswith("gpt"):
                 create_params["parallel_tool_calls"] = agent.parallel_tool_calls
-            completion_response = acompletion(**create_params)
+            completion_response = await acompletion(**create_params)
         elif create_model in NOT_USE_FN_CALL:
             assert agent.tool_choice == "required", f"Non-function calling mode MUST use tool_choice = 'required' rather than {agent.tool_choice}"
             last_content = messages[-1]["content"]
