@@ -30,3 +30,6 @@ research_agent/.env
 research_agent/*_tmp/*
 
 .env
+
+md-files/
+pdf-files/
