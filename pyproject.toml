@@ -1,3 +1,23 @@
 [build-system]
-requires = ["setuptools"]
+requires = [ "setuptools>=61.0", "wheel",]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-researcher"
+version = "1.0.0"
+description = "AI-Researcher: Autonomous Scientific Innovation"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [ "Pillow>=11.3.0", "PyPDF2>=3.0.1", "PyYAML>=6.0.2", "PyYAML>=6.0.2", "Requests>=2.32.4", "backoff>=2.2.1", "beautifulsoup4>=4.13.4", "browsergym>=0.14.2", "chromadb>=1.0.16", "click>=8.2.1", "datasets>=3.6.0", "docling>=2.43.0", "feedparser>=6.0.11", "gradio>=5.42.0", "gymnasium>=1.2.0", "html2text>=2025.4.15", "httpx>=0.28.1", "imageio>=2.37.0", "inquirer>=3.4.1", "litellm>=1.75.5.post1", "lm_eval>=0.4.9.1", "loguru>=0.7.3", "mammoth>=1.10.0", "markdownify>=1.2.0", "matplotlib>=3.10.5", "networkx>=3.5", "numpy>=2.3.2", "openai>=1.99.6", "pandas>=2.3.1", "pathvalidate>=3.3.1", "pdf2image>=1.17.0", "pdfminer.six>=20221105",
+"arxiv>=1.4.8", "playwright==1.44", "prompt_toolkit>=3.0.51", "puremagic>=1.30", "pydantic>=2.11.7", "pydub>=0.25.1", "python-dotenv>=1.1.1", "rich>=14.1.0", "scikit_learn>=1.7.1", "scipy>=1.16.1", "seaborn>=0.13.2", "sentence_transformers>=2.2.0", "setuptools>=80.9.0", "tenacity>=9.1.2", "tiktoken>=0.11.0", "torch>=2.7.1", "torch_geometric>=2.6.1", "torchvision>=0.23.0", "tqdm>=4.67.1", "tree_sitter>=0.25.1", "uvicorn>=0.35.0", "youtube_transcript_api>=1.2.2",]
+[[project.authors]]
+name = "AI-Researcher Team"
+email = "contact@ai-researcher.com"
+
+[project.optional-dependencies]
+dev = [ "pytest>=7.0.0", "black>=23.0.0", "flake8>=6.0.0", "mypy>=1.0.0",]
+
+[project.urls]
+Homepage = "https://github.com/HKUDS/AI-Researcher"
+Repository = "https://github.com/HKUDS/AI-Researcher"
+Documentation = "https://autoresearcher.github.io/docs"

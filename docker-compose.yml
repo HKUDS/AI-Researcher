@@ -1,0 +1,65 @@
+services:
+  ai-researcher:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: ai_researcher
+    ports:
+      - "8000:8000"
+      - "7020:7020"
+    volumes:
+      - ./workplace:/workplace
+      - ./cache:/cache
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ANONYMIZED_TELEMETRY=false
+      - DOCKER_WORKPLACE_NAME=workplace_paper
+      - BASE_IMAGES=tjbtech1/airesearcher:v1
+      - COMPLETION_MODEL=openrouter/anthropic/claude-3.5-sonnet
+      - CHEEP_MODEL=openrouter/anthropic/claude-3.5-sonnet
+      - GPUS='"device=0"'
+      - CONTAINER_NAME=paper_eval
+      - WORKPLACE_NAME=workplace
+      - CACHE_PATH=cache
+      - PORT=7020
+      - PLATFORM=linux/amd64
+      - GITHUB_AI_TOKEN=${GITHUB_AI_TOKEN:-your_github_ai_token}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-your_openrouter_api_key}
+      - OPENROUTER_API_BASE=https://openrouter.ai/api/v1
+      - CATEGORY=${CATEGORY:-vq}
+      - INSTANCE_ID=${INSTANCE_ID:-one_layer_vq}
+      - TASK_LEVEL=${TASK_LEVEL:-task1}
+      - MAX_ITER_TIMES=${MAX_ITER_TIMES:-0}
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+  web-gui:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: ai_researcher_web
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./workplace:/app/workplace
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+      - ./.env:/app/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GRADIO_SERVER_PORT=7860
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - COMPLETION_MODEL=openrouter/anthropic/claude-3.5-sonnet
+      - CHEEP_MODEL=openrouter/anthropic/claude-3.5-sonnet
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-your_openrouter_api_key}
+      - OPENROUTER_API_BASE=https://openrouter.ai/api/v1
+    depends_on:
+      - ai-researcher
+    restart: unless-stopped
+
+volumes:
+  workplace:
+  cache:
+  logs:

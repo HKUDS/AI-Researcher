@@ -99,33 +99,29 @@ AVAILABLE TOOLS:
    - `terminal_page_up`: Scroll the viewport UP one page-length in the current terminal. Use this function when output of the tool is too long and you want to scroll up to see the previous content.
    - `terminal_page_to`: Move the viewport to the specific page index. Use this function when the terminal output contains a progress bar or output of generating directory structure when there are many datasets in the directory, you can use this function to move the viewport to the end of terminal where the meaningful content is.
 
-2. Documentation:
-   - `transfer_back_to_survey_agent`: Document findings and merge with `Paper Survey Agent`'s notes
-
 WORKFLOW:
-1. Review provided academic definitions and formulas from `Paper Survey Agent`
-2. Generate and analyze codebase structure
-3. Locate relevant implementation files
-4. Extract and document:
-   - Code implementations
-   - Implementation details
-   - Key functions and classes
-5. Merge findings with `Paper Survey Agent`'s notes and transfer complete documentation back to `Survey Agent`using the `transfer_back_to_survey_agent` function
+1. Generate code structure overview
+2. Identify relevant implementation files
+3. Extract:
+   - Code implementations matching the academic definition
+   - Key algorithms and data structures
+   - Implementation patterns and best practices
+4. Document findings and transfer back to the `Survey Agent` using `transfer_back_to_survey_agent`
 
 REQUIREMENTS:
-- Ensure code examples directly correspond to theoretical concepts
-- Focus on critical implementation details
-- Document any important variations or optimizations
-- Provide clear connections between theory and implementation
+- Focus on practical implementation details
+- Ensure code examples are complete and runnable
+- Document any modifications or adaptations needed
+- Provide clear explanations of how code implements the theoretical concepts
 
-Remember: Your analysis bridges the gap between theoretical concepts and practical implementation.
+Remember: Your analysis bridges the gap between theory and practical implementation.
 """
     tool_list = [
         gen_code_tree_structure,
         read_file,
         terminal_page_down,
         terminal_page_up,
-        terminal_page_to
+        terminal_page_to,
     ]
     tool_list = [
         with_env_docker(code_env)(tool) if "env" in signature(tool).parameters else tool
@@ -145,16 +141,56 @@ def case_resolved(context_variables: dict):
     """
     After you have taken enough notes for the innovation, you should use this function to merge the notes for the further innovation.
     """
-    merge_notes = "\n".join([f"## {note['definition']}\n* The math formula is:\n{note['math_formula']}\n* * The code implementation is:\n{note['code_implementation']}\n* Reference papers are:\n{note['reference_papers']}\n* Reference codebases are:\n{note['reference_codebases']}" for note in context_variables["notes"]])
-    ret_val = f"""\
+    try:
+        notes = context_variables.get("notes", [])
+        if not notes:
+            ret_val = "No notes found in context variables. Please ensure notes have been collected before calling case_resolved."
+            return Result(
+                value=ret_val,
+                context_variables=context_variables,
+            )
+        
+        merged_notes = []
+        for note in notes:
+            # Get values with defaults to handle missing keys
+            definition = note.get('definition', 'No definition provided')
+            math_formula = note.get('math_formula', 'No math formula provided')
+            code_implementation = note.get('code_implementation', 'No code implementation provided')
+            reference_papers = note.get('reference_papers', 'No reference papers provided')
+            reference_codebases = note.get('reference_codebases', 'No reference codebases provided')
+            
+            note_text = f"""## {definition}
+* The math formula is:
+{math_formula}
+* The code implementation is:
+{code_implementation}
+* Reference papers are:
+{reference_papers}
+* Reference codebases are:
+{reference_codebases}"""
+            merged_notes.append(note_text)
+        
+        merge_notes = "\n\n".join(merged_notes)
+        ret_val = f"""\
 I have merged the notes for the innovation.
 The notes are as follows:
 {merge_notes}
 """
-    return Result(
-        value=ret_val,
-        context_variables=context_variables,
-    )
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
+    except Exception as e:
+        # Fallback in case of any error
+        ret_val = f"""\
+Error occurred while merging notes: {str(e)}
+Available context variables keys: {list(context_variables.keys())}
+Notes structure: {context_variables.get('notes', 'No notes found')}
+"""
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
 
 def get_survey_agent(model: str = "gpt-4o", **kwargs):
     file_env: RequestsMarkdownBrowser = kwargs.get("file_env", None)
@@ -185,70 +221,94 @@ def get_survey_agent(model: str = "gpt-4o", **kwargs):
   e. After the `Code Survey Agent` has extracted the corresponding code implementations, `Code Survey Agent` will use `transfer_back_to_survey_agent` function to forward all findings to the `Survey Agent`
   f. `Survey Agent` will collect and organize the notes for each definition
 
-4. ITERATIVE PROCESS
-- Continue this process until ALL atomic definitions have been covered
-- Do not conclude until you have thoroughly examined all concepts necessary for the innovation
+4. COMPREHENSIVE NOTE COLLECTION
+- Ensure all notes are properly structured and complete
+- Verify that each definition has:
+  * Clear academic definition
+  * Mathematical formulas
+  * Code implementations
+  * Reference papers and codebases
 
-5. FINAL COMPILATION
-- Use the `case_resolved` function to merge all collected notes
-- Ensure the final output is well-structured and comprehensive
+5. FINAL INTEGRATION
+- Use `case_resolved` function to merge all collected notes
+- Ensure the final output is comprehensive and ready for implementation
 
-IMPORTANT NOTES:
-- Before proceeding with any analysis, you MUST first break down the innovative idea into atomic definitions
-- Each atomic definition should be specific enough to be traced to concrete mathematical formulas and code implementations
-- Do not skip or combine definitions - each atomic concept must be analyzed separately
-- If you're unsure about a definition's atomicity, err on the side of breaking it down further
-- Document your breakdown reasoning before proceeding with the analysis
-
-Your goal is to create a complete knowledge base that bridges theoretical concepts with practical implementations for the proposed innovation.
+IMPORTANT GUIDELINES:
+- Be systematic and thorough in your analysis
+- Ensure each atomic definition is properly explored
+- Maintain clear documentation throughout the process
+- Focus on practical implementation feasibility
 """
-    paper_survey_agent = get_paper_survey_agent(model, file_env=file_env)
-    code_survey_agent = get_code_survey_agent(model, code_env=code_env)
     survey_agent = Agent(
         name="Survey Agent",
         model=model,
         instructions=instructions,
+        functions=[],
         tool_choice="required",
         parallel_tool_calls=False,
     )
+    paper_survey_agent = get_paper_survey_agent(model, file_env=file_env)
+    code_survey_agent = get_code_survey_agent(model, code_env=code_env)
 
     def transfer_back_to_survey_agent(academic_definition: str, code_implementation: str, reference_codebases: List[str], context_variables: dict):
         """
-        After you have carefully read the related paper, understood the academic definition, especially the math formula, and reviewed the corresponding code implementation, you should take notes about the specific academic definition, math formula, and code implementation for the further innovation.
+        You should pass the code implementation back to the `Survey Agent` to let it collect the notes for the innovation.
+        [IMPORTANT] You can use this function only after you have use the provided tools to actually and carefully read and analyze the codebases. DONNOT use this function before you have read the codebases.
         Args:
             academic_definition: the academic definition to be explored. It should be a single, atomic academic concept with a few words.
             code_implementation: the code implementation of the academic definition. [IMPORTANT] It should be as complete as possible and it should be the real code. 
             reference_codebases: the list of reference codebases. If you don't have reference codebases, you can set it to `None`.
         """
-        # context_variables["notes"] = {
-        #     academic_definition: {
-        #         "definition": academic_definition,
-        #         "math_formula": math_formula,
-        #         "code_implementation": code_implementation,
-        #         "references": references,
-        #     }
-        # }
-        context_variables["notes"][-1]["code_implementation"] = code_implementation
-        context_variables["notes"][-1]["reference_codebases"] = reference_codebases
-        ret_val = f"""\
+        try:
+            # Ensure notes list exists
+            if "notes" not in context_variables:
+                context_variables["notes"] = []
+            
+            # Ensure the last note exists
+            if not context_variables["notes"]:
+                context_variables["notes"].append({"definition": academic_definition})
+            
+            # Update the last note with safe access
+            last_note = context_variables["notes"][-1]
+            last_note["code_implementation"] = code_implementation
+            last_note["reference_codebases"] = reference_codebases
+            
+            # Get values with defaults
+            math_formula = last_note.get("math_formula", "No math formula provided")
+            reference_papers = last_note.get("reference_papers", "No reference papers provided")
+            
+            ret_val = f"""\
     I have taken notes for the innovation.
     The notes are as follows:
     ## Academic Definition
     {academic_definition}
     ## Math Formula
-    {context_variables["notes"][-1]["math_formula"]}
+    {math_formula}
     ## Reference papers
-    {context_variables["notes"][-1]["reference_papers"]}
+    {reference_papers}
     ## Code Implementation
-    {context_variables["notes"][-1]["code_implementation"]}
+    {code_implementation}
     ## Reference codebases
-    {context_variables["notes"][-1]["reference_codebases"]}
+    {reference_codebases}
     """
-        return Result(
-            value=ret_val,
-            context_variables=context_variables,
-            agent=survey_agent,
-        )
+            return Result(
+                value=ret_val,
+                context_variables=context_variables,
+                agent=survey_agent,
+            )
+        except Exception as e:
+            # Fallback in case of any error
+            ret_val = f"""\
+    Error occurred while taking notes: {str(e)}
+    Academic Definition: {academic_definition}
+    Code Implementation: {code_implementation}
+    Reference Codebases: {reference_codebases}
+    """
+            return Result(
+                value=ret_val,
+                context_variables=context_variables,
+                agent=survey_agent,
+            )
     def transfer_to_paper_survey_agent(academic_definition: str, context_variables: dict):
         """
         You should pass a specific academic definition to the `Paper Survey Agent` and `Code Survey Agent` to let them find the corresponding math formula and code implementation. 
@@ -256,15 +316,39 @@ Your goal is to create a complete knowledge base that bridges theoretical concep
         Args:
             academic_definition: the academic definition to be explored. It should be a single, atomic academic concept with a few words.
         """
-        ret_val = f"""\
+        try:
+            # Ensure notes list exists
+            if "notes" not in context_variables:
+                context_variables["notes"] = []
+            
+            # Add new note with proper structure
+            context_variables["notes"].append({
+                "definition": academic_definition,
+                "math_formula": "To be filled by Paper Survey Agent",
+                "code_implementation": "To be filled by Code Survey Agent",
+                "reference_papers": "To be filled by Paper Survey Agent",
+                "reference_codebases": "To be filled by Code Survey Agent"
+            })
+            
+            ret_val = f"""\
 You should explore the papers and extract the math formula for the academic definition: {academic_definition}.
 """
-        context_variables["notes"].append({"definition": academic_definition})
-        return Result(
-            value=ret_val,
-            agent=paper_survey_agent,
-            context_variables=context_variables,
-        )
+            return Result(
+                value=ret_val,
+                agent=paper_survey_agent,
+                context_variables=context_variables,
+            )
+        except Exception as e:
+            # Fallback in case of any error
+            ret_val = f"""\
+Error occurred while transferring to Paper Survey Agent: {str(e)}
+Academic Definition: {academic_definition}
+"""
+            return Result(
+                value=ret_val,
+                agent=paper_survey_agent,
+                context_variables=context_variables,
+            )
     def transfer_to_code_survey_agent(academic_definition: str, math_formula: str, reference_papers: List[str], context_variables: dict):
         """
         You should pass a specific academic definition and math formula to the `Code Survey Agent` to let it find the corresponding code implementation. 
@@ -274,16 +358,40 @@ You should explore the papers and extract the math formula for the academic defi
             math_formula: the full math formula to be implemented. [IMPORTANT] It should be as complete as possible and it should be the real math formula. 
             reference_papers: the list of reference papers. If you don't have reference papers, you can set it to `None`.
         """
-        ret_val = f"""\
+        try:
+            # Ensure notes list exists and has at least one note
+            if "notes" not in context_variables:
+                context_variables["notes"] = []
+            
+            if not context_variables["notes"]:
+                context_variables["notes"].append({"definition": academic_definition})
+            
+            # Update the last note with safe access
+            last_note = context_variables["notes"][-1]
+            last_note["math_formula"] = math_formula
+            last_note["reference_papers"] = reference_papers
+            
+            ret_val = f"""\
 You should explore the codebases and extract the code implementation for the academic definition: {academic_definition} and math formula: {math_formula}.
 """
-        context_variables["notes"][-1]["math_formula"] = math_formula
-        context_variables["notes"][-1]["reference_papers"] = reference_papers
-        return Result(
-            value=ret_val,
-            agent=code_survey_agent,
-            context_variables=context_variables,
-        )
+            return Result(
+                value=ret_val,
+                agent=code_survey_agent,
+                context_variables=context_variables,
+            )
+        except Exception as e:
+            # Fallback in case of any error
+            ret_val = f"""\
+Error occurred while transferring to Code Survey Agent: {str(e)}
+Academic Definition: {academic_definition}
+Math Formula: {math_formula}
+Reference Papers: {reference_papers}
+"""
+            return Result(
+                value=ret_val,
+                agent=code_survey_agent,
+                context_variables=context_variables,
+            )
     survey_agent.functions = [transfer_to_paper_survey_agent, case_resolved]
     paper_survey_agent.functions.append(transfer_to_code_survey_agent)
     code_survey_agent.functions.append(transfer_back_to_survey_agent)

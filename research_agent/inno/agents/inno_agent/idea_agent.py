@@ -223,16 +223,56 @@ def case_resolved(context_variables: dict):
     """
     After you have taken enough notes for the innovation, you should use this function to merge the notes for the further innovation.
     """
-    merge_notes = "\n".join([f"## {note['definition']}\n* The math formula is:\n{note['math_formula']}\n* * The code implementation is:\n{note['code_implementation']}\n* Reference papers are:\n{note['reference_papers']}\n* Reference codebases are:\n{note['reference_codebases']}" for note in context_variables["notes"]])
-    ret_val = f"""\
+    try:
+        notes = context_variables.get("notes", [])
+        if not notes:
+            ret_val = "No notes found in context variables. Please ensure notes have been collected before calling case_resolved."
+            return Result(
+                value=ret_val,
+                context_variables=context_variables,
+            )
+        
+        merged_notes = []
+        for note in notes:
+            # Get values with defaults to handle missing keys
+            definition = note.get('definition', 'No definition provided')
+            math_formula = note.get('math_formula', 'No math formula provided')
+            code_implementation = note.get('code_implementation', 'No code implementation provided')
+            reference_papers = note.get('reference_papers', 'No reference papers provided')
+            reference_codebases = note.get('reference_codebases', 'No reference codebases provided')
+            
+            note_text = f"""## {definition}
+* The math formula is:
+{math_formula}
+* The code implementation is:
+{code_implementation}
+* Reference papers are:
+{reference_papers}
+* Reference codebases are:
+{reference_codebases}"""
+            merged_notes.append(note_text)
+        
+        merge_notes = "\n\n".join(merged_notes)
+        ret_val = f"""\
 I have merged the notes for the innovation.
 The notes are as follows:
 {merge_notes}
 """
-    return Result(
-        value=ret_val,
-        context_variables=context_variables,
-    )
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
+    except Exception as e:
+        # Fallback in case of any error
+        ret_val = f"""\
+Error occurred while merging notes: {str(e)}
+Available context variables keys: {list(context_variables.keys())}
+Notes structure: {context_variables.get('notes', 'No notes found')}
+"""
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
 
 def get_survey_agent(model: str = "gpt-4o", **kwargs):
     file_env: RequestsMarkdownBrowser = kwargs.get("file_env", None)

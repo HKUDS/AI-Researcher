@@ -1,4 +1,4 @@
-from research_agent.inno.types import Agent
+from research_agent.inno.types import Agent, Result
 from research_agent.inno.tools import (
     gen_code_tree_structure, execute_command, read_file, create_file, write_file, list_files, create_directory, run_python, terminal_page_down, terminal_page_up, terminal_page_to
 )
@@ -6,6 +6,7 @@ from research_agent.inno.util import make_message, make_tool_message
 from research_agent.inno.registry import register_agent
 from research_agent.inno.environment.docker_env import DockerEnv, with_env
 from inspect import signature
+
 def case_resolved(task_response):
    """
    The task response is the result of the task. Use this function only after you have successfully completed the task. 
@@ -13,7 +14,17 @@ def case_resolved(task_response):
    Args:
       task_response: The result of the task.
    """
-   return task_response
+   try:
+       return Result(
+           value=task_response,
+           context_variables={},
+       )
+   except Exception as e:
+       # Fallback in case of any error
+       return Result(
+           value=f"Error occurred while resolving case: {str(e)}\nTask Response: {task_response}",
+           context_variables={},
+       )
 
 def case_not_resolved(failure_reason):
    """
@@ -22,7 +33,17 @@ def case_not_resolved(failure_reason):
    Args:
       failure_reason: The reason why you cannot find a solution to the task.
    """
-   return failure_reason
+   try:
+       return Result(
+           value=failure_reason,
+           context_variables={},
+       )
+   except Exception as e:
+       # Fallback in case of any error
+       return Result(
+           value=f"Error occurred while handling failure: {str(e)}\nFailure Reason: {failure_reason}",
+           context_variables={},
+       )
    
 @register_agent("get_ml_agent")
 def get_ml_agent(model: str, **kwargs):

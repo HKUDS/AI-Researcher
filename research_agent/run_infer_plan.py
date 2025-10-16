@@ -29,6 +29,20 @@ from research_agent.inno.environment.utils import setup_dataset
 def warp_source_papers(source_papers):
     return "\n".join([f"Title: {source_paper['reference']}; You can use this paper in the following way: {source_paper['usage']}" for source_paper in source_papers])
 def extract_json_from_output(output_text: str) -> dict:
+    # Handle None or error cases
+    if not output_text or output_text.strip() == "":
+        print("Output text is empty or None")
+        return {}
+    
+    if output_text.strip().lower() == "none":
+        print("Output text is 'None'")
+        return {}
+    
+    # Check if the output contains error messages
+    if "error" in output_text.lower() or "failed" in output_text.lower():
+        print(f"Output contains error message: {output_text[:100]}...")
+        return {}
+    
     # 计数器方法来找到完整的JSON
     def find_json_boundaries(text):
         stack = []
@@ -55,7 +69,9 @@ def extract_json_from_output(output_text: str) -> dict:
         except json.JSONDecodeError as e:
             print(f"JSON解析错误: {e}")
             return {}
-    return {}
+    else:
+        print(f"No valid JSON found in output: {output_text[:100]}...")
+        return {}
 def get_args(): 
     parser = argparse.ArgumentParser()
     parser.add_argument("--instance_path", type=str, default="benchmark/gnn.json")
@@ -111,13 +127,26 @@ class InnoFlow(FlowModule):
         self.survey_agent = AgentModule(get_survey_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
         self.exp_analyser = AgentModule(get_exp_analyser_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
     async def forward(self, instance_path: str, task_level: str, local_root: str, workplace_name: str, max_iter_times: int, category: str, ideas: str, references: str, *args, **kwargs):
-        metadata = self.load_ins({"instance_path": instance_path, "task_level": task_level})
-        context_variables = {
-            "working_dir": workplace_name, # TODO: change to the codebase path
-            "date_limit": metadata["date_limit"],
-        }
+        try:
+            metadata = self.load_ins({"instance_path": instance_path, "task_level": task_level})
+            context_variables = {
+                "working_dir": workplace_name, # TODO: change to the codebase path
+                "date_limit": metadata["date_limit"],
+            }
+        except Exception as e:
+            print(f"Error loading instance: {str(e)}")
+            # Continue with default values
+            metadata = {"date_limit": "2024-01-01"}
+            context_variables = {
+                "working_dir": workplace_name,
+                "date_limit": "2024-01-01",
+            }
 
-        github_result = self.git_search({"metadata": metadata})
+        try:
+            github_result = self.git_search({"metadata": metadata})
+        except Exception as e:
+            print(f"Error in GitHub search: {str(e)}")
+            github_result = "GitHub search failed due to technical issues."
         
         
         query = f"""\
@@ -134,11 +163,22 @@ innovative ideas:
 Your task is to choose at least 5 repositories as the reference codebases.
 """
         messages = [{"role": "user", "content": query}]
-        prepare_messages, context_variables = await self.prepare_agent(messages, context_variables)
-        prepare_res = prepare_messages[-1]["content"]
-        prepare_dict = extract_json_from_output(prepare_res)
-        paper_list = prepare_dict["reference_papers"]
-        download_res = self.download_papaer({"paper_list": paper_list, "local_root": local_root, "workplace_name": workplace_name})
+        
+        try:
+            prepare_messages, context_variables = await self.prepare_agent(messages, context_variables)
+            prepare_res = prepare_messages[-1]["content"]
+            prepare_dict = extract_json_from_output(prepare_res)
+            paper_list = prepare_dict.get("reference_papers", [])
+        except Exception as e:
+            print(f"Error in prepare agent: {str(e)}")
+            prepare_res = "Prepare agent failed due to technical issues."
+            paper_list = []
+        
+        try:
+            download_res = self.download_papaer({"paper_list": paper_list, "local_root": local_root, "workplace_name": workplace_name})
+        except Exception as e:
+            print(f"Error downloading papers: {str(e)}")
+            download_res = "Paper download failed due to technical issues."
         survey_query = f"""\
 I have an innovative ideas related to machine learning:
 {ideas}
@@ -156,13 +196,20 @@ Note that the math formula should be as complete as possible, and the code imple
 """
         messages = [{"role": "user", "content": survey_query}]
         context_variables["notes"] = []
-        survey_messages, context_variables = await self.survey_agent(messages, context_variables)
-        survey_res = survey_messages[-1]["content"]
-        context_variables["model_survey"] = survey_res
+        
+        try:
+            survey_messages, context_variables = await self.survey_agent(messages, context_variables)
+            survey_res = survey_messages[-1]["content"]
+            context_variables["model_survey"] = survey_res
+        except Exception as e:
+            print(f"Error in survey agent: {str(e)}")
+            survey_res = "Survey agent failed due to technical issues."
+            context_variables["model_survey"] = survey_res
 
-        data_module = importlib.import_module(f"benchmark.process.dataset_candidate.{category}.metaprompt")
+        try:
+            data_module = importlib.import_module(f"benchmark.process.dataset_candidate.{category}.metaprompt")
 
-        dataset_description = f"""\
+            dataset_description = f"""\
 You should select SEVERAL datasets as experimental datasets from the following description:
 {data_module.DATASET}
 
@@ -177,6 +224,9 @@ And the evaluation metrics are:
 
 {data_module.REF}
 """
+        except Exception as e:
+            print(f"Error loading dataset module: {str(e)}")
+            dataset_description = "Dataset information could not be loaded due to technical issues."
 
         plan_query = f"""\
 I have an innovative ideas related to machine learning:
@@ -195,8 +245,13 @@ We have already selected the following datasets as experimental datasets:
 Your task is to carefully review the existing resources and understand the task, and give me a detailed plan for the implementation.
 """
         messages = [{"role": "user", "content": plan_query}]
-        plan_messages, context_variables = await self.coding_plan_agent(messages, context_variables)
-        plan_res = plan_messages[-1]["content"]
+        
+        try:
+            plan_messages, context_variables = await self.coding_plan_agent(messages, context_variables)
+            plan_res = plan_messages[-1]["content"]
+        except Exception as e:
+            print(f"Error in coding plan agent: {str(e)}")
+            plan_res = "Coding plan agent failed due to technical issues."
 
         # write the model based on the model survey notes
         ml_dev_query = f"""\

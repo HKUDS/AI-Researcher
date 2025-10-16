@@ -58,7 +58,7 @@ def import_tools_recursively(base_dir: str, base_package: str):
 
 # get the current directory and import all tools
 current_dir = os.path.dirname(__file__)
-import_tools_recursively(current_dir, 'inno.tools')
+import_tools_recursively(current_dir, 'research_agent.inno.tools')
 
 # export all tool creation functions
 globals().update(registry.tools)

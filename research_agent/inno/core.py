@@ -168,13 +168,36 @@ class MetaChain:
                     value=json.dumps({"assistant": agent.name}),
                     agent=agent,
                 )
+            case None:
+                # Handle None values gracefully
+                error_message = "Agent function returned None. This indicates an error in the agent's execution."
+                self.logger.info(error_message, title="Handle Function Result Error", color="red")
+                return Result(
+                    value=error_message,
+                    context_variables={}
+                )
             case _:
                 try:
-                    return Result(value=str(result))
+                    # Convert to string, but handle edge cases
+                    if result is None:
+                        result_str = "Agent function returned None"
+                    else:
+                        result_str = str(result)
+                    
+                    # Ensure the result is not empty or just whitespace
+                    if not result_str or result_str.strip() == "":
+                        result_str = "Agent function returned empty result"
+                    elif result_str.strip().lower() == "none":
+                        result_str = "Agent function returned None"
+                    
+                    return Result(value=result_str)
                 except Exception as e:
                     error_message = f"Failed to cast response to string: {result}. Make sure agent functions return a string or Result object. Error: {str(e)}"
                     self.logger.info(error_message, title="Handle Function Result Error", color="red")
-                    raise TypeError(error_message)
+                    return Result(
+                        value=error_message,
+                        context_variables={}
+                    )
 
     def handle_tool_calls(
         self,

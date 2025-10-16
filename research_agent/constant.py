@@ -35,6 +35,7 @@ LOG_PATH = os.getenv('LOG_PATH', None)
 LOG_PATH = global_state.LOG_PATH
 EVAL_MODE = str_to_bool(os.getenv('EVAL_MODE', False))
 BASE_IMAGES = os.getenv('BASE_IMAGES', "tjbtech1/paperapp:latest")
+PLATFORM = os.getenv('PLATFORM', "linux/amd64")
 
 COMPLETION_MODEL = os.getenv('COMPLETION_MODEL', "gpt-4o-2024-08-06") # gpt-4o-2024-08-06
 EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', "text-embedding-3-small")

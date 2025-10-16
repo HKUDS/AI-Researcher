@@ -39,6 +39,14 @@ class DockerEnv:
         self.communication_port = config.communication_port
         
     def init_container(self):
+        # Check if we're running inside Docker
+        if os.path.exists('/.dockerenv'):
+            # We're already inside Docker, use local execution
+            print(f"Running inside Docker container, using local execution for {self.container_name}")
+            os.makedirs(self.local_workplace, exist_ok=True)
+            return
+        
+        # Original Docker container logic for when running on host
         container_check_command = ["docker", "ps", "-a", "--filter", f"name={self.container_name}", "--format", "{{.Names}}"]
         existing_container = subprocess.run(container_check_command, capture_output=True, text=True)
         os.makedirs(self.local_workplace, exist_ok=True)
@@ -147,6 +155,31 @@ class DockerEnv:
         Returns:
             dict: the complete JSON result returned by the docker container
         """
+        # Check if we're running inside Docker
+        if os.path.exists('/.dockerenv'):
+            # We're already inside Docker, execute command locally
+            try:
+                # Change to the workplace directory
+                original_cwd = os.getcwd()
+                os.chdir(self.local_workplace)
+                
+                # Execute the command
+                result = subprocess.run(command, shell=True, capture_output=True, text=True)
+                
+                # Restore original directory
+                os.chdir(original_cwd)
+                
+                return {
+                    'status': result.returncode,
+                    'result': result.stdout + result.stderr
+                }
+            except Exception as e:
+                return {
+                    'status': -1,
+                    'result': f'Error executing command locally: {str(e)}'
+                }
+        
+        # Original Docker container communication logic
         hostname = 'localhost'
         port = self.communication_port
         buffer_size = 4096

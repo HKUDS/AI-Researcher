@@ -18,9 +18,9 @@ import base64
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # If you want to use proxy, please uncomment the following lines
-os.environ['https_proxy'] = 'http://100.68.161.73:3128'
-os.environ['http_proxy'] = 'http://100.68.161.73:3128'
-os.environ['no_proxy'] = 'localhost,127.0.0.1,0.0.0.0'
+# os.environ['https_proxy'] = 'http://100.68.161.73:3128'
+# os.environ['http_proxy'] = 'http://100.68.161.73:3128'
+# os.environ['no_proxy'] = 'localhost,127.0.0.1,0.0.0.0'
 
 def setup_path():
     # logs_dir = os.path.join("casestudy_results", f'agent_{container_name}', 'logs')
@@ -1656,12 +1656,12 @@ def main():
         allowed_paths = [os.path.dirname(LOG_FILE)]
         app.launch(
             share=False, 
-            server_port=7039,
-            server_name="127.0.0.1",
+            server_port=int(os.getenv("GRADIO_SERVER_PORT", 7860)),
+            server_name=os.getenv("GRADIO_SERVER_NAME", "0.0.0.0"),
             allowed_paths=allowed_paths,
             show_error=True,
             quiet=False,
-            favicon_path="assets/logo.png"
+            favicon_path=None
         )
 
     except Exception as e:

@@ -1,4 +1,4 @@
-from research_agent.inno.types import Agent
+from research_agent.inno.types import Agent, Result
 from research_agent.inno.tools import gen_code_tree_structure, read_file, plan_dataset, plan_model, plan_training, plan_testing, terminal_page_down, terminal_page_up, terminal_page_to
 from research_agent.inno.util import make_message, make_tool_message
 from research_agent.inno.registry import register_agent
@@ -9,22 +9,42 @@ def case_resolved(context_variables):
    """ 
    The function to merge the plan of the dataset, model, and training process. Use this function only after you have carefully reviewed the existing resources and understand the task, and get the plan of the dataset, model, training and testing process.
    """
-   merged_plan = f"""\
+   try:
+       # Get values with defaults to handle missing keys
+       dataset_plan = context_variables.get("dataset_plan", "No dataset plan provided")
+       model_survey = context_variables.get("model_survey", "No model survey provided")
+       training_plan = context_variables.get("training_plan", "No training plan provided")
+       testing_plan = context_variables.get("testing_plan", "No testing plan provided")
+       
+       merged_plan = f"""\
 I have reviewed the existing resources and understand the task, and here is the plan of the dataset, model, training and testing process:
 
 # Dataset Plan
-{context_variables["dataset_plan"]}
+{dataset_plan}
 
 # Model Plan
-{context_variables["model_survey"]}
+{model_survey}
 
 # Training Plan
-{context_variables["training_plan"]}
+{training_plan}
 
 # Testing Plans
-{context_variables["testing_plan"]}
+{testing_plan}
 """
-   return merged_plan
+       return Result(
+           value=merged_plan,
+           context_variables=context_variables,
+       )
+   except Exception as e:
+       # Fallback in case of any error
+       ret_val = f"""\
+Error occurred while merging plans: {str(e)}
+Available context variables keys: {list(context_variables.keys())}
+"""
+       return Result(
+           value=ret_val,
+           context_variables=context_variables,
+       )
 
 @register_agent("get_coding_plan_agent")
 def get_coding_plan_agent(model: str, **kwargs):

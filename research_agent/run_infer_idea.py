@@ -30,6 +30,20 @@ from research_agent.inno.environment.utils import setup_dataset
 def warp_source_papers(source_papers):
     return "\n".join([f"Title: {source_paper['reference']}; You can use this paper in the following way: {source_paper['usage']}" for source_paper in source_papers])
 def extract_json_from_output(output_text: str) -> dict:
+    # Handle None or error cases
+    if not output_text or output_text.strip() == "":
+        print("Output text is empty or None")
+        return {}
+    
+    if output_text.strip().lower() == "none":
+        print("Output text is 'None'")
+        return {}
+    
+    # Check if the output contains error messages
+    if "error" in output_text.lower() or "failed" in output_text.lower():
+        print(f"Output contains error message: {output_text[:100]}...")
+        return {}
+    
     # 计数器方法来找到完整的JSON
     def find_json_boundaries(text):
         stack = []
@@ -56,7 +70,9 @@ def extract_json_from_output(output_text: str) -> dict:
         except json.JSONDecodeError as e:
             print(f"JSON解析错误: {e}")
             return {}
-    return {}
+    else:
+        print(f"No valid JSON found in output: {output_text[:100]}...")
+        return {}
 def get_args(): 
     parser = argparse.ArgumentParser()
     parser.add_argument("--instance_path", type=str, default="benchmark/gnn.json")
@@ -112,16 +128,31 @@ class InnoFlow(FlowModule):
         self.code_survey_agent = AgentModule(get_code_survey_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
         self.exp_analyser = AgentModule(get_exp_analyser_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
     async def forward(self, instance_path: str, task_level: str, local_root: str, workplace_name: str, max_iter_times: int, category: str, references: str, *args, **kwargs):
-        metadata = self.load_ins({"instance_path": instance_path, "task_level": task_level})
-        context_variables = {
-            "working_dir": workplace_name, # TODO: change to the codebase path
-            "date_limit": metadata["date_limit"],
-        }
+        try:
+            metadata = self.load_ins({"instance_path": instance_path, "task_level": task_level})
+            context_variables = {
+                "working_dir": workplace_name, # TODO: change to the codebase path
+                "date_limit": metadata["date_limit"],
+            }
+        except Exception as e:
+            print(f"Error loading instance: {str(e)}")
+            # Continue with default values
+            metadata = {"date_limit": "2024-01-01"}
+            context_variables = {
+                "working_dir": workplace_name,
+                "date_limit": "2024-01-01",
+            }
 
-        github_result = self.git_search({"metadata": metadata})
-        data_module = importlib.import_module(f"benchmark.process.dataset_candidate.{category}.metaprompt")
+        try:
+            github_result = self.git_search({"metadata": metadata})
+        except Exception as e:
+            print(f"Error in GitHub search: {str(e)}")
+            github_result = "GitHub search failed due to technical issues."
+            
+        try:
+            data_module = importlib.import_module(f"benchmark.process.dataset_candidate.{category}.metaprompt")
 
-        dataset_description = f"""\
+            dataset_description = f"""\
 You should select SEVERAL datasets as experimental datasets from the following description:
 {data_module.DATASET}
 
@@ -136,6 +167,9 @@ And the evaluation metrics are:
 
 {data_module.REF}
 """
+        except Exception as e:
+            print(f"Error loading dataset module: {str(e)}")
+            dataset_description = "Dataset information could not be loaded due to technical issues."
         
         query = f"""\
 You are given a list of papers, searching results of the papers on GitHub. 

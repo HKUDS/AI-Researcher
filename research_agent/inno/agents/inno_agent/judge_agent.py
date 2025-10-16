@@ -1,4 +1,4 @@
-from research_agent.inno.types import Agent
+from research_agent.inno.types import Agent, Result
 from research_agent.inno.tools import gen_code_tree_structure, read_file, terminal_page_down, terminal_page_up, terminal_page_to
 from research_agent.inno.tools.inno_tools.code_search import search_github_repos
 from research_agent.inno.tools.inno_tools.web_tools import with_env as with_env_web
@@ -32,15 +32,30 @@ def case_resolved(
        fully_correct: whether the implementation is fully correct. If not, you should give a suggestion about the implementation.
        suggestion: the suggestion about the implementation. It should be a dictionary with the keys as the key points in the innovative idea and the values as the suggestions about the implementation. If the implementation is fully correct, you can set this argument to None.
     """
-    suggestion_dict = {"fully_correct": fully_correct, "suggestion": suggestion}
-    context_variables["suggestion_dict"] = suggestion_dict
-    ret_val = f"""\
+    try:
+        suggestion_dict = {"fully_correct": fully_correct, "suggestion": suggestion}
+        context_variables["suggestion_dict"] = suggestion_dict
+        ret_val = f"""\
 Here is the suggestion about the implementation:
 Whether the implementation is fully correct: {fully_correct}
 The suggestion about the implementation:
 {json.dumps(suggestion_dict, indent=4)}
 """
-    return ret_val
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
+    except Exception as e:
+        # Fallback in case of any error
+        ret_val = f"""\
+Error occurred while generating suggestion: {str(e)}
+Fully Correct: {fully_correct}
+Suggestion: {suggestion}
+"""
+        return Result(
+            value=ret_val,
+            context_variables=context_variables,
+        )
 
 
 
