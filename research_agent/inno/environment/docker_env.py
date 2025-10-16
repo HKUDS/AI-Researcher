@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from typing import Optional, Union, Dict
 from functools import update_wrapper
 from inspect import signature
+import socket
 @dataclass
 class DockerConfig: 
     container_name: str
@@ -37,6 +38,16 @@ class DockerEnv:
         self.git_clone = config.git_clone
         self.setup_package = config.setup_package
         self.communication_port = config.communication_port
+
+    @staticmethod
+    def is_port_available(port: int) -> bool:
+        """Check if a port is available for binding."""
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(("127.0.0.1", port))
+                return True
+            except socket.error:
+                return False
         
     def init_container(self):
         container_check_command = ["docker", "ps", "-a", "--filter", f"name={self.container_name}", "--format", "{{.Names}}"]
@@ -70,35 +81,73 @@ class DockerEnv:
                 print(f"Successfully created and switched to new branch: {new_branch_name}")
 
         if existing_container.stdout.strip() == self.container_name:
-            # check if the container is running
-            running_check_command = ["docker", "ps", "--filter", f"name={self.container_name}", "--format", "{{.Names}}"]
-            running_container = subprocess.run(running_check_command, capture_output=True, text=True)
+            port_info = check_container_ports(self.container_name)
 
-            if running_container.stdout.strip() == self.container_name:
-                print(f"Container '{self.container_name}' is already running. Skipping creation.")
-                return  # container is already running, skip creation
-            else:
-                # container exists but is not running, start it
-                start_command = ["docker", "start", self.container_name]
-                subprocess.run(start_command)
-                print(f"Container '{self.container_name}' has been started.")
+            if port_info:
+                # This is a valid, port-mapped container. Check if we can use it.
+                self.communication_port = port_info[0]
+                if not DockerEnv.is_port_available(self.communication_port):
+                    raise Exception(f"Error: Container '{self.container_name}' needs port {self.communication_port}, but it's already in use by another process. Please free the port and try again.")
+
+                running_check_command = ["docker", "ps", "--filter", f"name={self.container_name}", "--format", "{{.Names}}"]
+                running_container = subprocess.run(running_check_command, capture_output=True, text=True)
+
+                if running_container.stdout.strip() != self.container_name:
+                    print(f"Attempting to start existing container '{self.container_name}' on port {self.communication_port}...")
+                    try:
+                        start_command = ["docker", "start", self.container_name]
+                        subprocess.run(start_command, check=True, capture_output=True, text=True)
+                        print(f"Container '{self.container_name}' has been started successfully.")
+                    except subprocess.CalledProcessError as e:
+                        raise Exception(f"Failed to start container '{self.container_name}'. Docker error: {e.stderr}")
+                else:
+                    print(f"Container '{self.container_name}' is already running on port {self.communication_port}.")
                 return
+            else:
+                # This is a zombie container (created but not started, no port). Remove it.
+                print(f"Warning: Found existing container '{self.container_name}' but it has no port mapping. It is likely a zombie from a failed startup. Removing it.")
+                try:
+                    rm_command = ["docker", "rm", "-f", self.container_name]
+                    subprocess.run(rm_command, check=True, capture_output=True, text=True)
+                    print(f"Removed zombie container '{self.container_name}'.")
+                except subprocess.CalledProcessError as e:
+                    raise Exception(f"Failed to remove zombie container '{self.container_name}'. Docker error: {e.stderr}")
         
-        # if the container does not exist, create and start a new container
+        # If we are here, either the container did not exist or we just removed a zombie.
+        # Create a new container and let Docker assign a random available port.
         gpu_cmd = ["--gpus", GPUS] if GPUS else []
         docker_command = [
-            "docker", "run", "-d", "--platform", PLATFORM, "--userns=host",] + gpu_cmd + ["--name", self.container_name, 
+            "docker", "run", "-d", "--platform", PLATFORM, "--userns=host",] + gpu_cmd + ["--name", self.container_name,
             "--user", "root", "-v", f"{self.local_workplace}:{self.docker_workplace}",
-            "-w", f"{self.docker_workplace}", "-p", f"{self.communication_port}:8000", 
+            "-w", f"{self.docker_workplace}", "-p", "8000", # Let Docker assign a random host port
             "--restart", "unless-stopped", BASE_IMAGES
         ]
+        print(f"Creating new container '{self.container_name}'...")
         print(docker_command)
-        # execute the docker command
-        result = subprocess.run(docker_command, capture_output=True, text=True)
-        if result.returncode != 0:
-            raise Exception(f"Failed to start container: {result.stderr}")
-        if self.wait_for_container_ready(timeout=60):
-            print(f"Container '{self.container_name}' has been created and started.")
+
+        try:
+            subprocess.run(docker_command, check=True, capture_output=True, text=True)
+
+            # Discover the port that Docker assigned
+            port_info = check_container_ports(self.container_name)
+            if not port_info:
+                raise Exception("Failed to discover port for newly created container.")
+            self.communication_port = port_info[0]
+            print(f"Container created successfully. Docker assigned port {self.communication_port}.")
+
+            if self.wait_for_container_ready(timeout=60):
+                print(f"Container '{self.container_name}' is ready.")
+        except subprocess.CalledProcessError as e:
+            raise Exception(f"Failed to create container. Docker error: {e.stderr}")
+
+    @staticmethod
+    def is_port_open(host, port, timeout=2):
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                return True
+        except Exception:
+            return False
+
     def wait_for_container_ready(self, timeout=30):
         """using subprocess to check if the container is running"""
         start_time = time.time()
@@ -116,13 +165,17 @@ class DockerEnv:
                 # 额外检查 tcp_server 是否运行
                 try:
                     port_info = check_container_ports(self.container_name)
-                    assert port_info and (port_info[0] == port_info[1])
-                    available_port = port_info[0]
-                    self.communication_port = available_port
-                    result = self.run_command('ps aux')
-                    print("result", result)
-                    if "tcp_server.py" in result['result']:
-                        return True
+                    if port_info:
+                        host_port, container_port = port_info
+                        self.communication_port = host_port
+
+                        if DockerEnv.is_port_open("localhost", host_port):
+                            result = self.run_command('ps aux')
+                            print("result", result)
+                            if "tcp_server.py" in result['result']:
+                                return True
+                        else:
+                            print(f"Port {host_port} not yet open")
                 except Exception as e:
                     print(f"Failed to check container ports: {e}")
                 

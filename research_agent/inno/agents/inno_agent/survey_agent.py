@@ -47,7 +47,7 @@ WORKFLOW:
    - Formal definitions
    - Mathematical formulas
    - Key theoretical components
-4. Document your findings and transfer your findings to the `Code Survey Agent` using the `transfer_to_code_survey_agent` function. Make sure you have read these papers thoroughly.
+4. Document your findings and transfer your findings to the `Code Survey Agent` using the `transfer_to_code_survey_agent` function. Make sure you have read these papers thoroughly. YOU MUST USE THE `transfer_to_code_survey_agent` function. DO NOT use any other `transfer_...` function.
 
 REQUIREMENTS:
 - Be thorough in your analysis

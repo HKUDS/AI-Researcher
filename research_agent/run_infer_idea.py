@@ -22,6 +22,7 @@ import asyncio
 import argparse
 import os
 from typing import List, Dict, Any, Union
+import logging
 from research_agent.inno.logger import MetaChainLogger
 import importlib
 from research_agent.inno.environment.utils import setup_dataset
@@ -54,7 +55,8 @@ def extract_json_from_output(output_text: str) -> dict:
         try:
             return json.loads(json_str)
         except json.JSONDecodeError as e:
-            print(f"JSON解析错误: {e}")
+            logging.error(f"JSON解析错误: {e}")
+            logging.error(f"错误的JSON字符串: {json_str}")
             return {}
     return {}
 def get_args(): 
@@ -535,8 +537,8 @@ def main(args, references):
     with open(args.instance_path, "r", encoding="utf-8") as f:
         eval_instance = json.load(f)
     instance_id = eval_instance["instance_id"] + "_idea"
-    local_root = os.path.join(os.getcwd(),"workplace_paper" , f"task_{instance_id}" + "_" + COMPLETION_MODEL.replace("/", "__"),  args.workplace_name)
-    container_name = args.container_name + "_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__")
+    local_root = os.path.join(os.getcwd(),"workplace_paper" , f"task_{instance_id}" + "_" + COMPLETION_MODEL.replace("/", "__").replace(":", "_"),  args.workplace_name)
+    container_name = args.container_name + "_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__").replace(":", "_")
     os.makedirs(local_root, exist_ok=True)
     env_config = DockerConfig(container_name = container_name, 
                               workplace_name = args.workplace_name, 
@@ -549,7 +551,7 @@ def main(args, references):
     setup_dataset(args.category, code_env.local_workplace)
     web_env = BrowserEnv(browsergym_eval_env = None, local_root=env_config.local_root, workplace_name=env_config.workplace_name)
     file_env = RequestsMarkdownBrowser(viewport_size=1024 * 4, local_root=env_config.local_root, workplace_name=env_config.workplace_name, downloads_folder=os.path.join(env_config.local_root, env_config.workplace_name, "downloads"))
-    flow = InnoFlow(cache_path="cache_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__"), log_path="log_" + instance_id, code_env=code_env, web_env=web_env, file_env=file_env, model=args.model)
+    flow = InnoFlow(cache_path="cache_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__").replace(":", "_"), log_path="log_" + instance_id, code_env=code_env, web_env=web_env, file_env=file_env, model=args.model)
     # ml_result = await flow(instance_path=instance_path)
     asyncio.run(flow(instance_path=args.instance_path, task_level=args.task_level, local_root=local_root, workplace_name=args.workplace_name, max_iter_times=args.max_iter_times, category=args.category, references = references))
     # print(judge_result)

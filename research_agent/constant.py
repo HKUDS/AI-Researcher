@@ -22,6 +22,8 @@ def str_to_bool(value):
         return False
     return True  # default return True
 
+# platform of the research agent
+PLATFORM = os.getenv('PLATFORM', "linux/amd64")
 
 DOCKER_WORKPLACE_NAME = os.getenv('DOCKER_WORKPLACE_NAME', 'workplace_meta')
 GITHUB_AI_TOKEN = os.getenv('GITHUB_AI_TOKEN', None)
