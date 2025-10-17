@@ -67,10 +67,10 @@ class MetaChainLogger:
         self.console.print(self._wrap_title("Assistant Message", "bold light_salmon3"))
         self.console.print(f"{self._wrap_timestamp(timestamp, color=True)}\n[bold blue]{message['sender']}[/bold blue]:", end=" ")
         if message["content"]: self.console.print(escape(message["content"]), highlight=True, emoji=True) 
-        else: self.console.print(None, highlight=True, emoji=True)
+        else: self.console.print()
     def _save_assistant_message(self, message, timestamp: str):
         self._write_log(self._wrap_title("Assistant Message"))
-        content = message["content"] if message["content"] else None
+        content = message["content"] if message["content"] else ""
         self._write_log(f"{self._wrap_timestamp(timestamp, color=False)}\n{message['sender']}: {content}")
     def _print_tool_call(self, tool_calls: List, timestamp: str):
         if len(tool_calls) >= 1: self.console.print(self._wrap_title("Tool Calls", "bold light_pink1"))

@@ -18,9 +18,9 @@ import base64
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # If you want to use proxy, please uncomment the following lines
-os.environ['https_proxy'] = 'http://100.68.161.73:3128'
-os.environ['http_proxy'] = 'http://100.68.161.73:3128'
-os.environ['no_proxy'] = 'localhost,127.0.0.1,0.0.0.0'
+# os.environ['https_proxy'] = 'http://100.68.161.73:3128'
+# os.environ['http_proxy'] = 'http://100.68.161.73:3128'
+# os.environ['no_proxy'] = 'localhost,127.0.0.1,0.0.0.0'
 
 def setup_path():
     # logs_dir = os.path.join("casestudy_results", f'agent_{container_name}', 'logs')
