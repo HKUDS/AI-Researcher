@@ -18,7 +18,7 @@ def main():
         'hidden_dim': 64,
         'num_levels': 10,
         'learning_rate': 1e-3,
-        'num_epochs': 50  # Increased epochs for better convergence and statistical results
+        'num_epochs': 5  # Quick demo - increase to 50 for full training
     }
 
     # Create data loaders
@@ -58,7 +58,7 @@ def main():
 
     # Final evaluation
     print("\nFinal Evaluation:")
-    final_metrics = trainer.evaluator.evaluate(num_samples=500)  # Reduced number of samples
+    final_metrics = trainer.evaluator.evaluate(num_samples=200)  # Reduced for quick demo
     print(f"Test Loss: {final_metrics['loss']:.4f}")
     print(f"FID Score: {final_metrics['fid']:.4f}")
 

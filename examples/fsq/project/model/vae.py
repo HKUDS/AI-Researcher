@@ -38,8 +38,8 @@ class Encoder(nn.Module):
         # Flatten spatial dimensions
         x = x.view(x.size(0), -1)
         
-        # Project to latent space
-        z = self.fc(x)
+        # Project to latent space - use tanh to bound output for stable quantization
+        z = torch.tanh(self.fc(x)) * 5  # Scale to [-5, 5] to match quantization range
         return z
 
 class Decoder(nn.Module):
