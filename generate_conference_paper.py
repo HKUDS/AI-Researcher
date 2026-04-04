@@ -3,12 +3,19 @@
 generate_conference_paper.py
 
 Generates a NeurIPS 2024 conference paper from RESEARCH_DOCUMENTATION.md
-using Claude API (claude-opus-4-6) for each section, then compiles to PDF.
+using Claude API for each section, then compiles to PDF.
+
+Supports two backends:
+  - Direct Anthropic API (default): set ANTHROPIC_API_KEY
+  - AWS Bedrock:                    set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+                                    AWS_REGION (default: us-east-1), and pass --bedrock
 
 Usage:
     python generate_conference_paper.py
-    python generate_conference_paper.py --skip-compile   # generate LaTeX only
-    python generate_conference_paper.py --section intro  # regenerate one section
+    python generate_conference_paper.py --bedrock              # use AWS Bedrock
+    python generate_conference_paper.py --skip-compile        # LaTeX only, no PDF
+    python generate_conference_paper.py --section methodology # regenerate one section
+    python generate_conference_paper.py --model <model-id>    # override model
 """
 
 import argparse
@@ -58,6 +65,10 @@ SECTIONS = [
     "discussion",
     "conclusion",
 ]
+
+# Default model IDs per backend
+DEFAULT_MODEL_DIRECT = "claude-opus-4-6"
+DEFAULT_MODEL_BEDROCK = "us.anthropic.claude-opus-4-6-20251101-v1:0"
 
 # ---------------------------------------------------------------------------
 # Section prompts
@@ -194,13 +205,13 @@ Output ONLY valid BibTeX entries, nothing else. Use realistic author names, venu
 # Core generation
 # ---------------------------------------------------------------------------
 
-def generate_section(client: anthropic.Anthropic, section: str, doc: str) -> str:
+def generate_section(client, model: str, section: str, doc: str) -> str:
     prompt_template = SECTION_PROMPTS[section]
     user_prompt = prompt_template.format(doc=doc)
 
     print(f"  Generating {section}...", end="", flush=True)
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model=model,
         max_tokens=4096,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_prompt}],
@@ -213,10 +224,10 @@ def generate_section(client: anthropic.Anthropic, section: str, doc: str) -> str
     return content
 
 
-def generate_references(client: anthropic.Anthropic) -> str:
+def generate_references(client, model: str) -> str:
     print("  Generating references.bib...", end="", flush=True)
     response = client.messages.create(
-        model="claude-opus-4-6",
+        model=model,
         max_tokens=4096,
         messages=[{"role": "user", "content": REFERENCES_PROMPT}],
     )
@@ -330,8 +341,51 @@ def compile_pdf(output_dir: Path) -> bool:
 # Main
 # ---------------------------------------------------------------------------
 
+def build_client(use_bedrock: bool):
+    """Build and return the appropriate Anthropic client."""
+    if use_bedrock:
+        aws_key = os.environ.get("AWS_ACCESS_KEY_ID")
+        aws_secret = os.environ.get("AWS_SECRET_ACCESS_KEY")
+        aws_region = os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
+        if not aws_key or not aws_secret:
+            print(
+                "\nError: AWS credentials not set for Bedrock.\n"
+                "Set these environment variables (or add to .env):\n"
+                "  AWS_ACCESS_KEY_ID=...\n"
+                "  AWS_SECRET_ACCESS_KEY=...\n"
+                "  AWS_REGION=us-east-1   (optional, defaults to us-east-1)\n"
+                "\nNote: your IAM role/user must have bedrock:InvokeModel permission\n"
+                "and the Claude model must be enabled in your Bedrock console.\n"
+            )
+            sys.exit(1)
+        print(f"  Using AWS Bedrock (region: {aws_region})")
+        return anthropic.AnthropicBedrock(
+            aws_access_key=aws_key,
+            aws_secret_key=aws_secret,
+            aws_region=aws_region,
+        )
+    else:
+        api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not api_key:
+            print(
+                "\nError: ANTHROPIC_API_KEY is not set.\n"
+                "Set it in your environment:\n"
+                "  export ANTHROPIC_API_KEY=sk-ant-...\n"
+                "Or create a .env file in the repo root:\n"
+                "  ANTHROPIC_API_KEY=sk-ant-...\n"
+                "\nAlternatively, use --bedrock for AWS Bedrock.\n"
+            )
+            sys.exit(1)
+        print("  Using Anthropic direct API")
+        return anthropic.Anthropic(api_key=api_key)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate NeurIPS paper from RESEARCH_DOCUMENTATION.md")
+    parser.add_argument("--bedrock", action="store_true",
+                        help="Use AWS Bedrock instead of direct Anthropic API")
+    parser.add_argument("--model", default=None,
+                        help="Override model ID (default: claude-opus-4-6 or Bedrock equivalent)")
     parser.add_argument("--skip-compile", action="store_true", help="Generate LaTeX only, skip PDF compilation")
     parser.add_argument("--section", choices=SECTIONS, help="Regenerate a single section only")
     args = parser.parse_args()
@@ -351,32 +405,28 @@ def main():
     import shutil
     shutil.copy(STY_FILE, OUTPUT_DIR / "neurips_2024.sty")
 
-    # Init Claude client
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        print(
-            "\nError: ANTHROPIC_API_KEY is not set.\n"
-            "Set it in your environment:\n"
-            "  export ANTHROPIC_API_KEY=sk-ant-...\n"
-            "Or create a .env file in the repo root with:\n"
-            "  ANTHROPIC_API_KEY=sk-ant-...\n"
-        )
-        sys.exit(1)
-    client = anthropic.Anthropic(api_key=api_key)
+    # Init client and resolve model
+    print("\nInitialising Claude client:")
+    client = build_client(args.bedrock)
+    if args.model:
+        model = args.model
+    else:
+        model = DEFAULT_MODEL_BEDROCK if args.bedrock else DEFAULT_MODEL_DIRECT
+    print(f"  Model: {model}")
 
     # Generate sections
     if args.section:
         print(f"\nRegenerating section: {args.section}")
-        content = generate_section(client, args.section, doc)
+        content = generate_section(client, model, args.section, doc)
         (SECTIONS_DIR / f"{args.section}.tex").write_text(content)
     else:
         print("\nGenerating paper sections:")
         for section in SECTIONS:
-            content = generate_section(client, section, doc)
+            content = generate_section(client, model, section, doc)
             (SECTIONS_DIR / f"{section}.tex").write_text(content)
 
         print("\nGenerating bibliography:")
-        bib_content = generate_references(client)
+        bib_content = generate_references(client, model)
         (OUTPUT_DIR / "references.bib").write_text(bib_content)
 
         print("\nAssembling main.tex:")
