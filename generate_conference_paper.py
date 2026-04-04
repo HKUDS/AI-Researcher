@@ -68,7 +68,7 @@ SECTIONS = [
 
 # Default model IDs per backend
 DEFAULT_MODEL_DIRECT = "claude-opus-4-6"
-DEFAULT_MODEL_BEDROCK = "us.anthropic.claude-opus-4-6-20251101-v1:0"
+DEFAULT_MODEL_BEDROCK = "us.anthropic.claude-opus-4-6-v1"
 
 # ---------------------------------------------------------------------------
 # Section prompts
@@ -242,50 +242,50 @@ def generate_references(client, model: str) -> str:
 # Assembly
 # ---------------------------------------------------------------------------
 
-MAIN_TEX_TEMPLATE = r"""\documentclass[10pt,letterpaper]{{article}}
-\usepackage[final]{{neurips_2024}}
-\usepackage[utf8]{{inputenc}}
-\usepackage[T1]{{fontenc}}
-\usepackage{{booktabs}}
-\usepackage{{amsmath}}
-\usepackage{{amssymb}}
-\usepackage{{graphicx}}
-\usepackage{{hyperref}}
-\usepackage{{url}}
-\usepackage{{microtype}}
-\usepackage{{verbatim}}
-\usepackage{{listings}}
-\usepackage{{xcolor}}
-\lstset{{
+MAIN_TEX_TEMPLATE = r"""\documentclass[10pt,letterpaper]{article}
+\usepackage[final]{neurips_2024}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
   basicstyle=\small\ttfamily,
   breaklines=true,
   frame=single,
-  backgroundcolor=\color{{gray!10}},
-}}
+  backgroundcolor=\color{gray!10},
+}
 
-\title{{Adaptive Lie Detection Through Strategic Interrogation of Large Language Models}}
+\title{Adaptive Lie Detection Through Strategic Interrogation of Large Language Models}
 
-\author{{
-  Anonymous Author(s) \\\\
+\author{
+  Anonymous Author(s) \\
   NeurIPS 2024 Submission
-}}
+}
 
-\begin{{document}}
+\begin{document}
 
 \maketitle
 
-\input{{sections/abstract}}
-\input{{sections/introduction}}
-\input{{sections/related_work}}
-\input{{sections/methodology}}
-\input{{sections/experiments}}
-\input{{sections/discussion}}
-\input{{sections/conclusion}}
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methodology}
+\input{sections/experiments}
+\input{sections/discussion}
+\input{sections/conclusion}
 
-\bibliographystyle{{plain}}
-\bibliography{{references}}
+\bibliographystyle{plain}
+\bibliography{references}
 
-\end{{document}}
+\end{document}
 """
 
 
@@ -344,26 +344,24 @@ def compile_pdf(output_dir: Path) -> bool:
 def build_client(use_bedrock: bool):
     """Build and return the appropriate Anthropic client."""
     if use_bedrock:
+        # Prefer explicit env vars; otherwise fall back to the boto3 credential
+        # chain (~/.aws/credentials from `aws configure`, IAM role, etc.)
         aws_key = os.environ.get("AWS_ACCESS_KEY_ID")
         aws_secret = os.environ.get("AWS_SECRET_ACCESS_KEY")
-        aws_region = os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
-        if not aws_key or not aws_secret:
-            print(
-                "\nError: AWS credentials not set for Bedrock.\n"
-                "Set these environment variables (or add to .env):\n"
-                "  AWS_ACCESS_KEY_ID=...\n"
-                "  AWS_SECRET_ACCESS_KEY=...\n"
-                "  AWS_REGION=us-east-1   (optional, defaults to us-east-1)\n"
-                "\nNote: your IAM role/user must have bedrock:InvokeModel permission\n"
-                "and the Claude model must be enabled in your Bedrock console.\n"
-            )
-            sys.exit(1)
-        print(f"  Using AWS Bedrock (region: {aws_region})")
-        return anthropic.AnthropicBedrock(
-            aws_access_key=aws_key,
-            aws_secret_key=aws_secret,
-            aws_region=aws_region,
+        aws_region = (
+            os.environ.get("AWS_REGION")
+            or os.environ.get("AWS_DEFAULT_REGION")
         )
+        kwargs = {}
+        if aws_key and aws_secret:
+            kwargs["aws_access_key"] = aws_key
+            kwargs["aws_secret_key"] = aws_secret
+        if aws_region:
+            kwargs["aws_region"] = aws_region
+
+        region_label = aws_region or "from ~/.aws/config"
+        print(f"  Using AWS Bedrock (region: {region_label})")
+        return anthropic.AnthropicBedrock(**kwargs)
     else:
         api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not api_key:
