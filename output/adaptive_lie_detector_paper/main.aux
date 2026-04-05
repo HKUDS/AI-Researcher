@@ -1,0 +1,159 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{hubinger2019risks,bommasani2021opportunities}
+\citation{park2023ai}
+\citation{russell2019human}
+\citation{ouyang2022training}
+\citation{hubinger2019risks}
+\citation{elhage2022toy}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{1}{subsection.1.1}\protected@file@percent }
+\citation{bond2006accuracy}
+\citation{hubinger2019risks}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}The Challenge: LLM Deception versus Human Lie Detection}{2}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Our Approach}{2}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Contributions}{2}{subsection.1.4}\protected@file@percent }
+\citation{raskin1988polygraph}
+\citation{ekman2003emotions}
+\citation{goodfellow2014explaining}
+\citation{perez2022ignore}
+\citation{zou2023representation}
+\citation{burns2022discovering}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Human Deception Detection}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Adversarial Examples and Prompt Injection}{3}{subsection.2.2}\protected@file@percent }
+\citation{hubinger2019risks}
+\citation{perez2022discovering}
+\citation{ganguli2022red}
+\citation{perez2022red}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Representation Engineering and Probing Classifiers}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Sycophancy, Sandbagging, and AI Safety Risks}{4}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}LLM Red-Teaming and Evaluation}{4}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Summary of the gap.}{4}{paragraph*.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Architecture of the LLM deception detection pipeline. Solid arrows denote the forward information flow; the dashed feedback arrow indicates the adaptive controller's signal to the interrogator governing whether additional questions are required.}}{5}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:architecture}{{1}{5}{Architecture of the LLM deception detection pipeline. Solid arrows denote the forward information flow; the dashed feedback arrow indicates the adaptive controller's signal to the interrogator governing whether additional questions are required}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{5}{section.3}\protected@file@percent }
+\newlabel{sec:methodology}{{3}{5}{Methodology}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}System Overview}{5}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:system_overview}{{3.1}{5}{System Overview}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Target Model Configuration}{5}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:target_model}{{3.2}{5}{Target Model Configuration}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Truth Mode}{5}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Lie Mode}{5}{subsubsection.3.2.2}\protected@file@percent }
+\citation{hubinger2024sleeper,park2023ai}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Scope Note}{6}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:scope_note}{{3.2.3}{6}{Scope Note}{subsubsection.3.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Interrogation Strategy}{6}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:interrogation}{{3.3}{6}{Interrogation Strategy}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Feature Extraction}{6}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:feature_extraction}{{3.4}{6}{Feature Extraction}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feature validity note.}{6}{paragraph*.4}\protected@file@percent }
+\citation{anthropic2024claude}
+\citation{vrij2008detecting}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Behavioral features extracted from each target response. All features are scored on a continuous scale from 0 to 1 by an LLM judge.}}{7}{table.caption.3}\protected@file@percent }
+\newlabel{tab:behavioral_features}{{1}{7}{Behavioral features extracted from each target response. All features are scored on a continuous scale from 0 to 1 by an LLM judge}{table.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Classification}{7}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:classification}{{3.5}{7}{Classification}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Adaptive Stopping}{7}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:adaptive_stopping}{{3.6}{7}{Adaptive Stopping}{subsection.3.6}{}}
+\newlabel{eq:stopping_rule}{{1}{7}{Adaptive Stopping}{equation.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{8}{section.4}\protected@file@percent }
+\newlabel{sec:experiments}{{4}{8}{Experiments}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{8}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:setup}{{4.1}{8}{Experimental Setup}{subsection.4.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Hyperparameters for the adaptive interrogation system.}}{8}{table.caption.5}\protected@file@percent }
+\newlabel{tab:hyperparams}{{2}{8}{Hyperparameters for the adaptive interrogation system}{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Core Detection Accuracy}{8}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:core_accuracy}{{4.2}{8}{Core Detection Accuracy}{subsection.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Adaptive system accuracy on $n = 100$ mock interrogations.}}{9}{table.caption.6}\protected@file@percent }
+\newlabel{tab:core_accuracy}{{3}{9}{Adaptive system accuracy on $n = 100$ mock interrogations}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Feature Score Distributions and Cross-Validation}{9}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:feature_distributions}{{4.3}{9}{Feature Score Distributions and Cross-Validation}{subsection.4.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Feature score distributions for truthful vs.\ lying conditions (mock, $n=500$).}}{9}{table.caption.7}\protected@file@percent }
+\newlabel{tab:feature_distributions}{{4}{9}{Feature score distributions for truthful vs.\ lying conditions (mock, $n=500$)}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{5-fold cross-validation.}{9}{paragraph*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Adaptive vs.\ Fixed Baseline}{9}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:adaptive_vs_fixed}{{4.4}{9}{Adaptive vs.\ Fixed Baseline}{subsection.4.4}{}}
+\citation{vrij2019cognitive}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Adaptive vs.\ fixed-length baseline on $n = 100$ mock interrogations.}}{10}{table.caption.9}\protected@file@percent }
+\newlabel{tab:adaptive_vs_fixed}{{5}{10}{Adaptive vs.\ fixed-length baseline on $n = 100$ mock interrogations}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Feature Importance: Question Type Diagnosticity}{10}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:feature_importance}{{4.5}{10}{Feature Importance: Question Type Diagnosticity}{subsection.4.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Average absolute confidence change by question type.}}{10}{table.caption.10}\protected@file@percent }
+\newlabel{tab:question_types}{{6}{10}{Average absolute confidence change by question type}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Confidence Trajectory Analysis}{10}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:confidence_trajectory}{{4.6}{10}{Confidence Trajectory Analysis}{subsection.4.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Mean classifier confidence by question number.}}{10}{table.caption.11}\protected@file@percent }
+\newlabel{tab:confidence_trajectory}{{7}{10}{Mean classifier confidence by question number}{table.caption.11}{}}
+\citation{platt1999probabilistic}
+\citation{vovk2005algorithmic}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Failure Analysis}{11}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:failure_analysis}{{4.7}{11}{Failure Analysis}{subsection.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Example Interrogation Transcripts}{11}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:transcripts}{{4.8}{11}{Example Interrogation Transcripts}{subsection.4.8}{}}
+\citation{anthropic2024claude}
+\@writefile{toc}{\contentsline {paragraph}{What the transcripts reveal about the mock evaluation.}{12}{paragraph*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Real LLM Pilot Study}{12}{subsection.4.9}\protected@file@percent }
+\newlabel{sec:real_llm_pilot}{{4.9}{12}{Real LLM Pilot Study}{subsection.4.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Pilot results on Claude Haiku 4.5 ($n = 9$ completed interrogations).}}{13}{table.caption.13}\protected@file@percent }
+\newlabel{tab:real_llm}{{8}{13}{Pilot results on Claude Haiku 4.5 ($n = 9$ completed interrogations)}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Threshold Sweep: Accuracy--Efficiency Trade-off}{13}{subsection.4.10}\protected@file@percent }
+\newlabel{sec:threshold_sweep}{{4.10}{13}{Threshold Sweep: Accuracy--Efficiency Trade-off}{subsection.4.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Threshold sweep with \texttt  {min\_questions}\,=\,2 (default). The $\tau $\,=\,0.8 row uses the same seed as Tables~\ref {tab:core_accuracy} and~\ref {tab:baselines}---all three report 93.0\%.}}{13}{table.caption.14}\protected@file@percent }
+\newlabel{tab:threshold_sweep_min2}{{9}{13}{Threshold sweep with \texttt {min\_questions}\,=\,2 (default). The $\tau $\,=\,0.8 row uses the same seed as Tables~\ref {tab:core_accuracy} and~\ref {tab:baselines}---all three report 93.0\%}{table.caption.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Threshold sweep with \texttt  {min\_questions}\,=\,1 (floor removed). Adaptive stopping is now unconstrained; the mechanism always fires after the first question loop iteration regardless of $\tau $.}}{14}{table.caption.15}\protected@file@percent }
+\newlabel{tab:threshold_sweep_min1}{{10}{14}{Threshold sweep with \texttt {min\_questions}\,=\,1 (floor removed). Adaptive stopping is now unconstrained; the mechanism always fires after the first question loop iteration regardless of $\tau $}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11}Baseline Comparison}{14}{subsection.4.11}\protected@file@percent }
+\newlabel{sec:baselines}{{4.11}{14}{Baseline Comparison}{subsection.4.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Comparison of ADAGE against simple baselines ($n=100$ mock claims).}}{14}{table.caption.16}\protected@file@percent }
+\newlabel{tab:baselines}{{11}{14}{Comparison of ADAGE against simple baselines ($n=100$ mock claims)}{table.caption.16}{}}
+\citation{turpin2023language}
+\citation{hubinger2019risks}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12}Diverse Claim Types}{15}{subsection.4.12}\protected@file@percent }
+\newlabel{sec:diverse_claims}{{4.12}{15}{Diverse Claim Types}{subsection.4.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces ADAGE performance by claim category ($\tau =0.8$, mock).}}{15}{table.caption.17}\protected@file@percent }
+\newlabel{tab:diverse_claims}{{12}{15}{ADAGE performance by claim category ($\tau =0.8$, mock)}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{15}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Key Findings}{15}{subsection.5.1}\protected@file@percent }
+\citation{hubinger2019risks}
+\citation{perez2022discovering}
+\citation{zou2023representation,li2024inference}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Instructed Roleplay vs.\ Genuine Deception}{16}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Feature Extraction Validity}{16}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Limitations}{16}{subsection.5.4}\protected@file@percent }
+\citation{zou2023representation}
+\citation{park2023ai}
+\citation{zou2023representation}
+\citation{burns2022discovering}
+\bibstyle{plainnat}
+\bibdata{references}
+\bibcite{anthropic2024claude}{{1}{2024}{{Anthropic}}{{}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Implications and Future Directions}{17}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{17}{section.6}\protected@file@percent }
+\bibcite{bommasani2021opportunities}{{2}{2021}{{Bommasani et~al.}}{{}}}
+\bibcite{bond2006accuracy}{{3}{2006}{{Bond and DePaulo}}{{}}}
+\bibcite{burns2022discovering}{{4}{2022}{{Burns et~al.}}{{Burns, Ye, Klein, and Steinhardt}}}
+\bibcite{ekman2003emotions}{{5}{2003}{{Ekman}}{{}}}
+\bibcite{elhage2022toy}{{6}{2022}{{Elhage et~al.}}{{}}}
+\bibcite{ganguli2022red}{{7}{2022}{{Ganguli et~al.}}{{Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El~Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark}}}
+\bibcite{goodfellow2014explaining}{{8}{2014}{{Goodfellow et~al.}}{{Goodfellow, Shlens, and Szegedy}}}
+\bibcite{hubinger2019risks}{{9}{2019}{{Hubinger et~al.}}{{Hubinger, van Merwijk, Mikulik, Skalse, and Garrabrant}}}
+\bibcite{hubinger2024sleeper}{{10}{2024}{{Hubinger et~al.}}{{}}}
+\bibcite{li2024inference}{{11}{2024}{{Li et~al.}}{{}}}
+\bibcite{ouyang2022training}{{12}{2022}{{Ouyang et~al.}}{{Ouyang, Wu, Jiang, Almeida, Wainwright, Mishkin, Zhang, Agarwal, Slama, Ray, Schulman, Hilton, Kelton, Miller, Simens, Askell, Welinder, Christiano, Leike, and Lowe}}}
+\bibcite{park2023ai}{{13}{2023}{{Park et~al.}}{{Park, Goldstein, O'Gara, Chen, and Hendrycks}}}
+\bibcite{perez2022discovering}{{14}{2022{a}}{{Perez et~al.}}{{Perez, Ringer, Luko{\v {s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei, Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller, Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland, Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston, Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai, Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger, Schiefer, and Kaplan}}}
+\bibcite{perez2022red}{{15}{2022{b}}{{Perez et~al.}}{{}}}
+\bibcite{perez2022ignore}{{16}{2022}{{Perez and Ribeiro}}{{}}}
+\bibcite{platt1999probabilistic}{{17}{1999}{{Platt}}{{}}}
+\bibcite{raskin1988polygraph}{{18}{1988}{{Raskin}}{{}}}
+\bibcite{russell2019human}{{19}{2019}{{Russell}}{{}}}
+\bibcite{turpin2023language}{{20}{2023}{{Turpin et~al.}}{{Turpin, Michael, Perez, and Bowman}}}
+\bibcite{vovk2005algorithmic}{{21}{2005}{{Vovk et~al.}}{{Vovk, Gammerman, and Shafer}}}
+\bibcite{vrij2008detecting}{{22}{2008}{{Vrij}}{{}}}
+\bibcite{vrij2019cognitive}{{23}{2019}{{Vrij and Granhag}}{{}}}
+\bibcite{zou2023representation}{{24}{2023}{{Zou et~al.}}{{Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin, Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song, Fredrikson, Kolter, and Hendrycks}}}
+\gdef \@abspage@last{19}

@@ -1,0 +1,192 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Anthropic}(2024)]{anthropic2024claude}
+{Anthropic}.
+\newblock The {Claude} 3 model family: {Opus}, {Sonnet}, {Haiku}.
+\newblock Technical report, Anthropic, 2024.
+\newblock URL
+  \url{https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf}.
+
+\bibitem[Bommasani et~al.(2021)]{bommasani2021opportunities}
+Rishi Bommasani et~al.
+\newblock \emph{On the Opportunities and Risks of Foundation Models}.
+\newblock Stanford University, 2021.
+\newblock arXiv:2108.07258.
+
+\bibitem[Bond and DePaulo(2006)]{bond2006accuracy}
+Charles~F. Bond and Bella~M. DePaulo.
+\newblock Accuracy of deception judgments.
+\newblock \emph{Personality and Social Psychology Review}, 10\penalty0
+  (3):\penalty0 214--234, 2006.
+
+\bibitem[Burns et~al.(2022)Burns, Ye, Klein, and
+  Steinhardt]{burns2022discovering}
+Collin Burns, Haotian Ye, Dan Klein, and Jacob Steinhardt.
+\newblock Discovering latent knowledge in language models without supervision.
+\newblock \emph{arXiv preprint arXiv:2212.03827}, 2022.
+
+\bibitem[Ekman(2003)]{ekman2003emotions}
+Paul Ekman.
+\newblock \emph{Emotions Revealed: Recognizing Faces and Feelings to Improve
+  Communication and Emotional Life}.
+\newblock Times Books/Henry Holt and Company, New York, 2003.
+
+\bibitem[Elhage et~al.(2022)]{elhage2022toy}
+Nelson Elhage et~al.
+\newblock Toy models of superposition.
+\newblock \emph{Transformer Circuits Thread}, 2022.
+
+\bibitem[Ganguli et~al.(2022)Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath,
+  Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma,
+  Drain, Elhage, El~Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume,
+  Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown,
+  Joseph, McCandlish, Olah, Kaplan, and Clark]{ganguli2022red}
+Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav
+  Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy
+  Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson
+  Elhage, Sheer El~Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan,
+  Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec,
+  Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown,
+  Nicholas Joseph, Sam McCandlish, Chris Olah, Jared Kaplan, and Jack Clark.
+\newblock Red teaming language models to reduce harms: Methods, scaling
+  behaviors, and lessons learned.
+\newblock \emph{arXiv preprint arXiv:2209.07858}, 2022.
+
+\bibitem[Goodfellow et~al.(2014)Goodfellow, Shlens, and
+  Szegedy]{goodfellow2014explaining}
+Ian~J. Goodfellow, Jonathon Shlens, and Christian Szegedy.
+\newblock Explaining and harnessing adversarial examples.
+\newblock \emph{arXiv preprint arXiv:1412.6572}, 2014.
+
+\bibitem[Hubinger et~al.(2019)Hubinger, van Merwijk, Mikulik, Skalse, and
+  Garrabrant]{hubinger2019risks}
+Evan Hubinger, Chris van Merwijk, Vladimir Mikulik, Joar Skalse, and Scott
+  Garrabrant.
+\newblock Risks from learned optimization in advanced machine learning systems.
+\newblock \emph{arXiv preprint arXiv:1906.01820}, 2019.
+
+\bibitem[Hubinger et~al.(2024)]{hubinger2024sleeper}
+Evan Hubinger et~al.
+\newblock Sleeper agents: Training deceptive llms that persist through safety
+  training.
+\newblock \emph{arXiv preprint arXiv:2401.05566}, 2024.
+
+\bibitem[Li et~al.(2024)]{li2024inference}
+Kenneth Li et~al.
+\newblock Inference-time intervention: Eliciting truthful answers from a
+  language model.
+\newblock \emph{arXiv preprint arXiv:2306.03341}, 2024.
+
+\bibitem[Ouyang et~al.(2022)Ouyang, Wu, Jiang, Almeida, Wainwright, Mishkin,
+  Zhang, Agarwal, Slama, Ray, Schulman, Hilton, Kelton, Miller, Simens, Askell,
+  Welinder, Christiano, Leike, and Lowe]{ouyang2022training}
+Long Ouyang, Jeffrey Wu, Xu~Jiang, Diogo Almeida, Carroll Wainwright, Pamela
+  Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John
+  Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda
+  Askell, Peter Welinder, Paul~F. Christiano, Jan Leike, and Ryan Lowe.
+\newblock Training language models to follow instructions with human feedback.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~35, 2022.
+
+\bibitem[Park et~al.(2023)Park, Goldstein, O'Gara, Chen, and
+  Hendrycks]{park2023ai}
+Peter~S. Park, Simon Goldstein, Aidan O'Gara, Michael Chen, and Dan Hendrycks.
+\newblock {AI} deception: A survey of examples, risks, and potential solutions.
+\newblock \emph{arXiv preprint arXiv:2308.14752}, 2023.
+
+\bibitem[Perez et~al.(2022{\natexlab{a}})Perez, Ringer,
+  Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu,
+  Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei,
+  Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller,
+  Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland,
+  Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston,
+  Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai,
+  Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger,
+  Schiefer, and Kaplan]{perez2022discovering}
+Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen,
+  Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu,
+  Saurav Kadavath, Andy Jones, Anna Chen, Ben Mann, Brian Israel, Bryan
+  Seethor, Cameron McKinnon, Christopher Olah, Da~Yan, Daniela Amodei, Dario
+  Amodei, Dawn Drain, Dustin Li, Eli Tran-Johnson, Guro Khundadze, Jackson
+  Kernion, James Landis, Jamie Kerr, Jared Mueller, Jeeyoon Hyun, Joshua
+  Landau, Kamal Ndousse, Landon Goldberg, Liane Lovitt, Martin Lucas, Michael
+  Sellitto, Miranda Zhang, Neerav Kingsland, Nelson Elhage, Nicholas Joseph,
+  Noem{\'\i} Mercado, Nova DasSarma, Oliver Rausch, Robin Larson, Sam
+  McCandlish, Scott Johnston, Shauna Kravec, Sheer El~Showk, Tamera Lanham,
+  Timothy Telleen-Lawton, Tom Brown, Tom Henighan, Tristan Hume, Yuntao Bai,
+  Zac Hatfield-Dodds, Jack Clark, Samuel~R. Bowman, Amanda Askell, Roger
+  Grosse, Danny Hernandez, Deep Ganguli, Evan Hubinger, Nicholas Schiefer, and
+  Jared Kaplan.
+\newblock Discovering language model behaviors with model-written evaluations.
+\newblock \emph{arXiv preprint arXiv:2212.09251}, 2022{\natexlab{a}}.
+
+\bibitem[Perez et~al.(2022{\natexlab{b}})]{perez2022red}
+Ethan Perez et~al.
+\newblock Red teaming language models with language models.
+\newblock In \emph{arXiv preprint arXiv:2202.03286}, 2022{\natexlab{b}}.
+
+\bibitem[Perez and Ribeiro(2022)]{perez2022ignore}
+F{\'a}bio Perez and Ian Ribeiro.
+\newblock Ignore this title and {HackAPrompt}: Exposing systemic weaknesses of
+  {LLMs} through a global scale prompt hacking competition.
+\newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, 2022.
+
+\bibitem[Platt(1999)]{platt1999probabilistic}
+John~C. Platt.
+\newblock Probabilistic outputs for support vector machines and comparisons to
+  regularized likelihood methods.
+\newblock In Alexander~J. Smola, Peter Bartlett, Bernhard Sch{\"o}lkopf, and
+  Dale Schuurmans, editors, \emph{Advances in Large Margin Classifiers}, pages
+  61--74. MIT Press, Cambridge, MA, 1999.
+
+\bibitem[Raskin(1988)]{raskin1988polygraph}
+David~C. Raskin.
+\newblock \emph{Psychological Methods in Criminal Investigation and Evidence}.
+\newblock Springer, 1988.
+
+\bibitem[Russell(2019)]{russell2019human}
+Stuart Russell.
+\newblock \emph{Human Compatible: Artificial Intelligence and the Problem of
+  Control}.
+\newblock Viking, 2019.
+
+\bibitem[Turpin et~al.(2023)Turpin, Michael, Perez, and
+  Bowman]{turpin2023language}
+Miles Turpin, Julian Michael, Ethan Perez, and Samuel Bowman.
+\newblock Language models don't always say what they think: Unfaithful
+  explanations in chain-of-thought prompting.
+\newblock \emph{arXiv preprint arXiv:2305.04388}, 2023.
+
+\bibitem[Vovk et~al.(2005)Vovk, Gammerman, and Shafer]{vovk2005algorithmic}
+Vladimir Vovk, Alexander Gammerman, and Glenn Shafer.
+\newblock \emph{Algorithmic Learning in a Random World}.
+\newblock Springer, 2005.
+
+\bibitem[Vrij(2008)]{vrij2008detecting}
+Aldert Vrij.
+\newblock \emph{Detecting Lies and Deceit: Pitfalls and Opportunities}.
+\newblock Wiley, 2008.
+
+\bibitem[Vrij and Granhag(2019)]{vrij2019cognitive}
+Aldert Vrij and Pär~Anders Granhag.
+\newblock Eliciting and assessing information in intelligence interviews.
+\newblock \emph{Annual Review of Law and Social Science}, 15:\penalty0
+  351--371, 2019.
+
+\bibitem[Zou et~al.(2023)Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin,
+  Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song,
+  Fredrikson, Kolter, and Hendrycks]{zou2023representation}
+Andy Zou, Long Phan, Sarah Chen, James Campbell, Phillip Guo, Richard Ren,
+  Alexander Pan, Xuwang Yin, Mantas Mazeika, Ann-Kathrin Dombrowski, Shashwat
+  Goel, Nathaniel Li, Michael~J. Byun, Zifan Wang, Alex Mallen, Steven Basart,
+  Sanmi Koyber, Dawn Song, Matt Fredrikson, J.~Zico Kolter, and Dan Hendrycks.
+\newblock Representation engineering: A top-down approach to ai transparency.
+\newblock \emph{arXiv preprint arXiv:2310.01405}, 2023.
+
+\end{thebibliography}
