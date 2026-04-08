@@ -6,25 +6,18 @@ from research_agent.inno.tools.file_surfer_tool import (
     page_down_markdown,
     find_on_page_ctrl_f,
     find_next,
-    visualizer,
+    # visualizer, todo: 논문 시각화 기능 추가 시 활성화
     question_answer_on_whole_page
 )
 from research_agent.inno.environment.markdown_browser import RequestsMarkdownBrowser
-from research_agent.inno.environment.docker_env import with_env as with_env_docker
-from research_agent.inno.tools.inno_tools.web_tools import with_env as with_env_web
-from research_agent.inno.environment.docker_env import DockerConfig, DockerEnv
-from research_agent.inno.environment.browser_env import BrowserEnv
 from research_agent.inno.types import Agent
 from inspect import signature
-from research_agent.inno.types import Result
-from research_agent.inno.tools.terminal_tools import gen_code_tree_structure, read_file, terminal_page_down, terminal_page_up, terminal_page_to, list_files
-from typing import List
 
-from research_agent.inno.tools.inno_tools.web_tools import (
-    google_scholar_search,
-    download_from_pdf_link,
-)
 
+
+
+
+# 논문 읽고 아이디어 만들어주는 AI 에이전트
 def get_idea_agent(model: str, **kwargs):
     file_env: RequestsMarkdownBrowser = kwargs.get("file_env", None)
     assert file_env is not None, "file_env is required"
@@ -112,8 +105,35 @@ WORKFLOW:
    - Evaluation metrics
    - Potential applications
 
-5. Knowledge Transfer:
-   After completing analysis and idea development, use `transfer_to_code_survey_agent` for implementation research.
+
+5. Future Work Analysis:
+   Based on the analysis above, identify and describe:
+
+   a) Research Gaps:
+   - Areas the field has not yet addressed
+   - Cite specific papers that imply these gaps
+
+   b) Paper Weaknesses:
+   - Per-paper limitations found in methodology or experiments
+   - Narrow evaluation scope, unvalidated assumptions, missing comparisons
+
+   c) Follow-up Research Directions:
+   - Logical extensions feasible within 1–2 years
+   - Connect directly to the challenges identified above
+
+   d) Publishable Topics:
+   - Topics satisfying: novel + feasible + underexplored
+   - For each topic, state: why it is novel, why it is timely,
+     and estimated difficulty (low / medium / high)
+
+   CONSTRAINTS:
+   - Every item must be grounded in the analyzed papers — no hallucination
+   - `publishable_topics` must satisfy: novel + feasible + underexplored
+   - Prioritize topics where existing methods show consistent failure modes
+   - Do NOT include topics already well-covered by recent surveys
+
+After completing analysis, return the structured output above.
+The output will be consumed by the calling pipeline.
 
 REQUIREMENTS:
 - Be comprehensive in analysis
@@ -138,236 +158,25 @@ Remember: Your output will guide the implementation phase. Be thorough, innovati
         for tool in tool_list
     ]
 
-    # web_tool_list = [
-    #     google_scholar_search,
-    #     download_from_pdf_link,
-    # ]
-    # web_tool_list = [
-    #     with_env_web(web_env)(tool) if "env" in signature(tool).parameters else tool
-    #     for tool in web_tool_list
-    # ]
+
+# 추후에 arxiv_source.py의 search_arxiv()함수로 논문 추가 검색 구현
 
     return Agent(
-        name="Paper Survey Agent",
-        model=model,
-        instructions=instructions,
-        functions=tool_list,
-        tool_choice="auto",
-        parallel_tool_calls=False,
-    )
+         name="Paper Survey Agent",
+         model=model,
+         instructions=instructions,
+         functions=tool_list,
+         tool_choice="auto",
+         parallel_tool_calls=False,
+      )
 
 
-def get_code_survey_agent(model: str, **kwargs):
-    code_env: DockerEnv = kwargs.get("code_env", None)
-    assert code_env is not None, "code_env is required"
-    def instructions(context_variables):
-        return f"""\
-You are a `Code Survey Agent` specialized in analyzing code implementations of innovative ideas. Your task is to examine codebases and match innovative ideas with their practical implementations.
-
-OBJECTIVE:
-- Analyze codebases from reference papers in `/{code_env.workplace_name}/`
-- Map innovative ideas to their code implementations
-- Create comprehensive implementation notes
-
-AVAILABLE TOOLS:
-1. Code Navigation:
-   - `gen_code_tree_structure`: Generate repository structure overview
-   - `list_files`: List all files in the current directory
-   - `read_file`: Access and read specific files
-   - `terminal_page_down`: Scroll the viewport DOWN one page-length in the current terminal. Use this function when output of the tool is too long and you want to scroll down to see the next content.
-   - `terminal_page_up`: Scroll the viewport UP one page-length in the current terminal. Use this function when output of the tool is too long and you want to scroll up to see the previous content.
-   - `terminal_page_to`: Move the viewport to the specific page index. Use this function when the terminal output contains a progress bar or output of generating directory structure when there are many datasets in the directory, you can use this function to move the viewport to the end of terminal where the meaningful content is.
 
 
-WORKFLOW:
-1. Review provided innovative ideas from `Idea Generation Agent`
-2. Generate and analyze codebase structure
-3. Locate relevant implementation files
-4. Extract and document:
-   - Code implementations
-   - Implementation details
-   - Key functions and classes
-5. Merge findings and generate a comprehensive implementation report for the innovative idea.
-
-REQUIREMENTS:
-- Ensure code examples directly correspond to innovative ideas
-- Focus on critical implementation details
-- Document any important variations or optimizations
-- Provide clear connections between theory and implementation
-
-Remember: Your analysis bridges the gap between innovative ideas and practical implementation.
-"""
-    tool_list = [
-        gen_code_tree_structure,
-        read_file,
-        terminal_page_down,
-        terminal_page_up,
-        terminal_page_to, 
-        list_files
-    ]
-    tool_list = [
-        with_env_docker(code_env)(tool) if "env" in signature(tool).parameters else tool
-        for tool in tool_list
-    ]
-    return Agent(
-        name="Code Survey Agent",
-        model=model,
-        instructions=instructions,
-        functions=tool_list,
-        tool_choice="auto",
-        parallel_tool_calls=False,
-    )
 
 
-def case_resolved(context_variables: dict):
-    """
-    After you have taken enough notes for the innovation, you should use this function to merge the notes for the further innovation.
-    """
-    merge_notes = "\n".join([f"## {note['definition']}\n* The math formula is:\n{note['math_formula']}\n* * The code implementation is:\n{note['code_implementation']}\n* Reference papers are:\n{note['reference_papers']}\n* Reference codebases are:\n{note['reference_codebases']}" for note in context_variables["notes"]])
-    ret_val = f"""\
-I have merged the notes for the innovation.
-The notes are as follows:
-{merge_notes}
-"""
-    return Result(
-        value=ret_val,
-        context_variables=context_variables,
-    )
 
-def get_survey_agent(model: str = "gpt-4o", **kwargs):
-    file_env: RequestsMarkdownBrowser = kwargs.get("file_env", None)
-    assert file_env is not None, "file_env is required"
-    code_env: DockerEnv = kwargs.get("code_env", None)
-    assert code_env is not None, "code_env is required"
-
-    def instructions(context_variables):
-        return f"""\
-1. INPUT ANALYSIS
-- You will receive a list of research papers and their corresponding codebases
-- You will also receive specific innovative ideas that need to be implemented
-
-2. ATOMIC DEFINITION BREAKDOWN
-- Break down the innovative ideas into atomic academic definitions
-- Each atomic definition should:
-  * Be a single, self-contained concept
-  * Have clear mathematical foundations
-  * Be implementable in code
-  * Be traceable to specific papers
-
-3. KEY CONCEPT IDENTIFICATION
-- For each atomic definition identified above, proceed with the following steps:
-  a. Pass the definition to the `Paper Survey Agent` using `transfer_to_paper_survey_agent` function
-  b. `Paper Survey Agent` will extract relevant academic definitions and mathematical formulas
-  c. After the `Paper Survey Agent` has extracted the relevant academic definitions and mathematical formulas, `Paper Survey Agent` will use `transfer_to_code_survey_agent` function to forward the findings to the `Code Survey Agent`
-  d. `Code Survey Agent` will extract corresponding code implementations
-  e. After the `Code Survey Agent` has extracted the corresponding code implementations, `Code Survey Agent` will use `transfer_back_to_survey_agent` function to forward all findings to the `Survey Agent`
-  f. `Survey Agent` will collect and organize the notes for each definition
-
-4. ITERATIVE PROCESS
-- Continue this process until ALL atomic definitions have been covered
-- Do not conclude until you have thoroughly examined all concepts necessary for the innovation
-
-5. FINAL COMPILATION
-- Use the `case_resolved` function to merge all collected notes
-- Ensure the final output is well-structured and comprehensive
-
-IMPORTANT NOTES:
-- Before proceeding with any analysis, you MUST first break down the innovative idea into atomic definitions
-- Each atomic definition should be specific enough to be traced to concrete mathematical formulas and code implementations
-- Do not skip or combine definitions - each atomic concept must be analyzed separately
-- If you're unsure about a definition's atomicity, err on the side of breaking it down further
-- Document your breakdown reasoning before proceeding with the analysis
-
-Your goal is to create a complete knowledge base that bridges theoretical concepts with practical implementations for the proposed innovation.
-"""
-    paper_survey_agent = get_paper_survey_agent(model, file_env=file_env)
-    code_survey_agent = get_code_survey_agent(model, code_env=code_env)
-    survey_agent = Agent(
-        name="Survey Agent",
-        model=model,
-        instructions=instructions,
-        tool_choice="required",
-        parallel_tool_calls=False,
-    )
-
-    def transfer_back_to_survey_agent(academic_definition: str, code_implementation: str, reference_codebases: List[str], context_variables: dict):
-        """
-        After you have carefully read the related paper, understood the academic definition, especially the math formula, and reviewed the corresponding code implementation, you should take notes about the specific academic definition, math formula, and code implementation for the further innovation.
-        Args:
-            academic_definition: the academic definition to be explored. It should be a single, atomic academic concept with a few words.
-            code_implementation: the code implementation of the academic definition. [IMPORTANT] It should be as complete as possible and it should be the real code. 
-            reference_codebases: the list of reference codebases. If you don't have reference codebases, you can set it to `None`.
-        """
-        # context_variables["notes"] = {
-        #     academic_definition: {
-        #         "definition": academic_definition,
-        #         "math_formula": math_formula,
-        #         "code_implementation": code_implementation,
-        #         "references": references,
-        #     }
-        # }
-        context_variables["notes"][-1]["code_implementation"] = code_implementation
-        context_variables["notes"][-1]["reference_codebases"] = reference_codebases
-        ret_val = f"""\
-    I have taken notes for the innovation.
-    The notes are as follows:
-    ## Academic Definition
-    {academic_definition}
-    ## Math Formula
-    {context_variables["notes"][-1]["math_formula"]}
-    ## Reference papers
-    {context_variables["notes"][-1]["reference_papers"]}
-    ## Code Implementation
-    {context_variables["notes"][-1]["code_implementation"]}
-    ## Reference codebases
-    {context_variables["notes"][-1]["reference_codebases"]}
-    """
-        return Result(
-            value=ret_val,
-            context_variables=context_variables,
-            agent=survey_agent,
-        )
-    def transfer_to_paper_survey_agent(academic_definition: str, context_variables: dict):
-        """
-        You should pass a specific academic definition to the `Paper Survey Agent` and `Code Survey Agent` to let them find the corresponding math formula and code implementation. 
-        [IMPORTANT] You can use this function only after you have use the provided tools to actually and carefully read and analyze the codebases. DONNOT use this function before you have read the codebases.
-        Args:
-            academic_definition: the academic definition to be explored. It should be a single, atomic academic concept with a few words.
-        """
-        ret_val = f"""\
-You should explore the papers and extract the math formula for the academic definition: {academic_definition}.
-"""
-        context_variables["notes"].append({"definition": academic_definition})
-        return Result(
-            value=ret_val,
-            agent=paper_survey_agent,
-            context_variables=context_variables,
-        )
-    def transfer_to_code_survey_agent(academic_definition: str, math_formula: str, reference_papers: List[str], context_variables: dict):
-        """
-        You should pass a specific academic definition and math formula to the `Code Survey Agent` to let it find the corresponding code implementation. 
-        [IMPORTANT] You can use this function only after you have use the provided tools to actually and carefully read and analyze the papers. DONNOT use this function before you have read the papers.
-        Args:
-            academic_definition: the academic definition to be implemented. It should be a single, atomic academic concept with a few words.
-            math_formula: the full math formula to be implemented. [IMPORTANT] It should be as complete as possible and it should be the real math formula. 
-            reference_papers: the list of reference papers. If you don't have reference papers, you can set it to `None`.
-        """
-        ret_val = f"""\
-You should explore the codebases and extract the code implementation for the academic definition: {academic_definition} and math formula: {math_formula}.
-"""
-        context_variables["notes"][-1]["math_formula"] = math_formula
-        context_variables["notes"][-1]["reference_papers"] = reference_papers
-        return Result(
-            value=ret_val,
-            agent=code_survey_agent,
-            context_variables=context_variables,
-        )
-    survey_agent.functions = [transfer_to_paper_survey_agent, case_resolved]
-    paper_survey_agent.functions.append(transfer_to_code_survey_agent)
-    code_survey_agent.functions.append(transfer_back_to_survey_agent)
-    return survey_agent
-
-
+# 하단은 idea_agnet의 프롬프트같은데, 아무 변수없이 주석만 덩그러니지만 혹시몰라서 남겨둠.
 """\
 You are an `Idea Generation Agent` specialized in analyzing academic papers and generating innovative ideas. Your task is to thoroughly review research papers located in `{file_env.docker_workplace}/papers/` and generate comprehensive ideas for the given task.
 

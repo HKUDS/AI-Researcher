@@ -1,3 +1,6 @@
+# 혹시 모를 논문 작성을 위해서 논문작성 에이전트 전체 주석처리
+
+'''
 from research_agent.inno.types import Agent
 from research_agent.inno.tools.terminal_tools import gen_code_tree_structure, read_file, execute_command, terminal_page_down, terminal_page_up, terminal_page_to
 from research_agent.inno.util import make_message, make_tool_message
@@ -68,3 +71,4 @@ During the decision process, you can use the following tools:
     tool_choice = "required", 
     parallel_tool_calls = False
     )
+'''
