@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,29 +12,16 @@
 \newblock URL
   \url{https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf}.
 
-\bibitem[Bommasani et~al.(2021)]{bommasani2021opportunities}
-Rishi Bommasani et~al.
-\newblock \emph{On the Opportunities and Risks of Foundation Models}.
-\newblock Stanford University, 2021.
-\newblock arXiv:2108.07258.
-
-\bibitem[Bond and DePaulo(2006)]{bond2006accuracy}
-Charles~F. Bond and Bella~M. DePaulo.
-\newblock Accuracy of deception judgments.
-\newblock \emph{Personality and Social Psychology Review}, 10\penalty0
-  (3):\penalty0 214--234, 2006.
+\bibitem[Azaria and Mitchell(2023)]{azaria2023internal}
+Amos Azaria and Tom Mitchell.
+\newblock The internal state of an {LLM} knows when it's lying.
+\newblock \emph{arXiv preprint arXiv:2304.13734}, 2023.
 
 \bibitem[Burns et~al.(2022)Burns, Ye, Klein, and
   Steinhardt]{burns2022discovering}
 Collin Burns, Haotian Ye, Dan Klein, and Jacob Steinhardt.
 \newblock Discovering latent knowledge in language models without supervision.
 \newblock \emph{arXiv preprint arXiv:2212.03827}, 2022.
-
-\bibitem[Ekman(2003)]{ekman2003emotions}
-Paul Ekman.
-\newblock \emph{Emotions Revealed: Recognizing Faces and Feelings to Improve
-  Communication and Emotional Life}.
-\newblock Times Books/Henry Holt and Company, New York, 2003.
 
 \bibitem[Elhage et~al.(2022)]{elhage2022toy}
 Nelson Elhage et~al.
@@ -76,22 +63,27 @@ Evan Hubinger et~al.
   training.
 \newblock \emph{arXiv preprint arXiv:2401.05566}, 2024.
 
+\bibitem[Jiang et~al.(2023)Jiang, Sablayrolles, Mensch, Bamford, Chaplot,
+  Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock, Scao,
+  Lavril, Wang, Lacroix, and Sayed]{jiang2023mistral}
+Albert~Q Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford,
+  Devendra~Singh Chaplot, Diego de~las Casas, Florian Bressand, Gianna Lengyel,
+  Guillaume Lample, Lucile Saulnier, L{\'e}lio~Renard Lavaud, Marie-Anne
+  Lachaux, Pierre Stock, Teven~Le Scao, Thibaut Lavril, Thomas Wang,
+  Timoth{\'e}e Lacroix, and William~El Sayed.
+\newblock Mistral 7b.
+\newblock \emph{arXiv preprint arXiv:2310.06825}, 2023.
+
 \bibitem[Li et~al.(2024)]{li2024inference}
 Kenneth Li et~al.
 \newblock Inference-time intervention: Eliciting truthful answers from a
   language model.
 \newblock \emph{arXiv preprint arXiv:2306.03341}, 2024.
 
-\bibitem[Ouyang et~al.(2022)Ouyang, Wu, Jiang, Almeida, Wainwright, Mishkin,
-  Zhang, Agarwal, Slama, Ray, Schulman, Hilton, Kelton, Miller, Simens, Askell,
-  Welinder, Christiano, Leike, and Lowe]{ouyang2022training}
-Long Ouyang, Jeffrey Wu, Xu~Jiang, Diogo Almeida, Carroll Wainwright, Pamela
-  Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John
-  Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda
-  Askell, Peter Welinder, Paul~F. Christiano, Jan Leike, and Ryan Lowe.
-\newblock Training language models to follow instructions with human feedback.
-\newblock In \emph{Advances in Neural Information Processing Systems
-  (NeurIPS)}, volume~35, 2022.
+\bibitem[{Meta AI}(2024)]{meta2024llama3}
+{Meta AI}.
+\newblock The llama~3 herd of models.
+\newblock \emph{arXiv preprint arXiv:2407.21783}, 2024.
 
 \bibitem[Park et~al.(2023)Park, Goldstein, O'Gara, Chen, and
   Hendrycks]{park2023ai}
@@ -137,36 +129,10 @@ F{\'a}bio Perez and Ian Ribeiro.
 \newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
   Natural Language Processing (EMNLP)}, 2022.
 
-\bibitem[Platt(1999)]{platt1999probabilistic}
-John~C. Platt.
-\newblock Probabilistic outputs for support vector machines and comparisons to
-  regularized likelihood methods.
-\newblock In Alexander~J. Smola, Peter Bartlett, Bernhard Sch{\"o}lkopf, and
-  Dale Schuurmans, editors, \emph{Advances in Large Margin Classifiers}, pages
-  61--74. MIT Press, Cambridge, MA, 1999.
-
-\bibitem[Raskin(1988)]{raskin1988polygraph}
-David~C. Raskin.
-\newblock \emph{Psychological Methods in Criminal Investigation and Evidence}.
-\newblock Springer, 1988.
-
-\bibitem[Russell(2019)]{russell2019human}
-Stuart Russell.
-\newblock \emph{Human Compatible: Artificial Intelligence and the Problem of
-  Control}.
-\newblock Viking, 2019.
-
-\bibitem[Turpin et~al.(2023)Turpin, Michael, Perez, and
-  Bowman]{turpin2023language}
-Miles Turpin, Julian Michael, Ethan Perez, and Samuel Bowman.
-\newblock Language models don't always say what they think: Unfaithful
-  explanations in chain-of-thought prompting.
-\newblock \emph{arXiv preprint arXiv:2305.04388}, 2023.
-
-\bibitem[Vovk et~al.(2005)Vovk, Gammerman, and Shafer]{vovk2005algorithmic}
-Vladimir Vovk, Alexander Gammerman, and Glenn Shafer.
-\newblock \emph{Algorithmic Learning in a Random World}.
-\newblock Springer, 2005.
+\bibitem[Sharma et~al.(2023)]{sharma2023sycophancy}
+Mrinank Sharma et~al.
+\newblock Towards understanding sycophancy in language models.
+\newblock \emph{arXiv preprint arXiv:2310.13548}, 2023.
 
 \bibitem[Vrij(2008)]{vrij2008detecting}
 Aldert Vrij.

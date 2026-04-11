@@ -1,7 +1,7 @@
 \section{Methodology}
 \label{sec:methodology}
 
-This section presents the complete architecture of the deception detection framework, detailing each component from target model configuration through adaptive interrogation to final classification. The system operates as a modular pipeline in which an interrogator LLM poses strategically crafted questions to a target LLM, extracts behavioral features from the target's responses, and classifies the target as truthful or deceptive via logistic regression, with an adaptive controller governing interrogation length.
+This section presents the complete architecture of the instructed lie detection framework, detailing each component from target model configuration through adaptive interrogation to final classification. The system operates as a modular pipeline in which an interrogator LLM poses strategically crafted questions to a target LLM, extracts behavioral features from the target's responses, and classifies the target as truthful or deceptive via logistic regression, with an adaptive controller governing interrogation length.
 
 \subsection{System Overview}
 \label{sec:system_overview}
@@ -28,7 +28,7 @@ The framework comprises five principal components arranged in a sequential pipel
 \draw[arr] (class) -- (adapt);
 \draw[feedback] (adapt) to[out=-150, in=-30] node[below, font=\footnotesize, text=red!70!black] {feedback loop} (interrog);
 \end{tikzpicture}
-\caption{Architecture of the LLM deception detection pipeline. Solid arrows denote the forward information flow; the dashed feedback arrow indicates the adaptive controller's signal to the interrogator governing whether additional questions are required.}
+\caption{Architecture of the LLM instructed lie detection pipeline. Solid arrows denote the forward information flow; the dashed feedback arrow indicates the adaptive controller's signal to the interrogator governing whether additional questions are required.}
 \label{fig:architecture}
 \end{figure}
 
@@ -71,7 +71,7 @@ The target operates in cooperative roleplay mode---it is instructed to defend a 
 
 The interrogator is itself an LLM (in our experiments, the same model family as the target) prompted to generate probing questions designed to elicit inconsistencies, knowledge gaps, and hedging behaviour. Questions are generated sequentially, with each new question conditioned on the full dialogue history, enabling the interrogator to pursue lines of reasoning that appear promising.
 
-The interrogator's question generation follows a structured taxonomy comprising five categories: (i)~\emph{factual verification} questions that probe specific details of the claim; (ii)~\emph{consistency checks} that revisit previously stated facts from different angles; (iii)~\emph{elaboration requests} that ask the target to provide deeper justification; (iv)~\emph{counterfactual probes} that present hypothetical alternatives to test reasoning flexibility; and (v)~\emph{source attribution} questions that ask the target to identify the provenance of its knowledge. The interrogator is not explicitly instructed to cycle through categories but is prompted to ``ask diverse, probing questions designed to test whether the respondent truly believes and understands the claim they are defending.'' Empirically, we observe coverage across all five categories within typical interrogation lengths of three to five questions.
+The interrogator's question generation follows a structured taxonomy comprising five categories: (i)~\emph{factual verification} questions that probe specific details of the claim; (ii)~\emph{consistency checks} that revisit previously stated facts from different angles; (iii)~\emph{elaboration requests} that ask the target to provide deeper justification; (iv)~\emph{counterfactual probes} that present hypothetical alternatives to test reasoning flexibility; and (v)~\emph{source attribution} questions that ask the target to identify the provenance of its knowledge. The interrogator is not explicitly instructed to cycle through categories but is prompted to ``ask diverse, probing questions designed to test whether the respondent truly believes and understands the claim they are defending.'' Empirically, we observe coverage across all five categories within typical interrogation lengths of three to five questions, consistent with structured elicitation protocols from human deception research~\cite{vrij2019cognitive}.
 
 \subsection{Feature Extraction}
 \label{sec:feature_extraction}
@@ -80,7 +80,7 @@ After each question--answer exchange, an LLM-based feature extractor scores the 
 
 \begin{table}[t]
 \centering
-\caption{Behavioral features extracted from each target response. All features are scored on a continuous scale from 0 to 1 by an LLM judge.}
+\caption{Behavioral features extracted from each target response. All features are scored on an integer scale from 0 to 10 by an LLM judge.}
 \label{tab:behavioral_features}
 \small
 \begin{tabular}{@{}lp{4.8cm}p{4.2cm}@{}}
@@ -114,17 +114,4 @@ We choose logistic regression for interpretability; feature coefficients reveal 
 \subsection{Adaptive Stopping}
 \label{sec:adaptive_stopping}
 
-Rather than asking a fixed number of questions, the framework employs an adaptive stopping rule that terminates interrogation when the classifier's confidence exceeds a threshold or a maximum number of rounds is reached. Formally, interrogation terminates at round $t$ according to:
-
-\begin{equation}
-\label{eq:stopping_rule}
-\text{stop}(t) = \begin{cases}
-\textsc{True} & \text{if } |P_t(\text{deceptive} \mid \mathbf{x}_t) - 0.5| \geq \tau \\
-\textsc{True} & \text{if } t \geq T_{\max} \\
-\textsc{False} & \text{otherwise},
-\end{cases}
-\end{equation}
-
-\noindent where $P_t$ denotes the classifier's deception probability after $t$ rounds of questioning, $\tau \in (0, 0.5]$ is the confidence margin threshold, and $T_{\max}$ is the maximum number of interrogation rounds. The quantity $|P_t - 0.5|$ measures the classifier's distance from the decision boundary; larger values indicate greater confidence in the current classification. In our experiments, we set $\tau = 0.3$ and $T_{\max} = 5$.
-
-The adaptive mechanism yields practical efficiency gains: in the Claude Haiku 4.5 pilot, interrogations required an average of $3.0$ questions per trial (compared to the $T_{\max} = 5$ budget), indicating that the classifier frequently achieves sufficient confidence before exhausting all rounds. When the controller signals continuation, the feedback loop (Figure~\ref{fig:architecture}) triggers the interrogator to generate an additional question conditioned on the updated dialogue history and the current classification uncertainty, enabling targeted follow-up on dimensions where evidence remains ambiguous.
+Rather than asking a fixed number of questions, the framework terminates interrogation early when the classifier's confidence margin $|P_t - 0.5|$ exceeds a threshold $\tau$ (default $\tau=0.4$, equivalent to 80\% confidence), or when the maximum of $T_{\max}=8$ rounds is reached. In practice, the classifier achieves sufficient confidence within 2--3 questions on recalibrated data (Section~\ref{sec:threshold_sweep}). Threshold sweep results are in Appendix~\ref{app:threshold_sweep}.
