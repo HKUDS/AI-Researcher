@@ -68,7 +68,8 @@ WORKFLOW:
    - Select the most promising idea for enhancement
 
 4. Idea Generation/Enhancement:
-   Generate/Enhance into a comprehensive proposal including:
+   Generate/Enhance EXACTLY 5 distinct future work proposals, each including:
+   [Idea 1], [Idea 2], ... [Idea 5]
 
    a) Challenges:
    - Current technical limitations
@@ -107,7 +108,7 @@ WORKFLOW:
 
 
 5. Future Work Analysis:
-   Based on the analysis above, identify and describe:
+   Based on the analysis above, for EACH of the 5 ideas, identify and describe:
 
    a) Research Gaps:
    - Areas the field has not yet addressed
