@@ -5,7 +5,7 @@ from research_agent.inno.core import MetaChain, MetaChainLogger
 from typing import Union, Dict, List, Callable, Any
 from research_agent.inno import Agent
 from abc import ABC, abstractmethod
-from torch import nn
+# 사용안하는 import제거
 
 class AgentModule:
     def __init__(self, agent: Agent, client: MetaChain, cache_path: str):

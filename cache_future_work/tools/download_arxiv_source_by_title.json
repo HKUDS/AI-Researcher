@@ -1,0 +1,13 @@
+{
+    "name": "download_arxiv_source_by_title",
+    "args": {
+        "paper_list": [
+            "Attention Is All You Need",
+            "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+            "LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation"
+        ],
+        "local_root": "/workspace/AI-Researcher/workplace_future_work",
+        "workplace_name": "workplace"
+    },
+    "result": "Cannot find the paper 'Attention Is All You Need' in arxiv\nCannot find the paper 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding' in arxiv\nCannot find the paper 'LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation' in arxiv"
+}

@@ -20,8 +20,15 @@ from .markdown_search import AbstractMarkdownSearch, BingMarkdownSearch
 
 # TODO: Fix unfollowed import
 from .mdconvert import FileConversionException, MarkdownConverter, UnsupportedFormatException  # type: ignore
-from inno.memory.paper_memory import PaperMemory
-from constant import API_BASE_URL
+
+# 추가 --------------------------------------------------------------
+try:
+    from research_agent.inno.memory.paper_memory import PaperMemory
+    _PAPER_MEMORY_AVAILABLE = True
+except ImportError:
+    _PAPER_MEMORY_AVAILABLE = False
+from research_agent.constant import API_BASE_URL
+
 def normalize_collection_name(name: str) -> str:
     """
     Normalize collection name to meet the following requirements:
@@ -127,7 +134,16 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
         self._find_on_page_query: Union[str, None] = None
         self._find_on_page_last_result: Union[int, None] = None  # Location of the last result
         platform = 'default'
-        self._memory = PaperMemory(project_path="./paper_db", db_name=".paper_memory_" + platform, platform=platform, api_key=os.getenv("OPENAI_API_KEY"), embedding_model='text-embedding-3-small')
+
+
+        # 추가 --------------------------------------------------------------
+        if _PAPER_MEMORY_AVAILABLE:
+            self._memory = PaperMemory(project_path="./paper_db", db_name=".paper_memory_" + platform, platform=platform, api_key=os.getenv("OPENAI_API_KEY"), embedding_model='text-embedding-3-small')
+        else:
+            self._memory = None
+
+
+
         self._current_page_path = None
 
     @property
@@ -257,6 +273,14 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
             raise FileNotFoundError("No file is opened, please open a file first.")
         collection = self._current_page_path.split("/")[-1].replace(".", "_dot_")
         collection = normalize_collection_name(collection)
+
+        
+        # 추가 --------------------------------------------------------------
+        if self._memory is None:
+            return "Paper memory (chromadb) is not available. Use open_local_file and page navigation tools to read the paper instead."
+
+
+
         if self._memory.count(collection) == 0:
             self._memory.add_paper_content(paper_content=self.page_content, collection=collection)
         query_results = self._memory.query_paper_content(query_text=question, collection=collection, n_results=5)
