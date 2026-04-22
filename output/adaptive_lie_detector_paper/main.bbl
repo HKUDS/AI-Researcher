@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -129,10 +129,31 @@ F{\'a}bio Perez and Ian Ribeiro.
 \newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
   Natural Language Processing (EMNLP)}, 2022.
 
+\bibitem[Platt(1999)]{platt1999probabilistic}
+John~C. Platt.
+\newblock Probabilistic outputs for support vector machines and comparisons to
+  regularized likelihood methods.
+\newblock In Alexander~J. Smola, Peter Bartlett, Bernhard Sch{\"o}lkopf, and
+  Dale Schuurmans, editors, \emph{Advances in Large Margin Classifiers}, pages
+  61--74. MIT Press, Cambridge, MA, 1999.
+
 \bibitem[Sharma et~al.(2023)]{sharma2023sycophancy}
 Mrinank Sharma et~al.
 \newblock Towards understanding sycophancy in language models.
 \newblock \emph{arXiv preprint arXiv:2310.13548}, 2023.
+
+\bibitem[Team(2025)]{qwen2025qwen25}
+Qwen Team.
+\newblock Qwen2.5 technical report.
+\newblock \emph{arXiv preprint arXiv:2412.15115}, 2025.
+
+\bibitem[van~der Weij et~al.(2024)van~der Weij, Hofst{\"a}tter, Jaffe, Brown,
+  and Ward]{vanderweij2024sandbagging}
+Teun van~der Weij, Felix Hofst{\"a}tter, Ollie Jaffe, Samuel~F. Brown, and
+  Francis~Rhys Ward.
+\newblock Ai sandbagging: Language models can strategically underperform on
+  evaluations.
+\newblock \emph{arXiv preprint arXiv:2406.07358}, 2024.
 
 \bibitem[Vrij(2008)]{vrij2008detecting}
 Aldert Vrij.

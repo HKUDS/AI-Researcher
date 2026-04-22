@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.8.6)  10 APR 2026 15:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  23 APR 2026 00:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -962,13 +962,14 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
-al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}])
-(./sections/related_work.tex
+al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 
-[2]) (./sections/methodology.tex
+[2]) (./sections/related_work.tex
 
-[3]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 44
+[3]) (./sections/methodology.tex
+
+[4]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 62
 .
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -979,62 +980,106 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[4]
-Underfull \hbox (badness 4120) in paragraph at lines 92--93
+[5]
+Underfull \hbox (badness 4120) in paragraph at lines 110--111
 []\T1/ptm/m/n/9 (+20) Truthful re-spon-dents typ-i-cally
  []
 
 
-Underfull \hbox (badness 1226) in paragraph at lines 94--95
+Underfull \hbox (badness 1226) in paragraph at lines 112--113
 []\T1/ptm/m/n/9 (+20) Liars may over-ex-plain (to ap-
  []
 
 
 
-[5]) (./sections/experiments.tex
+[6]) (./sections/experiments.tex
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-
-[6]
 
 [7]
 
 [8]
 
 [9]
+
+[10]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-21.
+36.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-
-[10]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 
 [11]
 
 [12]
 
-[13]) (./sections/discussion.tex
+[13]
 
 [14]
 
 [15]
+Overfull \hbox (3.0045pt too wide) in paragraph at lines 270--271
+[]\T1/ptm/b/n/10 (-20) Gap de-com-po-si-tion. \T1/ptm/m/n/10 (-20) The three-co
+ndition com-par-i-son yields a clean de-com-po-si-tion (all on Llama 70B): 
+ []
+
+
+
+[16]
+<figures/scale_trend.pdf, id=428, 390.1865pt x 280.05254pt>
+File: figures/scale_trend.pdf Graphic file (type pdf)
+<use figures/scale_trend.pdf>
+Package pdftex.def Info: figures/scale_trend.pdf  used on input line 301.
+(pdftex.def)             Requested size: 337.86465pt x 242.5156pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figures/feature_collapse.pdf, id=429, 859.63786pt x 261.91829pt>
+File: figures/feature_collapse.pdf Graphic file (type pdf)
+<use figures/feature_collapse.pdf>
+Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 308.
+(pdftex.def)             Requested size: 397.48499pt x 121.10733pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[16]
+[17]
 
-[17]) (./sections/conclusion.tex
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[18]) (./main.bbl
+
+
+[18 <./figures/scale_trend.pdf>]
+
+[19 <./figures/feature_collapse.pdf>]
+
+[20]) (./sections/discussion.tex
+
+[21]
+
+[22]
+
+[23]
+
+[24]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[25]
+
+[26]
+
+[27]
+
+[28]) (./sections/conclusion.tex
+
+[29]) (./main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\T1/ptm/m/n/10 (+20) Anthropic.  The Claude 3 model fam-ily: Opus, Son-net, H
 aiku.  Tech-ni-
@@ -1048,37 +1093,50 @@ s : / / www-[]cdn . anthropic . com /
 
 
 
-[19]) (./sections/appendix.tex
+[30]) (./sections/appendix.tex
 
-[20]
+[31]
 Overfull \hbox (12.91455pt too wide) in paragraph at lines 17--17
 []      \T1/pcr/m/n/9 A: Yes, that's correct. I can provide more specific detai
 ls if needed.[] 
  []
 
 
+
+[32]
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[21])
+[33]
 
-[22] (./main.aux)
+[34]
+
+[35]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+)
+
+[36]
+
+[37] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E020C27274E18564B3FCF4C5B57BE5D9;7782.
+(rerunfilecheck)             Checksum: 2A8B482CD9FDFD2B0A242DE4AC0F0DBD;8097.
  ) 
 Here is how much of TeX's memory you used:
- 28542 strings out of 473190
- 519570 string characters out of 5715801
- 933376 words of memory out of 5000000
- 50827 multiletter control sequences out of 15000+600000
- 616483 words of font info for 320 fonts, out of 8000000 for 9000
+ 28797 strings out of 473190
+ 523229 string characters out of 5715801
+ 942616 words of memory out of 5000000
+ 50917 multiletter control sequences out of 15000+600000
+ 626187 words of font info for 395 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,10n,87p,1778b,847s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,87p,3522b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
@@ -1095,10 +1153,10 @@ al/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/f
 onts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (22 pages, 272682 bytes).
+Output written on main.pdf (37 pages, 381595 bytes).
 PDF statistics:
- 539 PDF objects out of 1000 (max. 8388607)
- 475 compressed objects within 5 object streams
- 130 named destinations out of 1000 (max. 500000)
- 55637 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 901 PDF objects out of 1000 (max. 8388607)
+ 667 compressed objects within 7 object streams
+ 192 named destinations out of 1000 (max. 500000)
+ 63335 words of extra memory for PDF output out of 74296 (max. 10000000)
 

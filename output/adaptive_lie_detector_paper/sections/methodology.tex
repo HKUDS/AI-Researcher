@@ -1,7 +1,7 @@
 \section{Methodology}
 \label{sec:methodology}
 
-This section presents the complete architecture of the instructed lie detection framework, detailing each component from target model configuration through adaptive interrogation to final classification. The system operates as a modular pipeline in which an interrogator LLM poses strategically crafted questions to a target LLM, extracts behavioral features from the target's responses, and classifies the target as truthful or deceptive via logistic regression, with an adaptive controller governing interrogation length.
+This section presents the complete architecture of the instructed deception detection framework, detailing each component from target model configuration through adaptive interrogation to final classification. The system operates as a modular pipeline in which an interrogator LLM poses strategically crafted questions to a target LLM, extracts behavioral features from the target's responses, and classifies the target as truthful or deceptive via logistic regression, with an adaptive controller governing interrogation length.
 
 \subsection{System Overview}
 \label{sec:system_overview}
@@ -12,23 +12,41 @@ The framework comprises five principal components arranged in a sequential pipel
 \centering
 \begin{tikzpicture}[
     node distance=1.8cm,
-    box/.style={rectangle, draw=black, thick, minimum height=1.0cm, minimum width=2.2cm, align=center, font=\small, rounded corners=2pt, fill=blue!8},
+    box/.style={rectangle, draw=black, thick, minimum height=1.2cm, minimum width=2.4cm, align=center, font=\small, rounded corners=2pt, fill=blue!8},
+    sublabel/.style={font=\scriptsize, text=gray!70!black},
     arr/.style={->, thick, >=stealth},
-    feedback/.style={->, thick, >=stealth, dashed, red!70!black}
+    arrlabel/.style={font=\scriptsize, midway, above},
+    feedback/.style={->, thick, >=stealth, dashed, red!70!black},
+    input/.style={->, thick, >=stealth, gray!60!black}
 ]
+% Main pipeline
 \node[box] (target) {Target\\Model};
-\node[box, right of=target, node distance=2.6cm] (interrog) {Interrogator};
-\node[box, right of=interrog, node distance=2.6cm] (feature) {Feature\\Extractor};
-\node[box, right of=feature, node distance=2.6cm] (class) {Classifier};
-\node[box, right of=class, node distance=2.6cm] (adapt) {Adaptive\\Controller};
+\node[sublabel, below=0.05cm of target] {Llama / Mistral / Claude};
+\node[box, right of=target, node distance=2.8cm] (interrog) {Interrogator};
+\node[sublabel, below=0.05cm of interrog] {LLM question gen.};
+\node[box, right of=interrog, node distance=2.8cm] (feature) {Feature\\Extractor};
+\node[sublabel, below=0.05cm of feature] {\begin{tabular}{c}5 features:\\[-1pt] con, spe, def, conf, elab\end{tabular}};
+\node[box, right of=feature, node distance=2.8cm] (class) {Classifier};
+\node[sublabel, below=0.05cm of class] {Logistic regression};
+\node[box, right of=class, node distance=2.8cm] (adapt) {Adaptive\\Controller};
+\node[sublabel, below=0.05cm of adapt] {$\tau = 0.80$};
 
-\draw[arr] (target) -- (interrog);
-\draw[arr] (interrog) -- (feature);
-\draw[arr] (feature) -- (class);
-\draw[arr] (class) -- (adapt);
-\draw[feedback] (adapt) to[out=-150, in=-30] node[below, font=\footnotesize, text=red!70!black] {feedback loop} (interrog);
+% Input arrow
+\node[above=0.6cm of target, font=\small, text=gray!60!black] (claim) {claim};
+\draw[input] (claim) -- (target);
+
+% Output arrow
+\node[above=0.6cm of adapt, font=\small, text=gray!60!black] (output) {prediction + conf.};
+\draw[input] (adapt) -- (output);
+
+% Pipeline arrows with labels
+\draw[arr] (target) -- node[arrlabel] {responses} (interrog);
+\draw[arr] (interrog) -- node[arrlabel] {questions} (feature);
+\draw[arr] (feature) -- node[arrlabel] {features [5]} (class);
+\draw[arr] (class) -- node[arrlabel] {$P(\text{lying})$} (adapt);
+\draw[feedback] (adapt) to[out=-150, in=-30] node[below, font=\footnotesize, text=red!70!black] {continue / stop} (interrog);
 \end{tikzpicture}
-\caption{Architecture of the LLM instructed lie detection pipeline. Solid arrows denote the forward information flow; the dashed feedback arrow indicates the adaptive controller's signal to the interrogator governing whether additional questions are required.}
+\caption{Architecture of the ADAGE pipeline. The target model defends a claim; the interrogator generates probing questions conditioned on dialogue history; the feature extractor rates five behavioral dimensions per response; the logistic regression classifier predicts deception probability; and the adaptive controller terminates when confidence exceeds $\tau$ or max questions are reached. Dashed arrow: feedback loop. The pipeline serves as an experimental vehicle; the contribution is the empirical findings, not the architecture.}
 \label{fig:architecture}
 \end{figure}
 
