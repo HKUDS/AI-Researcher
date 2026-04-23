@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  23 APR 2026 06:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  23 APR 2026 17:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -25,18 +25,6 @@ File: size10.clo 2024/06/29 v1.4n Standard LaTeX file (size option)
 )
 (./neurips_2024.sty
 Package: neurips_2024 2024/01/01 NeurIPS 2024 submission style
-
-
-! LaTeX Error: Unknown option `final' for package `neurips_2024'.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.7 \ProcessOptions\relax
-                         
-The option `final' was not declared in package `neurips_2024', perhaps you
-misspelled its name. Try typing  <return>  to proceed.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
@@ -966,9 +954,11 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 
 [2]) (./sections/related_work.tex
 
-[3]) (./sections/methodology.tex
+[3]
 
-[4]
+[4]) (./sections/methodology.tex
+
+[5]
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 62
 .
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
@@ -980,7 +970,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[5]
+[6]
 Underfull \hbox (badness 4120) in paragraph at lines 110--111
 []\T1/ptm/m/n/9 (+20) Truthful re-spon-dents typ-i-cally
  []
@@ -992,9 +982,7 @@ Underfull \hbox (badness 1226) in paragraph at lines 112--113
 
 
 
-[6]) (./sections/experiments.tex
-
-[7]
+[7]) (./sections/experiments.tex
 
 [8]
 
@@ -1003,60 +991,70 @@ Underfull \hbox (badness 1226) in paragraph at lines 112--113
 [10]
 
 [11]
+
+[12]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
 36.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
-[12]
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 
 [13]
-
-[14]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
+[14]
+
 [15]
-Overfull \hbox (3.0045pt too wide) in paragraph at lines 270--271
+
+[16]
+
+[17]
+Overfull \hbox (3.0045pt too wide) in paragraph at lines 275--276
 []\T1/ptm/b/n/10 (-20) Gap de-com-po-si-tion. \T1/ptm/m/n/10 (-20) The three-co
 ndition com-par-i-son yields a clean de-com-po-si-tion (all on Llama 70B): 
  []
 
 
 
-[16]
-
-[17]
-<figures/scale_trend.pdf, id=438, 390.1865pt x 280.05254pt>
-File: figures/scale_trend.pdf Graphic file (type pdf)
-<use figures/scale_trend.pdf>
-Package pdftex.def Info: figures/scale_trend.pdf  used on input line 301.
-(pdftex.def)             Requested size: 337.86465pt x 242.5156pt.
-<figures/feature_collapse.pdf, id=439, 859.63786pt x 261.91829pt>
-File: figures/feature_collapse.pdf Graphic file (type pdf)
-<use figures/feature_collapse.pdf>
-Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 308.
-(pdftex.def)             Requested size: 397.48499pt x 121.10733pt.
-
-
-[18 <./figures/scale_trend.pdf> <./figures/feature_collapse.pdf>]
+[18]
 
 [19]
+<figures/scale_trend.pdf, id=495, 390.1865pt x 280.05254pt>
+File: figures/scale_trend.pdf Graphic file (type pdf)
+<use figures/scale_trend.pdf>
+Package pdftex.def Info: figures/scale_trend.pdf  used on input line 320.
+(pdftex.def)             Requested size: 337.86465pt x 242.5156pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figures/feature_collapse.pdf, id=496, 859.63786pt x 261.91829pt>
+File: figures/feature_collapse.pdf Graphic file (type pdf)
+<use figures/feature_collapse.pdf>
+Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 327.
+(pdftex.def)             Requested size: 397.48499pt x 121.10733pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[20]) (./sections/discussion.tex
+[20]
 
-[21]
+[21 <./figures/scale_trend.pdf>]
 
-[22]
+[22 <./figures/feature_collapse.pdf>]
 
-[23]
+[23]) (./sections/discussion.tex
 
 [24]
 
@@ -1066,16 +1064,23 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [27]
 
-LaTeX Warning: Reference `tab:multiturn_equalized' on page 28 undefined on inpu
-t line 109.
-
-
-
 [28]
 
-[29]) (./sections/conclusion.tex
+[29]
 
-[30]) (./main.bbl
+[30]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[31]
+
+[32]
+
+[33]) (./sections/conclusion.tex
+
+[34]) (./main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\T1/ptm/m/n/10 (+20) Anthropic.  The Claude 3 model fam-ily: Opus, Son-net, H
 aiku.  Tech-ni-
@@ -1089,9 +1094,9 @@ s : / / www-[]cdn . anthropic . com /
 
 
 
-[31]) (./sections/appendix.tex
+[35]
 
-[32]
+[36]) (./sections/appendix.tex
 Overfull \hbox (12.91455pt too wide) in paragraph at lines 17--17
 []      \T1/pcr/m/n/9 A: Yes, that's correct. I can provide more specific detai
 ls if needed.[] 
@@ -1099,83 +1104,59 @@ ls if needed.[]
 
 
 
-[33]
+[37]
+
+[38]
+
+[39]
+
+[40]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-
-[34]
-
-[35]
-
-[36]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
 
-[37]
+[41]
 
-[38] (./main.aux)
+[42] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 2A8B482CD9FDFD2B0A242DE4AC0F0DBD;8097.
  ) 
 Here is how much of TeX's memory you used:
- 28799 strings out of 473190
- 523306 string characters out of 5715801
- 942659 words of memory out of 5000000
- 50918 multiletter control sequences out of 15000+600000
- 625910 words of font info for 390 fonts, out of 8000000 for 9000
+ 28872 strings out of 473190
+ 524456 string characters out of 5715801
+ 949666 words of memory out of 5000000
+ 50939 multiletter control sequences out of 15000+600000
+ 630870 words of font info for 415 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,87p,3522b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{table.caption.80} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.76} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.60} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.71} has been referenced but does not 
-exist, replaced by a fixed one
-
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
-ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive
-/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive
-/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fon
-ts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (38 pages, 386418 bytes).
+ 84i,12n,87p,4068b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loc
+al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/tex
+live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/t
+exlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/loc
+al/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/te
+xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/f
+onts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (42 pages, 411859 bytes).
 PDF statistics:
- 916 PDF objects out of 1000 (max. 8388607)
- 681 compressed objects within 7 object streams
- 201 named destinations out of 1000 (max. 500000)
- 63335 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 1003 PDF objects out of 1200 (max. 8388607)
+ 759 compressed objects within 8 object streams
+ 215 named destinations out of 1000 (max. 500000)
+ 67431 words of extra memory for PDF output out of 74296 (max. 10000000)
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -22,6 +22,14 @@ Amos Azaria and Tom Mitchell.
 Collin Burns, Haotian Ye, Dan Klein, and Jacob Steinhardt.
 \newblock Discovering latent knowledge in language models without supervision.
 \newblock \emph{arXiv preprint arXiv:2212.03827}, 2022.
+
+\bibitem[Denison et~al.(2024)Denison, MacDiarmid, Barez, Duvenaud, Glaese,
+  et~al.]{denison2024sycophancy}
+Carson Denison, Monte MacDiarmid, Fazl Barez, David Duvenaud, Mia Glaese,
+  et~al.
+\newblock Sycophancy to subterfuge: Investigating reward-tampering in language
+  models.
+\newblock \emph{arXiv preprint arXiv:2406.10162}, 2024.
 
 \bibitem[Elhage et~al.(2022)]{elhage2022toy}
 Nelson Elhage et~al.
@@ -49,6 +57,19 @@ Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav
 Ian~J. Goodfellow, Jonathon Shlens, and Christian Szegedy.
 \newblock Explaining and harnessing adversarial examples.
 \newblock \emph{arXiv preprint arXiv:1412.6572}, 2014.
+
+\bibitem[Greenblatt et~al.(2024)Greenblatt, Denison, Wright, Roger, MacDiarmid,
+  Marks, Treutlein, et~al.]{greenblatt2024alignment}
+Ryan Greenblatt, Carson Denison, Benjamin Wright, Fabien Roger, Monte
+  MacDiarmid, Sam Marks, Johannes Treutlein, et~al.
+\newblock Alignment faking in large language models.
+\newblock \emph{arXiv preprint arXiv:2412.14093}, 2024.
+
+\bibitem[Hagendorff(2024)]{hagendorff2024deception}
+Thilo Hagendorff.
+\newblock Deception abilities emerge in large language models.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 121\penalty0
+  (24):\penalty0 e2317967121, 2024.
 
 \bibitem[Hubinger et~al.(2019)Hubinger, van Merwijk, Mikulik, Skalse, and
   Garrabrant]{hubinger2019risks}
@@ -84,6 +105,14 @@ Kenneth Li et~al.
 {Meta AI}.
 \newblock The llama~3 herd of models.
 \newblock \emph{arXiv preprint arXiv:2407.21783}, 2024.
+
+\bibitem[Pacchiardi et~al.(2023)Pacchiardi, Chan, Mindermann, Moscovitz,
+  Garriga-Alonso, Schultheiss, Steinhardt, and Evans]{pacchiardi2023catch}
+Lorenzo Pacchiardi, Alex~J. Chan, Soren Mindermann, Ilan Moscovitz, Adri{\`a}
+  Garriga-Alonso, Peter Schultheiss, Jacob Steinhardt, and Owain Evans.
+\newblock How to catch an {AI} liar: Lie detection in black-box {LLMs} by
+  asking unrelated questions.
+\newblock \emph{arXiv preprint arXiv:2309.15840}, 2023.
 
 \bibitem[Park et~al.(2023)Park, Goldstein, O'Gara, Chen, and
   Hendrycks]{park2023ai}
@@ -137,6 +166,13 @@ John~C. Platt.
   Dale Schuurmans, editors, \emph{Advances in Large Margin Classifiers}, pages
   61--74. MIT Press, Cambridge, MA, 1999.
 
+\bibitem[Scheurer et~al.(2024)Scheurer, Balesni, and
+  Hobbhahn]{scheurer2024strategic}
+J{\'e}r{\'e}my Scheurer, Mikita Balesni, and Marius Hobbhahn.
+\newblock Large language models can strategically deceive their users when put
+  under pressure.
+\newblock \emph{arXiv preprint arXiv:2311.07590}, 2024.
+
 \bibitem[Sharma et~al.(2023)]{sharma2023sycophancy}
 Mrinank Sharma et~al.
 \newblock Towards understanding sycophancy in language models.
@@ -154,6 +190,14 @@ Teun van~der Weij, Felix Hofst{\"a}tter, Ollie Jaffe, Samuel~F. Brown, and
 \newblock Ai sandbagging: Language models can strategically underperform on
   evaluations.
 \newblock \emph{arXiv preprint arXiv:2406.07358}, 2024.
+
+\bibitem[Verga et~al.(2024)Verga, Hofst{\"a}tter, Althammer, Su, Piktus,
+  Arkhangorodsky, Xu, White, and Lewis]{verga2024replacing}
+Pat Verga, Sebastian Hofst{\"a}tter, Sophia Althammer, Yixuan Su, Aleksandra
+  Piktus, Arkady Arkhangorodsky, Minjie Xu, Naomi White, and Patrick Lewis.
+\newblock Replacing judges with juries: Evaluating {LLM} generations with a
+  panel of diverse models.
+\newblock \emph{arXiv preprint arXiv:2404.18796}, 2024.
 
 \bibitem[Vrij(2008)]{vrij2008detecting}
 Aldert Vrij.
