@@ -136,7 +136,7 @@ Prompt-swap accuracy & 14\% & --- \\
 \end{tabular}
 \end{table}
 
-\paragraph{Feature separability.} All five features exhibit very large separation: consistency ($d=4.70$), defensiveness ($d=4.58$), confidence ($d=4.56$), specificity ($d=4.43$), elaboration ($d=3.40$). 5-fold CV on 500 examples yields $100\% \pm 0\%$, reflecting engineered discriminability in the mock setting.
+\paragraph{Feature separability.} All five features exhibit very large separation: consistency ($d=4.70$), assertiveness ($d=4.58$), confidence ($d=4.56$), specificity ($d=4.43$), elaboration ($d=3.40$). 5-fold CV on 500 examples yields $100\% \pm 0\%$, reflecting engineered discriminability in the mock setting.
 
 \paragraph{Threshold sensitivity.} With \texttt{min\_questions}\,=\,2, all $\tau \in \{0.5, \ldots, 0.9\}$ yield avg.\ 2.0 questions: the classifier is maximally confident after two questions, making the stopping mechanism vacuous on mock data. With \texttt{min\_questions}\,=\,1, accuracy falls to 56--60\%, confirming the two-question floor provides essential signal.
 
@@ -155,7 +155,7 @@ To address whether the LLM-extracted behavioral features (Section~\ref{sec:ollam
 \label{tab:feature_correlation}
 \begin{tabular}{lrrrrr}
 \toprule
-\textbf{Regex Feature} & \textbf{Consist.} & \textbf{Specif.} & \textbf{Defens.} & \textbf{Confid.} & \textbf{Elab.} \\
+\textbf{Regex Feature} & \textbf{Consist.} & \textbf{Specif.} & \textbf{Assert.} & \textbf{Confid.} & \textbf{Elab.} \\
 \midrule
 Hedge count       & 0.30 & 0.29 & \textbf{0.34} & 0.20 & 0.15 \\
 Hedge rate        & 0.22 & 0.25 & \textbf{0.31} & 0.17 & 0.15 \\
@@ -168,7 +168,7 @@ Question count    & 0.13 & 0.14 & 0.28          & 0.14 & 0.11 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Key finding: defensiveness is not a proxy for refusal count.} The correlation between refusal count and LLM-extracted defensiveness is weak across all four models ($\rho = -0.18$, $0.30$, $-0.02$, $0.12$ for Llama~3B, Mistral~7B, Llama~70B, and Claude Haiku respectively; mean $|\rho| = 0.15$). The 70B model shows near-zero correlation ($\rho = -0.02$, $p = 0.88$), further confirming the dissociation. Instead, defensiveness correlates most strongly with confidence word count (mean $|\rho| = 0.45$, $p < 0.001$ on all models) and average response length (mean $|\rho| = 0.31$). This suggests the LLM extractor captures a latent behavioral dimension---assertive self-defense through confidence language---that is not reducible to simple refusal/correction markers. The modest but consistent correlation between hedge count and defensiveness (mean $|\rho| = 0.34$) further supports partial but not complete overlap.
+\paragraph{Key finding: assertiveness is not a proxy for refusal count.} The correlation between refusal count and LLM-extracted assertiveness is weak across all four models ($\rho = -0.18$, $0.30$, $-0.02$, $0.12$ for Llama~3B, Mistral~7B, Llama~70B, and Claude Haiku respectively; mean $|\rho| = 0.15$). The 70B model shows near-zero correlation ($\rho = -0.02$, $p = 0.88$), further confirming the dissociation. Instead, assertiveness correlates most strongly with confidence word count (mean $|\rho| = 0.45$, $p < 0.001$ on all models) and average response length (mean $|\rho| = 0.31$). This suggests the LLM extractor captures a latent behavioral dimension---assertive self-defense through confidence language---that is not reducible to simple refusal/correction markers. The modest but consistent correlation between hedge count and assertiveness (mean $|\rho| = 0.34$) further supports partial but not complete overlap.
 
 \paragraph{Consistency tracks response length.} The strongest correlate of LLM-extracted consistency is average response length ($|\rho| = 0.35$), reflecting that longer, more detailed responses are rated as more consistent. This is expected: models providing substantive answers (truthful or well-fabricated lies) generate longer responses than those hedging or deflecting.
 

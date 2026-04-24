@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  23 APR 2026 17:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  24 APR 2026 06:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -959,7 +959,9 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 [4]) (./sections/methodology.tex
 
 [5]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 62
+
+[6]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 73
 .
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -970,23 +972,30 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[6]
-Underfull \hbox (badness 4120) in paragraph at lines 110--111
+[7]
+Underfull \hbox (badness 4120) in paragraph at lines 121--122
 []\T1/ptm/m/n/9 (+20) Truthful re-spon-dents typ-i-cally
  []
 
 
-Underfull \hbox (badness 1226) in paragraph at lines 112--113
+Underfull \hbox (badness 2521) in paragraph at lines 122--123
+[]\T1/ptm/m/n/9 (+20) Models con-fronted with false
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 123--124
 []\T1/ptm/m/n/9 (+20) Liars may over-ex-plain (to ap-
  []
 
 
 
-[7]) (./sections/experiments.tex
-
-[8]
+[8]) (./sections/experiments.tex
 
 [9]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 
 [10]
 
@@ -999,15 +1008,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-
 [13]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 
 [14]
 
@@ -1016,6 +1017,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [16]
 
 [17]
+
+[18]
 Overfull \hbox (3.0045pt too wide) in paragraph at lines 275--276
 []\T1/ptm/b/n/10 (-20) Gap de-com-po-si-tion. \T1/ptm/m/n/10 (-20) The three-co
 ndition com-par-i-son yields a clean de-com-po-si-tion (all on Llama 70B): 
@@ -1023,10 +1026,10 @@ ndition com-par-i-son yields a clean de-com-po-si-tion (all on Llama 70B):
 
 
 
-[18]
-
 [19]
-<figures/scale_trend.pdf, id=495, 390.1865pt x 280.05254pt>
+
+[20]
+<figures/scale_trend.pdf, id=520, 390.1865pt x 280.05254pt>
 File: figures/scale_trend.pdf Graphic file (type pdf)
 <use figures/scale_trend.pdf>
 Package pdftex.def Info: figures/scale_trend.pdf  used on input line 320.
@@ -1035,7 +1038,7 @@ Package pdftex.def Info: figures/scale_trend.pdf  used on input line 320.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/feature_collapse.pdf, id=496, 859.63786pt x 261.91829pt>
+<figures/feature_collapse.pdf, id=521, 859.63786pt x 261.91829pt>
 File: figures/feature_collapse.pdf Graphic file (type pdf)
 <use figures/feature_collapse.pdf>
 Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 327.
@@ -1048,17 +1051,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[20]
+[21]
 
-[21 <./figures/scale_trend.pdf>]
+[22 <./figures/scale_trend.pdf>]
 
-[22 <./figures/feature_collapse.pdf>]
-
-[23]) (./sections/discussion.tex
+[23 <./figures/feature_collapse.pdf>]
 
 [24]
 
-[25]
+[25]) (./sections/discussion.tex
 
 [26]
 
@@ -1070,17 +1071,19 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [30]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-
 [31]
 
 [32]
 
-[33]) (./sections/conclusion.tex
+[33]
 
-[34]) (./main.bbl
+[34]
+
+[35]
+
+[36]) (./sections/conclusion.tex)
+
+[37] (./main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\T1/ptm/m/n/10 (+20) Anthropic.  The Claude 3 model fam-ily: Opus, Son-net, H
 aiku.  Tech-ni-
@@ -1094,9 +1097,9 @@ s : / / www-[]cdn . anthropic . com /
 
 
 
-[35]
+[38]
 
-[36]) (./sections/appendix.tex
+[39]) (./sections/appendix.tex
 Overfull \hbox (12.91455pt too wide) in paragraph at lines 17--17
 []      \T1/pcr/m/n/9 A: Yes, that's correct. I can provide more specific detai
 ls if needed.[] 
@@ -1104,13 +1107,17 @@ ls if needed.[]
 
 
 
-[37]
-
-[38]
-
-[39]
-
 [40]
+
+[41]
+
+[42]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[43]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1119,24 +1126,28 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
 
-[41]
+[44]
 
-[42] (./main.aux)
+[45] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 2A8B482CD9FDFD2B0A242DE4AC0F0DBD;8097.
+(rerunfilecheck)             Checksum: 173B3EAB71F220A8BD17EB83D8A4B316;8613.
  ) 
 Here is how much of TeX's memory you used:
- 28872 strings out of 473190
- 524456 string characters out of 5715801
- 949666 words of memory out of 5000000
- 50939 multiletter control sequences out of 15000+600000
- 630870 words of font info for 415 fonts, out of 8000000 for 9000
+ 28901 strings out of 473190
+ 524957 string characters out of 5715801
+ 947544 words of memory out of 5000000
+ 50947 multiletter control sequences out of 15000+600000
+ 631360 words of font info for 419 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,87p,4068b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,87p,4473b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
@@ -1153,10 +1164,10 @@ al/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/te
 xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/f
 onts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (42 pages, 411859 bytes).
+Output written on main.pdf (45 pages, 425362 bytes).
 PDF statistics:
- 1003 PDF objects out of 1200 (max. 8388607)
- 759 compressed objects within 8 object streams
- 215 named destinations out of 1000 (max. 500000)
- 67431 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 1056 PDF objects out of 1200 (max. 8388607)
+ 805 compressed objects within 9 object streams
+ 231 named destinations out of 1000 (max. 500000)
+ 67447 words of extra memory for PDF output out of 74296 (max. 10000000)
 

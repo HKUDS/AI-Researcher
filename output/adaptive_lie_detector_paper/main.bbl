@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -100,6 +100,13 @@ Kenneth Li et~al.
 \newblock Inference-time intervention: Eliciting truthful answers from a
   language model.
 \newblock \emph{arXiv preprint arXiv:2306.03341}, 2024.
+
+\bibitem[Meinke et~al.(2025)Meinke, Woods, Scheurer, Balesni, Shah, and
+  Hobbhahn]{meinke2025frontiermodelsarecapable}
+Alexander Meinke, Bronwyn Woods, Jérémy Scheurer, Mikita Balesni, Rusheb
+  Shah, and Marius Hobbhahn.
+\newblock Frontier models are capable of in-context scheming.
+\newblock \emph{arXiv preprint arXiv:2412.04984}, 2025.
 
 \bibitem[{Meta AI}(2024)]{meta2024llama3}
 {Meta AI}.

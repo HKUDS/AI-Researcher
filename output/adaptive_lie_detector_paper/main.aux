@@ -11,7 +11,6 @@
 \citation{goodfellow2014explaining}
 \citation{perez2022ignore}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Adversarial Examples and Prompt Injection}{3}{subsection.2.1}\protected@file@percent }
 \citation{zou2023representation}
 \citation{burns2022discovering}
 \citation{azaria2023internal}
@@ -21,10 +20,10 @@
 \citation{sharma2023sycophancy}
 \citation{ganguli2022red}
 \citation{perez2022red}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Adversarial Examples and Prompt Injection}{4}{subsection.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Representation Engineering and Probing Classifiers}{4}{subsection.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Black-box behavioral approaches.}{4}{paragraph*.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Sycophancy and instruction-following controls.}{4}{paragraph*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}LLM Red-Teaming and Evaluation}{4}{subsection.2.3}\protected@file@percent }
 \citation{scheurer2024strategic}
 \citation{greenblatt2024alignment}
 \citation{denison2024sycophancy}
@@ -34,182 +33,200 @@
 \citation{zou2023representation,burns2022discovering,azaria2023internal,li2024inference}
 \citation{ganguli2022red,perez2022red}
 \citation{scheurer2024strategic,greenblatt2024alignment,denison2024sycophancy}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}LLM Red-Teaming and Evaluation}{5}{subsection.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Autonomous deception and strategic behavior.}{5}{paragraph*.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{LLM-as-judge reliability.}{5}{paragraph*.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Summary of the gap.}{5}{paragraph*.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{5}{section.3}\protected@file@percent }
 \newlabel{sec:methodology}{{3}{5}{Methodology}{section.3}{}}
-\citation{hubinger2024sleeper,park2023ai}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Architecture of the ADAGE pipeline. The target model defends a claim; the interrogator generates probing questions conditioned on dialogue history; the feature extractor rates five behavioral dimensions per response; the logistic regression classifier predicts deception probability; and the adaptive controller terminates when confidence exceeds $\tau $ or max questions are reached. Dashed arrow: feedback loop. The pipeline serves as an experimental vehicle; the contribution is the empirical findings, not the architecture.}}{6}{figure.caption.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Architecture of the ADAGE pipeline. The target model defends a claim; the interrogator generates probing questions conditioned on dialogue history; the feature extractor rates five behavioral dimensions per response; the logistic regression classifier predicts deception probability; and the adaptive controller terminates when confidence exceeds $\tau $ or max questions are reached. Dashed arrow: feedback loop. The pipeline serves as an experimental vehicle; the contribution is the empirical findings, not the architecture.}}{6}{figure.caption.9}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:architecture}{{1}{6}{Architecture of the ADAGE pipeline. The target model defends a claim; the interrogator generates probing questions conditioned on dialogue history; the feature extractor rates five behavioral dimensions per response; the logistic regression classifier predicts deception probability; and the adaptive controller terminates when confidence exceeds $\tau $ or max questions are reached. Dashed arrow: feedback loop. The pipeline serves as an experimental vehicle; the contribution is the empirical findings, not the architecture}{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}System Overview}{6}{subsection.3.1}\protected@file@percent }
-\newlabel{sec:system_overview}{{3.1}{6}{System Overview}{subsection.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Target Model Configuration}{6}{subsection.3.2}\protected@file@percent }
-\newlabel{sec:target_model}{{3.2}{6}{Target Model Configuration}{subsection.3.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Truth Mode}{6}{subsubsection.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Lie Mode}{6}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{fig:architecture}{{1}{6}{Architecture of the ADAGE pipeline. The target model defends a claim; the interrogator generates probing questions conditioned on dialogue history; the feature extractor rates five behavioral dimensions per response; the logistic regression classifier predicts deception probability; and the adaptive controller terminates when confidence exceeds $\tau $ or max questions are reached. Dashed arrow: feedback loop. The pipeline serves as an experimental vehicle; the contribution is the empirical findings, not the architecture}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Evaluation Controls}{6}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:eval_controls}{{3.1}{6}{Evaluation Controls}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Prompt equalization.}{6}{paragraph*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-family feature extraction.}{6}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Surface-level baselines.}{6}{paragraph*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Measurement Apparatus: ADAGE Pipeline}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:system_overview}{{3.2}{6}{Measurement Apparatus: ADAGE Pipeline}{subsection.3.2}{}}
+\citation{hubinger2024sleeper,park2023ai}
 \citation{vrij2019cognitive}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Behavioral features extracted from each target response. All features are scored on an integer scale from 0 to 10 by an LLM judge.}}{7}{table.caption.7}\protected@file@percent }
-\newlabel{tab:behavioral_features}{{1}{7}{Behavioral features extracted from each target response. All features are scored on an integer scale from 0 to 10 by an LLM judge}{table.caption.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Scope Note}{7}{subsubsection.3.2.3}\protected@file@percent }
-\newlabel{sec:scope_note}{{3.2.3}{7}{Scope Note}{subsubsection.3.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Interrogation Strategy}{7}{subsection.3.3}\protected@file@percent }
-\newlabel{sec:interrogation}{{3.3}{7}{Interrogation Strategy}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Feature Extraction}{7}{subsection.3.4}\protected@file@percent }
-\newlabel{sec:feature_extraction}{{3.4}{7}{Feature Extraction}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Target Model Configuration}{7}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:target_model}{{3.3}{7}{Target Model Configuration}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Truth Mode}{7}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Lie Mode}{7}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Scope Note}{7}{subsubsection.3.3.3}\protected@file@percent }
+\newlabel{sec:scope_note}{{3.3.3}{7}{Scope Note}{subsubsection.3.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Interrogation Strategy}{7}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:interrogation}{{3.4}{7}{Interrogation Strategy}{subsection.3.4}{}}
 \citation{anthropic2024claude}
 \citation{vrij2008detecting}
-\@writefile{toc}{\contentsline {paragraph}{Feature validity note.}{8}{paragraph*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Classification}{8}{subsection.3.5}\protected@file@percent }
-\newlabel{sec:classification}{{3.5}{8}{Classification}{subsection.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Adaptive Stopping}{8}{subsection.3.6}\protected@file@percent }
-\newlabel{sec:adaptive_stopping}{{3.6}{8}{Adaptive Stopping}{subsection.3.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{8}{section.4}\protected@file@percent }
-\newlabel{sec:experiments}{{4}{8}{Experiments}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{8}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:setup}{{4.1}{8}{Experimental Setup}{subsection.4.1}{}}
-\citation{anthropic2024claude}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Hyperparameters for the adaptive interrogation system.}}{9}{table.caption.9}\protected@file@percent }
-\newlabel{tab:hyperparams}{{2}{9}{Hyperparameters for the adaptive interrogation system}{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Behavioral features extracted from each target response. All features are scored on an integer scale from 0 to 10 by an LLM judge.}}{8}{table.caption.10}\protected@file@percent }
+\newlabel{tab:behavioral_features}{{1}{8}{Behavioral features extracted from each target response. All features are scored on an integer scale from 0 to 10 by an LLM judge}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Feature Extraction}{8}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:feature_extraction}{{3.5}{8}{Feature Extraction}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feature validity note.}{8}{paragraph*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Classification}{8}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:classification}{{3.6}{8}{Classification}{subsection.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Adaptive Stopping}{9}{subsection.3.7}\protected@file@percent }
+\newlabel{sec:adaptive_stopping}{{3.7}{9}{Adaptive Stopping}{subsection.3.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{9}{section.4}\protected@file@percent }
+\newlabel{sec:experiments}{{4}{9}{Experiments}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{9}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:setup}{{4.1}{9}{Experimental Setup}{subsection.4.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Hyperparameters for the adaptive interrogation system.}}{9}{table.caption.12}\protected@file@percent }
+\newlabel{tab:hyperparams}{{2}{9}{Hyperparameters for the adaptive interrogation system}{table.caption.12}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Mock Pipeline Validation}{9}{subsection.4.2}\protected@file@percent }
 \newlabel{sec:mock_validation}{{4.2}{9}{Mock Pipeline Validation}{subsection.4.2}{}}
 \newlabel{sec:failure_analysis}{{4.2}{9}{Mock Pipeline Validation}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Claude Haiku 4.5 Evaluation at Scale}{9}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:real_llm_pilot}{{4.3}{9}{Claude Haiku 4.5 Evaluation at Scale}{subsection.4.3}{}}
-\newlabel{sec:claude_haiku_n100}{{4.3}{9}{Claude Haiku 4.5 Evaluation at Scale}{subsection.4.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{9}{paragraph*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Recalibration.}{9}{paragraph*.11}\protected@file@percent }
+\citation{anthropic2024claude}
 \citation{meta2024llama3}
-\@writefile{toc}{\contentsline {paragraph}{Cross-model confound.}{10}{paragraph*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Claude Haiku 4.5 Evaluation at Scale}{10}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:real_llm_pilot}{{4.3}{10}{Claude Haiku 4.5 Evaluation at Scale}{subsection.4.3}{}}
+\newlabel{sec:claude_haiku_n100}{{4.3}{10}{Claude Haiku 4.5 Evaluation at Scale}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{10}{paragraph*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Recalibration.}{10}{paragraph*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-model confound.}{10}{paragraph*.15}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Open-Weight Real LLM Evaluation (Llama~3.2~3B via Ollama)}{10}{subsection.4.4}\protected@file@percent }
 \newlabel{sec:ollama_eval}{{4.4}{10}{Open-Weight Real LLM Evaluation (Llama~3.2~3B via Ollama)}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Feature distribution comparison.}{10}{paragraph*.13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Feature separability (Cohen's $|d|$) across settings. All features preserve directional signal; magnitude varies with model scale. Accuracy results for the same models are in Table~\ref {tab:model_comparison}.}}{10}{table.caption.14}\protected@file@percent }
-\newlabel{tab:feature_comparison}{{3}{10}{Feature separability (Cohen's $|d|$) across settings. All features preserve directional signal; magnitude varies with model scale. Accuracy results for the same models are in Table~\ref {tab:model_comparison}}{table.caption.14}{}}
-\@writefile{toc}{\contentsline {paragraph}{Why truthful accuracy collapses.}{10}{paragraph*.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-model confound.}{10}{paragraph*.16}\protected@file@percent }
-\citation{jiang2023mistral}
-\@writefile{toc}{\contentsline {paragraph}{Opposite error profiles across models.}{11}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Feature distribution comparison.}{10}{paragraph*.16}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Feature separability (Cohen's $|d|$) across settings. All features preserve directional signal; magnitude varies with model scale. Accuracy results for the same models are in Table~\ref {tab:model_comparison}.}}{11}{table.caption.17}\protected@file@percent }
+\newlabel{tab:feature_comparison}{{3}{11}{Feature separability (Cohen's $|d|$) across settings. All features preserve directional signal; magnitude varies with model scale. Accuracy results for the same models are in Table~\ref {tab:model_comparison}}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{Why truthful accuracy collapses.}{11}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-model confound.}{11}{paragraph*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Opposite error profiles across models.}{11}{paragraph*.20}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Recalibration on Real LLM Data}{11}{subsection.4.5}\protected@file@percent }
 \newlabel{sec:recalibration}{{4.5}{11}{Recalibration on Real LLM Data}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cross-Model Evaluation: Mistral~7B}{11}{subsection.4.6}\protected@file@percent }
-\newlabel{sec:mistral_eval}{{4.6}{11}{Cross-Model Evaluation: Mistral~7B}{subsection.4.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Cross-model comparison with mock-trained classifier ($N=4$ models). All models evaluated with Claude Haiku~4.5 as interrogator/extractor; cross-family extraction is inherent for Llama and Mistral targets. Feature-level separability is in Table~\ref {tab:feature_comparison}.}}{11}{table.caption.18}\protected@file@percent }
-\newlabel{tab:model_comparison}{{4}{11}{Cross-model comparison with mock-trained classifier ($N=4$ models). All models evaluated with Claude Haiku~4.5 as interrogator/extractor; cross-family extraction is inherent for Llama and Mistral targets. Feature-level separability is in Table~\ref {tab:feature_comparison}}{table.caption.18}{}}
-\@writefile{toc}{\contentsline {paragraph}{Key finding: model scale mediates transfer.}{11}{paragraph*.19}\protected@file@percent }
+\citation{jiang2023mistral}
 \citation{meta2024llama3}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Scale Evaluation: Llama~3.3~70B via AWS Bedrock}{12}{subsection.4.7}\protected@file@percent }
-\newlabel{sec:llama70b_eval}{{4.7}{12}{Scale Evaluation: Llama~3.3~70B via AWS Bedrock}{subsection.4.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Mock-trained performance.}{12}{paragraph*.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{12}{paragraph*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{LOO recalibration.}{12}{paragraph*.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Fixed-$K$ ablation.}{12}{paragraph*.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Hedging baseline.}{13}{paragraph*.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Knowledge pre-check.}{13}{paragraph*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Claim-type asymmetry caveat.}{13}{paragraph*.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Prompt-Equalized Control (EXP-1)}{13}{subsection.4.8}\protected@file@percent }
-\newlabel{sec:prompt_equalized}{{4.8}{13}{Prompt-Equalized Control (EXP-1)}{subsection.4.8}{}}
-\@writefile{toc}{\contentsline {paragraph}{Key finding: signal is predominantly prompt-driven.}{13}{paragraph*.28}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Feature-level separability analysis.}{13}{paragraph*.29}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Prompt-equalized control vs.\ original instructed condition. All equalized evaluations use Claude Haiku~4.5 as interrogator and feature extractor (cross-family for Llama and Mistral targets; same-family for the Claude Haiku pilot). Table~\ref {tab:cross_family_equalized} reports accuracy under an independent Mistral Large extractor.}}{14}{table.caption.27}\protected@file@percent }
-\newlabel{tab:prompt_equalized}{{5}{14}{Prompt-equalized control vs.\ original instructed condition. All equalized evaluations use Claude Haiku~4.5 as interrogator and feature extractor (cross-family for Llama and Mistral targets; same-family for the Claude Haiku pilot). Table~\ref {tab:cross_family_equalized} reports accuracy under an independent Mistral Large extractor}{table.caption.27}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B). Under equalization, all features collapse; defensiveness is the only informative feature. Note: instructed $|d|$ values differ slightly from Table~\ref {tab:feature_comparison} (e.g., defensiveness 3.32 vs.\ 3.35) because they are computed on the matched claim subset used in the equalized experiment rather than the original 100-claim set.}}{14}{table.caption.30}\protected@file@percent }
-\newlabel{tab:equalized_feature_d}{{6}{14}{Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B). Under equalization, all features collapse; defensiveness is the only informative feature. Note: instructed $|d|$ values differ slightly from Table~\ref {tab:feature_comparison} (e.g., defensiveness 3.32 vs.\ 3.35) because they are computed on the matched claim subset used in the equalized experiment rather than the original 100-claim set}{table.caption.30}{}}
-\@writefile{toc}{\contentsline {paragraph}{5-fold CV stability.}{14}{paragraph*.31}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Accuracy by claim category.}{14}{paragraph*.32}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.2~3B ($n=100$).}{14}{paragraph*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Cross-Model Evaluation: Mistral~7B}{12}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:mistral_eval}{{4.6}{12}{Cross-Model Evaluation: Mistral~7B}{subsection.4.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Cross-model comparison with mock-trained classifier ($N=4$ models). All models evaluated with Claude Haiku~4.5 as interrogator/extractor; cross-family extraction is inherent for Llama and Mistral targets. Feature-level separability is in Table~\ref {tab:feature_comparison}.}}{12}{table.caption.21}\protected@file@percent }
+\newlabel{tab:model_comparison}{{4}{12}{Cross-model comparison with mock-trained classifier ($N=4$ models). All models evaluated with Claude Haiku~4.5 as interrogator/extractor; cross-family extraction is inherent for Llama and Mistral targets. Feature-level separability is in Table~\ref {tab:feature_comparison}}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{Key finding: model scale mediates transfer.}{12}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Scale Evaluation: Llama~3.3~70B via AWS Bedrock}{13}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:llama70b_eval}{{4.7}{13}{Scale Evaluation: Llama~3.3~70B via AWS Bedrock}{subsection.4.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Mock-trained performance.}{13}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{13}{paragraph*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{LOO recalibration.}{13}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fixed-$K$ ablation.}{13}{paragraph*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hedging baseline.}{13}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Knowledge pre-check.}{13}{paragraph*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Claim-type asymmetry caveat.}{13}{paragraph*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Prompt-Equalized Control (EXP-1)}{14}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:prompt_equalized}{{4.8}{14}{Prompt-Equalized Control (EXP-1)}{subsection.4.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Prompt-equalized control vs.\ original instructed condition. All equalized evaluations use Claude Haiku~4.5 as interrogator and feature extractor (cross-family for Llama and Mistral targets; same-family for the Claude Haiku pilot). Llama~3.1~8B was evaluated only under equalized and instructed-matched conditions (Sections~\ref {sec:prompt_equalized},~\ref {sec:instructed_matched}), not the original instructed condition with asymmetric experiential claims. Table~\ref {tab:cross_family_equalized} reports accuracy under an independent Mistral Large extractor.}}{14}{table.caption.30}\protected@file@percent }
+\newlabel{tab:prompt_equalized}{{5}{14}{Prompt-equalized control vs.\ original instructed condition. All equalized evaluations use Claude Haiku~4.5 as interrogator and feature extractor (cross-family for Llama and Mistral targets; same-family for the Claude Haiku pilot). Llama~3.1~8B was evaluated only under equalized and instructed-matched conditions (Sections~\ref {sec:prompt_equalized},~\ref {sec:instructed_matched}), not the original instructed condition with asymmetric experiential claims. Table~\ref {tab:cross_family_equalized} reports accuracy under an independent Mistral Large extractor}{table.caption.30}{}}
+\@writefile{toc}{\contentsline {paragraph}{Key finding: signal is predominantly prompt-driven.}{14}{paragraph*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Feature-level separability analysis.}{14}{paragraph*.32}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B). Under equalization, all features collapse; assertiveness is the only informative feature. Note: instructed $|d|$ values differ slightly from Table~\ref {tab:feature_comparison} (e.g., assertiveness 3.32 vs.\ 3.35) because they are computed on the matched claim subset used in the equalized experiment rather than the original 100-claim set.}}{15}{table.caption.33}\protected@file@percent }
+\newlabel{tab:equalized_feature_d}{{6}{15}{Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B). Under equalization, all features collapse; assertiveness is the only informative feature. Note: instructed $|d|$ values differ slightly from Table~\ref {tab:feature_comparison} (e.g., assertiveness 3.32 vs.\ 3.35) because they are computed on the matched claim subset used in the equalized experiment rather than the original 100-claim set}{table.caption.33}{}}
+\@writefile{toc}{\contentsline {paragraph}{5-fold CV stability.}{15}{paragraph*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Accuracy by claim category.}{15}{paragraph*.35}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Equalized LOO accuracy by claim category (Mistral~7B, $n=100$). Accuracy computed from the same LOO classifier as Table~\ref {tab:prompt_equalized} (overall 71\%); categories sum to 71/100 = 71\%.}}{15}{table.caption.36}\protected@file@percent }
+\newlabel{tab:category_accuracy}{{7}{15}{Equalized LOO accuracy by claim category (Mistral~7B, $n=100$). Accuracy computed from the same LOO classifier as Table~\ref {tab:prompt_equalized} (overall 71\%); categories sum to 71/100 = 71\%}{table.caption.36}{}}
+\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.2~3B ($n=100$).}{15}{paragraph*.37}\protected@file@percent }
 \citation{qwen2025qwen25}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Equalized LOO accuracy by claim category (Mistral~7B, $n=100$). Accuracy computed from the same LOO classifier as Table~\ref {tab:prompt_equalized} (overall 71\%); categories sum to 71/100 = 71\%.}}{15}{table.caption.33}\protected@file@percent }
-\newlabel{tab:category_accuracy}{{7}{15}{Equalized LOO accuracy by claim category (Mistral~7B, $n=100$). Accuracy computed from the same LOO classifier as Table~\ref {tab:prompt_equalized} (overall 71\%); categories sum to 71/100 = 71\%}{table.caption.33}{}}
-\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.1~8B ($n=100$).}{15}{paragraph*.35}\protected@file@percent }
-\newlabel{sec:llama8b_equalized}{{4.8}{15}{Replication on Llama~3.1~8B ($n=100$)}{paragraph*.35}{}}
-\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.3~70B ($n=93$).}{15}{paragraph*.36}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Mid-scale point: Qwen~2.5~14B ($n=97$).}{16}{paragraph*.37}\protected@file@percent }
-\newlabel{sec:qwen14b_equalized}{{4.8}{16}{Mid-scale point: Qwen~2.5~14B ($n=97$)}{paragraph*.37}{}}
-\@writefile{toc}{\contentsline {paragraph}{Within-family scale control: Qwen~2.5~7B ($n=100$).}{16}{paragraph*.38}\protected@file@percent }
-\newlabel{sec:qwen7b_equalized}{{4.8}{16}{Within-family scale control: Qwen~2.5~7B ($n=100$)}{paragraph*.38}{}}
-\@writefile{toc}{\contentsline {paragraph}{Full evaluation on Claude Haiku~4.5 ($n=99$).}{16}{paragraph*.39}\protected@file@percent }
-\newlabel{sec:haiku_equalized}{{4.8}{16}{Full evaluation on Claude Haiku~4.5 ($n=99$)}{paragraph*.39}{}}
-\@writefile{toc}{\contentsline {paragraph}{Implications.}{16}{paragraph*.40}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-family re-extraction on equalized data (EXP-H).}{17}{paragraph*.41}\protected@file@percent }
-\newlabel{sec:cross_family_equalized}{{4.8}{17}{Cross-family re-extraction on equalized data (EXP-H)}{paragraph*.41}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Cross-family re-extraction on equalized data (EXP-H). LOO accuracy using Claude Haiku~4.5, Mistral Large~3, or Qwen~2.5~14B as feature extractor. The Mistral Large / Mistral~7B cell ($\dagger $) is a same-family evaluation; all other cells are cross-family.}}{17}{table.caption.42}\protected@file@percent }
-\newlabel{tab:cross_family_equalized}{{8}{17}{Cross-family re-extraction on equalized data (EXP-H). LOO accuracy using Claude Haiku~4.5, Mistral Large~3, or Qwen~2.5~14B as feature extractor. The Mistral Large / Mistral~7B cell ($\dagger $) is a same-family evaluation; all other cells are cross-family}{table.caption.42}{}}
-\@writefile{toc}{\contentsline {paragraph}{Qwen monotonicity diagnostic.}{17}{paragraph*.43}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Instructed-matched control (EXP-G).}{18}{paragraph*.44}\protected@file@percent }
-\newlabel{sec:instructed_matched}{{4.8}{18}{Instructed-matched control (EXP-G)}{paragraph*.44}{}}
-\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.2~3B (EXP-G).}{18}{paragraph*.45}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Replication on Qwen~2.5~14B (EXP-G).}{19}{paragraph*.46}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Replication on Mistral~7B (EXP-G).}{19}{paragraph*.47}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.1~8B (EXP-G).}{19}{paragraph*.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-scale EXP-G comparison.}{20}{paragraph*.49}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Scale trend and feature collapse (Figures~\ref {fig:scale_trend}--\ref {fig:feature_collapse}).}{20}{paragraph*.50}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Enhanced Zero-Shot LLM Judge Baselines (EXP-3)}{20}{subsection.4.9}\protected@file@percent }
-\newlabel{sec:zero_shot}{{4.9}{20}{Enhanced Zero-Shot LLM Judge Baselines (EXP-3)}{subsection.4.9}{}}
-\@writefile{toc}{\contentsline {paragraph}{Chain-of-thought hurts.}{20}{paragraph*.54}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange; error bars: bootstrap 95\% CIs). The trend exhibits a two-tier structure: models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (group difference $p < 0.0001$), with no individual adjacent increment significant after Holm-Bonferroni correction. The within-family Qwen pair (7B: 74\%, 14B: 82.5\%) confirms the structure holds within a single family.}}{21}{figure.caption.51}\protected@file@percent }
-\newlabel{fig:scale_trend}{{2}{21}{Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange; error bars: bootstrap 95\% CIs). The trend exhibits a two-tier structure: models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (group difference $p < 0.0001$), with no individual adjacent increment significant after Holm-Bonferroni correction. The within-family Qwen pair (7B: 74\%, 14B: 82.5\%) confirms the structure holds within a single family}{figure.caption.51}{}}
-\@writefile{toc}{\contentsline {paragraph}{Best zero-shot still below recalibrated pipeline.}{21}{paragraph*.55}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Evaluator bias.}{21}{paragraph*.56}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Feature separability collapse: instructed (filled) vs.\ equalized (hatched) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; defensiveness retains the most signal.}}{22}{figure.caption.52}\protected@file@percent }
-\newlabel{fig:feature_collapse}{{3}{22}{Feature separability collapse: instructed (filled) vs.\ equalized (hatched) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; defensiveness retains the most signal}{figure.caption.52}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Enhanced zero-shot variants vs.\ feature pipeline. \emph  {Mock-trained} = mock-distribution classifier; \emph  {Recalibrated} = LOO retrained on target data.}}{22}{table.caption.53}\protected@file@percent }
-\newlabel{tab:zero_shot_comparison}{{9}{22}{Enhanced zero-shot variants vs.\ feature pipeline. \emph {Mock-trained} = mock-distribution classifier; \emph {Recalibrated} = LOO retrained on target data}{table.caption.53}{}}
+\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.1~8B ($n=100$).}{16}{paragraph*.38}\protected@file@percent }
+\newlabel{sec:llama8b_equalized}{{4.8}{16}{Replication on Llama~3.1~8B ($n=100$)}{paragraph*.38}{}}
+\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.3~70B ($n=93$).}{16}{paragraph*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mid-scale point: Qwen~2.5~14B ($n=97$).}{16}{paragraph*.40}\protected@file@percent }
+\newlabel{sec:qwen14b_equalized}{{4.8}{16}{Mid-scale point: Qwen~2.5~14B ($n=97$)}{paragraph*.40}{}}
+\@writefile{toc}{\contentsline {paragraph}{Within-family scale control: Qwen~2.5~7B ($n=100$).}{16}{paragraph*.41}\protected@file@percent }
+\newlabel{sec:qwen7b_equalized}{{4.8}{16}{Within-family scale control: Qwen~2.5~7B ($n=100$)}{paragraph*.41}{}}
+\@writefile{toc}{\contentsline {paragraph}{Full evaluation on Claude Haiku~4.5 ($n=99$).}{17}{paragraph*.42}\protected@file@percent }
+\newlabel{sec:haiku_equalized}{{4.8}{17}{Full evaluation on Claude Haiku~4.5 ($n=99$)}{paragraph*.42}{}}
+\@writefile{toc}{\contentsline {paragraph}{Implications.}{17}{paragraph*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-family re-extraction on equalized data (EXP-H).}{17}{paragraph*.44}\protected@file@percent }
+\newlabel{sec:cross_family_equalized}{{4.8}{17}{Cross-family re-extraction on equalized data (EXP-H)}{paragraph*.44}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Cross-family re-extraction on equalized data (EXP-H). LOO accuracy using Claude Haiku~4.5, Mistral Large~3, or Qwen~2.5~14B as feature extractor. The Mistral Large / Mistral~7B cell ($\dagger $) is a same-family evaluation; all other cells are cross-family.}}{18}{table.caption.45}\protected@file@percent }
+\newlabel{tab:cross_family_equalized}{{8}{18}{Cross-family re-extraction on equalized data (EXP-H). LOO accuracy using Claude Haiku~4.5, Mistral Large~3, or Qwen~2.5~14B as feature extractor. The Mistral Large / Mistral~7B cell ($\dagger $) is a same-family evaluation; all other cells are cross-family}{table.caption.45}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qwen monotonicity diagnostic.}{18}{paragraph*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Instructed-matched control (EXP-G).}{19}{paragraph*.47}\protected@file@percent }
+\newlabel{sec:instructed_matched}{{4.8}{19}{Instructed-matched control (EXP-G)}{paragraph*.47}{}}
+\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.2~3B (EXP-G).}{19}{paragraph*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Replication on Qwen~2.5~14B (EXP-G).}{19}{paragraph*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Replication on Mistral~7B (EXP-G).}{20}{paragraph*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Replication on Llama~3.1~8B (EXP-G).}{20}{paragraph*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-scale EXP-G comparison.}{20}{paragraph*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Scale trend and feature collapse (Figures~\ref {fig:scale_trend}--\ref {fig:feature_collapse}).}{21}{paragraph*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Enhanced Zero-Shot LLM Judge Baselines (EXP-3)}{21}{subsection.4.9}\protected@file@percent }
+\newlabel{sec:zero_shot}{{4.9}{21}{Enhanced Zero-Shot LLM Judge Baselines (EXP-3)}{subsection.4.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Chain-of-thought hurts.}{21}{paragraph*.57}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange; error bars: bootstrap 95\% CIs). Models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (pooled group difference $p < 0.0001$); no individual adjacent increment is significant after Holm-Bonferroni correction. The within-family Qwen pair (7B: 74\%, 14B: 82.5\%) is directionally consistent (Fisher $p=0.17$). The hedging regex baseline is at or above the LLM pipeline at every scale point.}}{22}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:scale_trend}{{2}{22}{Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange; error bars: bootstrap 95\% CIs). Models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (pooled group difference $p < 0.0001$); no individual adjacent increment is significant after Holm-Bonferroni correction. The within-family Qwen pair (7B: 74\%, 14B: 82.5\%) is directionally consistent (Fisher $p=0.17$). The hedging regex baseline is at or above the LLM pipeline at every scale point}{figure.caption.54}{}}
+\@writefile{toc}{\contentsline {paragraph}{Best zero-shot still below recalibrated pipeline.}{22}{paragraph*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluator bias.}{22}{paragraph*.59}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Adaptive Stopping Efficiency}{22}{subsection.4.10}\protected@file@percent }
 \newlabel{sec:threshold_sweep}{{4.10}{22}{Adaptive Stopping Efficiency}{subsection.4.10}{}}
 \newlabel{sec:fixed_k}{{4.10}{22}{Adaptive Stopping Efficiency}{subsection.4.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{Marginal value of multi-turn interrogation.}{22}{paragraph*.57}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Feature separability collapse: instructed (filled) vs.\ equalized (hatched) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; assertiveness retains the most signal.}}{23}{figure.caption.55}\protected@file@percent }
+\newlabel{fig:feature_collapse}{{3}{23}{Feature separability collapse: instructed (filled) vs.\ equalized (hatched) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; assertiveness retains the most signal}{figure.caption.55}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Enhanced zero-shot variants vs.\ feature pipeline. \emph  {Mock-trained} = mock-distribution classifier; \emph  {Recalibrated} = LOO retrained on target data.}}{23}{table.caption.56}\protected@file@percent }
+\newlabel{tab:zero_shot_comparison}{{9}{23}{Enhanced zero-shot variants vs.\ feature pipeline. \emph {Mock-trained} = mock-distribution classifier; \emph {Recalibrated} = LOO retrained on target data}{table.caption.56}{}}
+\@writefile{toc}{\contentsline {paragraph}{Marginal value of multi-turn interrogation.}{23}{paragraph*.60}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.11}Held-Out Evaluation and Permutation Test (EXP-B)}{23}{subsection.4.11}\protected@file@percent }
 \newlabel{sec:held_out}{{4.11}{23}{Held-Out Evaluation and Permutation Test (EXP-B)}{subsection.4.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.12}Simple Heuristic Baseline (EXP-C)}{23}{subsection.4.12}\protected@file@percent }
-\newlabel{sec:hedging_baseline}{{4.12}{23}{Simple Heuristic Baseline (EXP-C)}{subsection.4.12}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Hedging baseline features (EXP-C). All extracted via regex from response text; no LLM calls required.}}{23}{table.caption.58}\protected@file@percent }
-\newlabel{tab:hedging_features}{{10}{23}{Hedging baseline features (EXP-C). All extracted via regex from response text; no LLM calls required}{table.caption.58}{}}
-\@writefile{toc}{\contentsline {paragraph}{EXP-D: Hedging Baseline on Equalized Condition.}{23}{paragraph*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12}Simple Heuristic Baseline (EXP-C)}{24}{subsection.4.12}\protected@file@percent }
+\newlabel{sec:hedging_baseline}{{4.12}{24}{Simple Heuristic Baseline (EXP-C)}{subsection.4.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Hedging baseline features (EXP-C). All extracted via regex from response text; no LLM calls required.}}{24}{table.caption.61}\protected@file@percent }
+\newlabel{tab:hedging_features}{{10}{24}{Hedging baseline features (EXP-C). All extracted via regex from response text; no LLM calls required}{table.caption.61}{}}
+\@writefile{toc}{\contentsline {paragraph}{EXP-D: Hedging Baseline on Equalized Condition.}{24}{paragraph*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{EXP-E: Diagnosing the Llama Equalized Gap.}{24}{paragraph*.63}\protected@file@percent }
+\citation{meinke2025frontiermodelsarecapable}
+\citation{scheurer2024strategic}
+\@writefile{toc}{\contentsline {paragraph}{EXP-J: Refusal-count-only classifier on equalized data.}{25}{paragraph*.64}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Refusal-count-only LOO vs.\ full pipelines on equalized data. A single regex feature (refusal/correction marker count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, sidestepping construct validity concerns about LLM-extracted assertiveness.}}{25}{table.caption.65}\protected@file@percent }
+\newlabel{tab:refusal_only}{{11}{25}{Refusal-count-only LOO vs.\ full pipelines on equalized data. A single regex feature (refusal/correction marker count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, sidestepping construct validity concerns about LLM-extracted assertiveness}{table.caption.65}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.13}Autonomous Deception Pilot (EXP-I)}{25}{subsection.4.13}\protected@file@percent }
+\newlabel{sec:autonomous_pilot}{{4.13}{25}{Autonomous Deception Pilot (EXP-I)}{subsection.4.13}{}}
 \citation{hubinger2019risks}
+\@writefile{toc}{\contentsline {paragraph}{Dataset.}{26}{paragraph*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{26}{paragraph*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison to equalized results.}{26}{paragraph*.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{26}{paragraph*.69}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.14}Claim Category Breakdown (Mock)}{26}{subsection.4.14}\protected@file@percent }
+\newlabel{sec:diverse_claims}{{4.14}{26}{Claim Category Breakdown (Mock)}{subsection.4.14}{}}
 \citation{hubinger2019risks}
 \citation{perez2022discovering}
-\@writefile{toc}{\contentsline {paragraph}{EXP-E: Diagnosing the Llama Equalized Gap.}{24}{paragraph*.60}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.13}Claim Category Breakdown (Mock)}{24}{subsection.4.13}\protected@file@percent }
-\newlabel{sec:diverse_claims}{{4.13}{24}{Claim Category Breakdown (Mock)}{subsection.4.13}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{24}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Instructed Roleplay vs.\ Genuine Deception}{24}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized control (EXP-1).}{25}{paragraph*.61}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Knowledge-transfer confound on small models.}{25}{paragraph*.62}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Claude Haiku Defensiveness: RLHF Safety Compliance}{25}{subsection.5.2}\protected@file@percent }
-\newlabel{sec:haiku_defensiveness}{{5.2}{25}{Claude Haiku Defensiveness: RLHF Safety Compliance}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Disentangling extractor effects.}{27}{paragraph*.63}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Technical Contribution and Novelty}{27}{subsection.5.3}\protected@file@percent }
-\newlabel{sec:novelty}{{5.3}{27}{Technical Contribution and Novelty}{subsection.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Feature Extraction Validity}{28}{subsection.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Classifier weight stability under cross-family extraction.}{28}{paragraph*.64}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Defensiveness: construct validity caveat.}{29}{paragraph*.65}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Feature extractor data leakage concern.}{29}{paragraph*.66}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Human validation of LLM-extracted features.}{29}{paragraph*.67}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Human--LLM agreement and inter-rater reliability ($n=20$, equalized condition, blind annotation). Ann1/Ann2 columns show each annotator's Spearman $\rho $ vs.\ LLM scores; IRR columns show annotator--annotator agreement ($\rho $, ICC, linear $\kappa $). Defensiveness ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95, LLM mean 4.23) while rank ordering is preserved.}}{29}{table.caption.68}\protected@file@percent }
-\newlabel{tab:human_llm_agreement}{{11}{29}{Human--LLM agreement and inter-rater reliability ($n=20$, equalized condition, blind annotation). Ann1/Ann2 columns show each annotator's Spearman $\rho $ vs.\ LLM scores; IRR columns show annotator--annotator agreement ($\rho $, ICC, linear $\kappa $). Defensiveness ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95, LLM mean 4.23) while rank ordering is preserved}{table.caption.68}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{27}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Instructed Roleplay vs.\ Genuine Deception}{27}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized control (EXP-1).}{27}{paragraph*.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Knowledge-transfer confound on small models.}{27}{paragraph*.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Claude Haiku Assertiveness: RLHF Safety Compliance}{28}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:haiku_defensiveness}{{5.2}{28}{Claude Haiku Assertiveness: RLHF Safety Compliance}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Disentangling extractor effects.}{29}{paragraph*.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Technical Contribution and Novelty}{30}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:novelty}{{5.3}{30}{Technical Contribution and Novelty}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Feature Extraction Validity}{31}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Classifier weight stability under cross-family extraction.}{31}{paragraph*.73}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Assertiveness: construct validity caveat.}{31}{paragraph*.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Feature extractor data leakage concern.}{31}{paragraph*.75}\protected@file@percent }
 \citation{platt1999probabilistic}
-\@writefile{toc}{\contentsline {paragraph}{Limitations of the human validation.}{30}{paragraph*.69}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{30}{subsection.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Role of Interrogation vs.\ Recalibration}{31}{subsection.5.6}\protected@file@percent }
-\newlabel{sec:interrogation_role}{{5.6}{31}{Role of Interrogation vs.\ Recalibration}{subsection.5.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{What interrogation provides.}{31}{paragraph*.70}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{The $K=1$ challenge.}{31}{paragraph*.71}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Multi-turn value under equalization.}{31}{paragraph*.72}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Multi-turn value under equalization: $K=1$ (single question) vs.\ adaptive LOO accuracy. The gap generally grows with scale, though Qwen~7B is an exception ($-$3\,pp, likely noise at $n=100$).}}{32}{table.caption.73}\protected@file@percent }
-\newlabel{tab:multiturn_equalized}{{12}{32}{Multi-turn value under equalization: $K=1$ (single question) vs.\ adaptive LOO accuracy. The gap generally grows with scale, though Qwen~7B is an exception ($-$3\,pp, likely noise at $n=100$)}{table.caption.73}{}}
-\@writefile{toc}{\contentsline {paragraph}{Converging evidence of small marginal pipeline value.}{32}{paragraph*.74}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Implications and Future Directions}{32}{subsection.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Human validation of LLM-extracted features.}{32}{paragraph*.76}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Human--LLM agreement and inter-rater reliability ($n=20$, equalized condition, blind annotation). Ann1/Ann2 columns show each annotator's Spearman $\rho $ vs.\ LLM scores; IRR columns show annotator--annotator agreement ($\rho $, ICC, linear $\kappa $). Assertiveness ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95, LLM mean 4.23) while rank ordering is preserved.}}{32}{table.caption.77}\protected@file@percent }
+\newlabel{tab:human_llm_agreement}{{12}{32}{Human--LLM agreement and inter-rater reliability ($n=20$, equalized condition, blind annotation). Ann1/Ann2 columns show each annotator's Spearman $\rho $ vs.\ LLM scores; IRR columns show annotator--annotator agreement ($\rho $, ICC, linear $\kappa $). Assertiveness ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95, LLM mean 4.23) while rank ordering is preserved}{table.caption.77}{}}
+\@writefile{toc}{\contentsline {paragraph}{Limitations of the human validation.}{32}{paragraph*.78}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{33}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Role of Interrogation vs.\ Recalibration}{33}{subsection.5.6}\protected@file@percent }
+\newlabel{sec:interrogation_role}{{5.6}{33}{Role of Interrogation vs.\ Recalibration}{subsection.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{What interrogation provides.}{34}{paragraph*.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{The $K=1$ challenge.}{34}{paragraph*.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Multi-turn value under equalization.}{34}{paragraph*.81}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Multi-turn value under equalization: $K=1$ (single question) vs.\ adaptive LOO accuracy. The gap generally grows with scale, though Qwen~7B is an exception ($-$3\,pp, likely noise at $n=100$).}}{34}{table.caption.82}\protected@file@percent }
+\newlabel{tab:multiturn_equalized}{{13}{34}{Multi-turn value under equalization: $K=1$ (single question) vs.\ adaptive LOO accuracy. The gap generally grows with scale, though Qwen~7B is an exception ($-$3\,pp, likely noise at $n=100$)}{table.caption.82}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qwen~7B $K=1$ anomaly.}{34}{paragraph*.83}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Converging evidence of small marginal pipeline value.}{35}{paragraph*.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Implications and Future Directions}{35}{subsection.5.7}\protected@file@percent }
 \citation{hubinger2024sleeper}
 \citation{greenblatt2024alignment}
 \citation{scheurer2024strategic}
 \citation{denison2024sycophancy}
 \citation{vanderweij2024sandbagging}
-\citation{scheurer2024strategic,greenblatt2024alignment}
-\@writefile{toc}{\contentsline {paragraph}{Cross-claim-set deployment evaluation.}{33}{paragraph*.75}\protected@file@percent }
+\citation{meinke2025frontiermodelsarecapable}
+\@writefile{toc}{\contentsline {paragraph}{Cross-claim-set deployment evaluation.}{36}{paragraph*.85}\protected@file@percent }
 \citation{pacchiardi2023catch}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{34}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{37}{section.6}\protected@file@percent }
 \bibstyle{plainnat}
 \bibdata{references}
 \bibcite{anthropic2024claude}{{1}{2024}{{Anthropic}}{{}}}
@@ -225,57 +242,58 @@
 \bibcite{hubinger2024sleeper}{{11}{2024}{{Hubinger et~al.}}{{}}}
 \bibcite{jiang2023mistral}{{12}{2023}{{Jiang et~al.}}{{Jiang, Sablayrolles, Mensch, Bamford, Chaplot, Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock, Scao, Lavril, Wang, Lacroix, and Sayed}}}
 \bibcite{li2024inference}{{13}{2024}{{Li et~al.}}{{}}}
-\bibcite{meta2024llama3}{{14}{2024}{{Meta AI}}{{}}}
-\bibcite{pacchiardi2023catch}{{15}{2023}{{Pacchiardi et~al.}}{{Pacchiardi, Chan, Mindermann, Moscovitz, Garriga-Alonso, Schultheiss, Steinhardt, and Evans}}}
-\bibcite{park2023ai}{{16}{2023}{{Park et~al.}}{{Park, Goldstein, O'Gara, Chen, and Hendrycks}}}
-\bibcite{perez2022discovering}{{17}{2022{a}}{{Perez et~al.}}{{Perez, Ringer, Luko{\v {s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei, Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller, Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland, Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston, Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai, Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger, Schiefer, and Kaplan}}}
-\bibcite{perez2022red}{{18}{2022{b}}{{Perez et~al.}}{{}}}
-\bibcite{perez2022ignore}{{19}{2022}{{Perez and Ribeiro}}{{}}}
-\bibcite{platt1999probabilistic}{{20}{1999}{{Platt}}{{}}}
-\bibcite{scheurer2024strategic}{{21}{2024}{{Scheurer et~al.}}{{Scheurer, Balesni, and Hobbhahn}}}
-\bibcite{sharma2023sycophancy}{{22}{2023}{{Sharma et~al.}}{{}}}
-\bibcite{qwen2025qwen25}{{23}{2025}{{Team}}{{}}}
-\bibcite{vanderweij2024sandbagging}{{24}{2024}{{van~der Weij et~al.}}{{van~der Weij, Hofst{\"a}tter, Jaffe, Brown, and Ward}}}
-\bibcite{verga2024replacing}{{25}{2024}{{Verga et~al.}}{{Verga, Hofst{\"a}tter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, and Lewis}}}
-\bibcite{vrij2008detecting}{{26}{2008}{{Vrij}}{{}}}
-\bibcite{vrij2019cognitive}{{27}{2019}{{Vrij and Granhag}}{{}}}
-\bibcite{zou2023representation}{{28}{2023}{{Zou et~al.}}{{Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin, Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song, Fredrikson, Kolter, and Hendrycks}}}
-\@writefile{toc}{\contentsline {section}{Appendix}{37}{section.6}\protected@file@percent }
-\newlabel{app:transcripts}{{6}{37}{}{section.6}{}}
-\newlabel{app:real_transcripts}{{6}{38}{}{section.6}{}}
-\newlabel{app:mock_summary}{{6}{39}{}{section.6}{}}
-\newlabel{app:mock_accuracy}{{6}{39}{}{section.6}{}}
-\newlabel{app:baselines}{{6}{39}{}{section.6}{}}
-\newlabel{app:threshold_sweep}{{6}{39}{}{section.6}{}}
-\newlabel{app:mock_features}{{6}{39}{}{section.6}{}}
-\newlabel{app:mock_adaptive}{{6}{39}{}{section.6}{}}
-\newlabel{app:mock_importance}{{6}{39}{}{section.6}{}}
-\newlabel{app:mock_confidence}{{6}{39}{}{section.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Consolidated mock validation ($n=100$, $\tau =0.8$).}}{39}{table.caption.76}\protected@file@percent }
-\newlabel{tab:mock_combined}{{13}{39}{Consolidated mock validation ($n=100$, $\tau =0.8$)}{table.caption.76}{}}
-\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{39}{paragraph*.77}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Threshold sensitivity.}{39}{paragraph*.78}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Baselines.}{39}{paragraph*.79}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Confidence trajectories and failure analysis.}{39}{paragraph*.80}\protected@file@percent }
-\newlabel{app:feature_correlation}{{6}{40}{}{paragraph*.80}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded.}}{40}{table.caption.81}\protected@file@percent }
-\newlabel{tab:feature_correlation}{{14}{40}{Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded}{table.caption.81}{}}
-\@writefile{toc}{\contentsline {paragraph}{Key finding: defensiveness is not a proxy for refusal count.}{40}{paragraph*.82}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Consistency tracks response length.}{40}{paragraph*.83}\protected@file@percent }
-\newlabel{app:claims}{{6}{40}{}{paragraph*.83}{}}
-\newlabel{app:diverse_claims}{{6}{40}{}{paragraph*.83}{}}
-\newlabel{app:claim_construction}{{6}{40}{}{paragraph*.83}{}}
-\@writefile{toc}{\contentsline {paragraph}{Original evaluation claims.}{40}{paragraph*.84}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized claims (EXP-1).}{40}{paragraph*.85}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail.}}{41}{table.caption.86}\protected@file@percent }
-\newlabel{tab:claim_pairs}{{15}{41}{Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail}{table.caption.86}{}}
-\@writefile{toc}{\contentsline {paragraph}{Category variance inversion.}{41}{paragraph*.87}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Claim category results (mock).}{41}{paragraph*.88}\protected@file@percent }
-\newlabel{app:sample_sizes}{{6}{41}{}{paragraph*.88}{}}
-\newlabel{app:compute_cost}{{6}{41}{}{table.caption.89}{}}
-\@writefile{toc}{\contentsline {paragraph}{Reproducibility notes.}{41}{paragraph*.91}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted.}}{42}{table.caption.89}\protected@file@percent }
-\newlabel{tab:sample_sizes}{{16}{42}{Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted}{table.caption.89}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models).}}{42}{table.caption.90}\protected@file@percent }
-\newlabel{tab:compute_cost}{{17}{42}{Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models)}{table.caption.90}{}}
-\gdef \@abspage@last{42}
+\bibcite{meinke2025frontiermodelsarecapable}{{14}{2025}{{Meinke et~al.}}{{Meinke, Woods, Scheurer, Balesni, Shah, and Hobbhahn}}}
+\bibcite{meta2024llama3}{{15}{2024}{{Meta AI}}{{}}}
+\bibcite{pacchiardi2023catch}{{16}{2023}{{Pacchiardi et~al.}}{{Pacchiardi, Chan, Mindermann, Moscovitz, Garriga-Alonso, Schultheiss, Steinhardt, and Evans}}}
+\bibcite{park2023ai}{{17}{2023}{{Park et~al.}}{{Park, Goldstein, O'Gara, Chen, and Hendrycks}}}
+\bibcite{perez2022discovering}{{18}{2022{a}}{{Perez et~al.}}{{Perez, Ringer, Luko{\v {s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei, Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller, Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland, Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston, Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai, Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger, Schiefer, and Kaplan}}}
+\bibcite{perez2022red}{{19}{2022{b}}{{Perez et~al.}}{{}}}
+\bibcite{perez2022ignore}{{20}{2022}{{Perez and Ribeiro}}{{}}}
+\bibcite{platt1999probabilistic}{{21}{1999}{{Platt}}{{}}}
+\bibcite{scheurer2024strategic}{{22}{2024}{{Scheurer et~al.}}{{Scheurer, Balesni, and Hobbhahn}}}
+\bibcite{sharma2023sycophancy}{{23}{2023}{{Sharma et~al.}}{{}}}
+\bibcite{qwen2025qwen25}{{24}{2025}{{Team}}{{}}}
+\bibcite{vanderweij2024sandbagging}{{25}{2024}{{van~der Weij et~al.}}{{van~der Weij, Hofst{\"a}tter, Jaffe, Brown, and Ward}}}
+\bibcite{verga2024replacing}{{26}{2024}{{Verga et~al.}}{{Verga, Hofst{\"a}tter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, and Lewis}}}
+\bibcite{vrij2008detecting}{{27}{2008}{{Vrij}}{{}}}
+\bibcite{vrij2019cognitive}{{28}{2019}{{Vrij and Granhag}}{{}}}
+\bibcite{zou2023representation}{{29}{2023}{{Zou et~al.}}{{Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin, Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song, Fredrikson, Kolter, and Hendrycks}}}
+\@writefile{toc}{\contentsline {section}{Appendix}{40}{section.6}\protected@file@percent }
+\newlabel{app:transcripts}{{6}{40}{}{section.6}{}}
+\newlabel{app:real_transcripts}{{6}{41}{}{section.6}{}}
+\newlabel{app:mock_summary}{{6}{42}{}{section.6}{}}
+\newlabel{app:mock_accuracy}{{6}{42}{}{section.6}{}}
+\newlabel{app:baselines}{{6}{42}{}{section.6}{}}
+\newlabel{app:threshold_sweep}{{6}{42}{}{section.6}{}}
+\newlabel{app:mock_features}{{6}{42}{}{section.6}{}}
+\newlabel{app:mock_adaptive}{{6}{42}{}{section.6}{}}
+\newlabel{app:mock_importance}{{6}{42}{}{section.6}{}}
+\newlabel{app:mock_confidence}{{6}{42}{}{section.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Consolidated mock validation ($n=100$, $\tau =0.8$).}}{42}{table.caption.86}\protected@file@percent }
+\newlabel{tab:mock_combined}{{14}{42}{Consolidated mock validation ($n=100$, $\tau =0.8$)}{table.caption.86}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feature separability.}{42}{paragraph*.87}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Threshold sensitivity.}{42}{paragraph*.88}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Baselines.}{42}{paragraph*.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Confidence trajectories and failure analysis.}{42}{paragraph*.90}\protected@file@percent }
+\newlabel{app:feature_correlation}{{6}{43}{}{paragraph*.90}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded.}}{43}{table.caption.91}\protected@file@percent }
+\newlabel{tab:feature_correlation}{{15}{43}{Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded}{table.caption.91}{}}
+\@writefile{toc}{\contentsline {paragraph}{Key finding: assertiveness is not a proxy for refusal count.}{43}{paragraph*.92}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Consistency tracks response length.}{43}{paragraph*.93}\protected@file@percent }
+\newlabel{app:claims}{{6}{43}{}{paragraph*.93}{}}
+\newlabel{app:diverse_claims}{{6}{43}{}{paragraph*.93}{}}
+\newlabel{app:claim_construction}{{6}{43}{}{paragraph*.93}{}}
+\@writefile{toc}{\contentsline {paragraph}{Original evaluation claims.}{43}{paragraph*.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized claims (EXP-1).}{43}{paragraph*.95}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail.}}{44}{table.caption.96}\protected@file@percent }
+\newlabel{tab:claim_pairs}{{16}{44}{Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail}{table.caption.96}{}}
+\@writefile{toc}{\contentsline {paragraph}{Category variance inversion.}{44}{paragraph*.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Claim category results (mock).}{44}{paragraph*.98}\protected@file@percent }
+\newlabel{app:sample_sizes}{{6}{44}{}{paragraph*.98}{}}
+\newlabel{app:compute_cost}{{6}{44}{}{table.caption.99}{}}
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility notes.}{44}{paragraph*.101}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted.}}{45}{table.caption.99}\protected@file@percent }
+\newlabel{tab:sample_sizes}{{17}{45}{Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted}{table.caption.99}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models).}}{45}{table.caption.100}\protected@file@percent }
+\newlabel{tab:compute_cost}{{18}{45}{Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models)}{table.caption.100}{}}
+\gdef \@abspage@last{45}

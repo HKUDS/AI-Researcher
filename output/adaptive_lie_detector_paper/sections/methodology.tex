@@ -1,12 +1,23 @@
 \section{Methodology}
 \label{sec:methodology}
 
-This section presents the complete architecture of the instructed deception detection framework, detailing each component from target model configuration through adaptive interrogation to final classification. The system operates as a modular pipeline in which an interrogator LLM poses strategically crafted questions to a target LLM, extracts behavioral features from the target's responses, and classifies the target as truthful or deceptive via logistic regression, with an adaptive controller governing interrogation length.
+The primary methodological contribution is three evaluation controls that isolate genuine detection signal from artifacts. The ADAGE adaptive interrogation pipeline serves as the measurement apparatus through which these controls are applied. This section first describes the controls (Section~\ref{sec:eval_controls}), then the pipeline (Sections~\ref{sec:system_overview}--\ref{sec:adaptive_stopping}).
 
-\subsection{System Overview}
+\subsection{Evaluation Controls}
+\label{sec:eval_controls}
+
+We introduce three controls that any behavioral deception detection system should adopt:
+
+\paragraph{Prompt equalization.} Standard instructed-deception evaluations use asymmetric system prompts (``answer honestly'' vs.\ ``the claim is FALSE, defend it by lying''). The classifier may detect prompt-induced style differences rather than deception per se. Our \emph{prompt-equalized control} gives both conditions identical neutral prompts (``You are a helpful assistant. Share what you know about this topic.'') and varies only claim truthfulness (true vs.\ modified-false factual claims). Any behavioral difference arises from knowledge conflict, not instruction asymmetry.
+
+\paragraph{Cross-family feature extraction.} When the feature extractor belongs to the same model family as the target (e.g., Claude extracting features from Claude responses), self-preference bias may inflate discriminative scores. Our \emph{cross-family extraction control} re-extracts features using extractors from a different model family than the target, separating genuine signal from same-family artifacts.
+
+\paragraph{Surface-level baselines.} LLM-extracted behavioral features may capture surface lexical patterns (hedging words, refusal markers) rather than latent behavioral properties. Our \emph{hedging-word regex baseline} extracts seven text-level features via pattern matching (no LLM calls), bounding the contribution of LLM-extracted features from above. If regex matches or exceeds the LLM pipeline, the detection signal is surface-level.
+
+\subsection{Measurement Apparatus: ADAGE Pipeline}
 \label{sec:system_overview}
 
-The framework comprises five principal components arranged in a sequential pipeline with a feedback loop enabling adaptive interrogation depth. Figure~\ref{fig:architecture} illustrates the overall architecture.
+The ADAGE pipeline comprises five components arranged sequentially with a feedback loop for adaptive interrogation depth. Figure~\ref{fig:architecture} illustrates the architecture. The pipeline is not the contribution; it serves as the experimental vehicle through which the controls above are systematically applied.
 
 \begin{figure}[t]
 \centering
@@ -25,7 +36,7 @@ The framework comprises five principal components arranged in a sequential pipel
 \node[box, right of=target, node distance=2.8cm] (interrog) {Interrogator};
 \node[sublabel, below=0.05cm of interrog] {LLM question gen.};
 \node[box, right of=interrog, node distance=2.8cm] (feature) {Feature\\Extractor};
-\node[sublabel, below=0.05cm of feature] {\begin{tabular}{c}5 features:\\[-1pt] con, spe, def, conf, elab\end{tabular}};
+\node[sublabel, below=0.05cm of feature] {\begin{tabular}{c}5 features:\\[-1pt] con, spe, assert, conf, elab\end{tabular}};
 \node[box, right of=feature, node distance=2.8cm] (class) {Classifier};
 \node[sublabel, below=0.05cm of class] {Logistic regression};
 \node[box, right of=class, node distance=2.8cm] (adapt) {Adaptive\\Controller};
@@ -108,7 +119,7 @@ After each question--answer exchange, an LLM-based feature extractor scores the 
 Confidence & Degree of certainty expressed in the response & Deceptive responses may exhibit artificially elevated or unstable confidence \\
 Consistency & Agreement with previously stated facts & Fabricated narratives are harder to maintain across repeated probing \\
 Detail Level & Specificity and granularity of information provided & Truthful respondents typically provide richer, more precise details \\
-Defensiveness & Degree of evasion, deflection, or hostility when challenged & Deceptive agents are more likely to become defensive under pressure \\
+Correction Assertiveness & Degree of assertive correction or pushback when claims are challenged & Models confronted with false claims assert corrections more forcefully \\
 Response Length & Normalized verbosity of the answer & Liars may overexplain (to appear credible) or underexplain (to avoid exposure) \\
 \bottomrule
 \end{tabular}
@@ -127,7 +138,7 @@ P(\text{deceptive} \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x} + b) = \
 \]
 where $\mathbf{x} \in \mathbb{R}^5$ is the feature vector, $\mathbf{w}$ is the learned weight vector, and $b$ is the bias term. A threshold of $0.5$ is applied: trials with $P(\text{deceptive} \mid \mathbf{x}) \geq 0.5$ are classified as deceptive.
 
-We choose logistic regression for interpretability; feature coefficients reveal which behavioral signals drive predictions. In our pilot study with Claude Haiku 4.5~\cite{anthropic2024claude}, the consistency feature received the largest negative weight (lower consistency $\rightarrow$ higher deception probability), while defensiveness received the largest positive weight, aligning with intuitions from human deception detection research~\cite{vrij2008detecting}. The linear model also facilitates analysis of failure cases: the single misclassified lying trial in the pilot exhibited a deception probability of only $0.08$ despite a high classifier confidence score of $0.92$, suggesting that the target's cooperative deception was sufficiently fluent to produce feature vectors indistinguishable from truthful responses.
+We choose logistic regression for interpretability; feature coefficients reveal which behavioral signals drive predictions. In our pilot study with Claude Haiku 4.5~\cite{anthropic2024claude}, the consistency feature received the largest negative weight (lower consistency $\rightarrow$ higher deception probability), while correction assertiveness received the largest positive weight, aligning with intuitions from human deception detection research~\cite{vrij2008detecting}. The linear model also facilitates analysis of failure cases: the single misclassified lying trial in the pilot exhibited a deception probability of only $0.08$ despite a high classifier confidence score of $0.92$, suggesting that the target's cooperative deception was sufficiently fluent to produce feature vectors indistinguishable from truthful responses.
 
 \subsection{Adaptive Stopping}
 \label{sec:adaptive_stopping}
