@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  29 APR 2026 09:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  29 APR 2026 16:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -995,21 +995,25 @@ Overfull \hbox (24.42923pt too wide) in paragraph at lines 14--35
 
 
 [7]
-Overfull \hbox (71.58983pt too wide) in paragraph at lines 49--70
+Overfull \hbox (47.80339pt too wide) in paragraph at lines 48--64
  [][] 
  []
 
 
+Overfull \hbox (36.10316pt too wide) in paragraph at lines 71--83
+ [][] 
+ []
 
-[8]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
+[8]
+
 [9]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 13
-0.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 14
+3.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
@@ -1021,20 +1025,29 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [10]
 
-[11]
-<figures/feature_collapse.pdf, id=512, 859.63786pt x 261.91829pt>
-File: figures/feature_collapse.pdf Graphic file (type pdf)
-<use figures/feature_collapse.pdf>
-Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 211.
-(pdftex.def)             Requested size: 397.48499pt x 121.10733pt.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-[12 <./figures/feature_collapse.pdf>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (43.07234pt too wide) in paragraph at lines 254--255
+
+[11]
+<figures/feature_collapse.pdf, id=528, 859.63786pt x 261.91829pt>
+File: figures/feature_collapse.pdf Graphic file (type pdf)
+<use figures/feature_collapse.pdf>
+Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 222.
+(pdftex.def)             Requested size: 397.48499pt x 121.10733pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[12]
+
+[13 <./figures/feature_collapse.pdf>]
+Overfull \hbox (43.07234pt too wide) in paragraph at lines 265--266
 [] []\T1/ptm/b/n/10 (-20) Llama (3B$\OMS/cmsy/m/n/10 !$\T1/ptm/b/n/10 (-20) 8B$
 \OMS/cmsy/m/n/10 !$\T1/ptm/b/n/10 (-20) 70B).[] \T1/ptm/m/n/10 (-20) Llama ex-h
 ibits flat-then-jump un-der refusal-count thresh-old LOO: 57%$\OMS/cmsy/m/n/10 
@@ -1042,24 +1055,17 @@ ibits flat-then-jump un-der refusal-count thresh-old LOO: 57%$\OMS/cmsy/m/n/10
  []
 
 
-Overfull \hbox (31.5852pt too wide) in paragraph at lines 254--255
+Overfull \hbox (31.5852pt too wide) in paragraph at lines 265--266
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 025$\T1/ptm/m/n/10 (-20) ); 
 the 3B$\OMS/cmsy/m/n/10 !$\T1/ptm/m/n/10 (-20) 8B in-cre-ment is zero. The 5-fe
 ature LLM pipeline shows a par-al-lel trend (61%$\OMS/cmsy/m/n/10 !$\T1/ptm/m/n
 /10 (-20) 65%$\OMS/cmsy/m/n/10 !$\T1/ptm/m/n/10 (-20) 84%),
  []
 
-
-
-[13]
-Overfull \hbox (24.06546pt too wide) in paragraph at lines 264--272
- [][] 
- []
-
-<figures/scale_trend.pdf, id=618, 390.1865pt x 280.05254pt>
+<figures/scale_trend.pdf, id=632, 390.1865pt x 280.05254pt>
 File: figures/scale_trend.pdf Graphic file (type pdf)
 <use figures/scale_trend.pdf>
-Package pdftex.def Info: figures/scale_trend.pdf  used on input line 279.
+Package pdftex.def Info: figures/scale_trend.pdf  used on input line 276.
 (pdftex.def)             Requested size: 337.86465pt x 242.5156pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1076,10 +1082,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [16]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (8.74919pt too wide) in paragraph at lines 364--365
+[17]
+Overfull \hbox (8.74919pt too wide) in paragraph at lines 387--388
 \T1/ptm/m/n/10 (-20) Anthropic ex-trac-tors. The ``Avg CF gap'' col-umn av-er-a
 ges the Haiku$\OMS/cmsy/m/n/10 ^^@$\T1/ptm/m/n/10 (-20) Mistral-L3 and Haiku$\O
 MS/cmsy/m/n/10 ^^@$\T1/ptm/m/n/10 (-20) Llama 70B
@@ -1087,26 +1091,34 @@ MS/cmsy/m/n/10 ^^@$\T1/ptm/m/n/10 (-20) Llama 70B
 
 
 
-[17]
-
 [18]
-<figures/probe_layer_curve_llama3b.pdf, id=776, 465.21274pt x 222.9818pt>
-File: figures/probe_layer_curve_llama3b.pdf Graphic file (type pdf)
-<use figures/probe_layer_curve_llama3b.pdf>
-Package pdftex.def Info: figures/probe_layer_curve_llama3b.pdf  used on input l
-ine 395.
-(pdftex.def)             Requested size: 337.86465pt x 161.94856pt.
+<figures/probe_layer_curve_panel.pdf, id=799, 787.27187pt x 236.62376pt>
+File: figures/probe_layer_curve_panel.pdf Graphic file (type pdf)
+<use figures/probe_layer_curve_panel.pdf>
+Package pdftex.def Info: figures/probe_layer_curve_panel.pdf  used on input lin
+e 420.
+(pdftex.def)             Requested size: 397.48499pt x 119.47058pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 ) (./sections/discussion.tex
 
-[19 <./figures/probe_layer_curve_llama3b.pdf>]
+[19]
 
-[20]
+[20 <./figures/probe_layer_curve_panel.pdf>]
 
 [21]
 
 [22]
 
-[23]) (./sections/conclusion.tex) (./main.bbl
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[23]) (./sections/conclusion.tex
+
+[24]) (./main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\T1/ptm/m/n/10 (+20) Anthropic.  The Claude 3 model fam-ily: Opus, Son-net, H
 aiku.  Tech-ni-
@@ -1120,11 +1132,11 @@ s : / / www-[]cdn . anthropic . com /
 
 
 
-[24]
+[25]
 
-[25]) (./sections/appendix.tex
+[26]) (./sections/appendix.tex
 
-[26]
+[27]
 Overfull \hbox (65.55981pt too wide) in paragraph at lines 34--35
 \T1/ptm/m/n/10 (-20) Claude Haiku 4.5 is ac-cessed via AWS Bedrock us-ing the \
 T1/pcr/m/n/10 anthropic.claude-haiku-4-5-20250106-v1:0
@@ -1138,16 +1150,15 @@ ls if needed.[]
 
 
 
-[27]
-
 [28]
 
 [29]
 
-[30]
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+
+[30]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1155,13 +1166,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [31]
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
 [32]
 
 [33]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
+[34]
 Overfull \hbox (2.55188pt too wide) in paragraph at lines 452--463
  [][] 
  []
@@ -1171,42 +1184,49 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[34]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-
 [35]
 
 [36]
 
-[37]
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
+
+[37]
 
 [38]
 
 [39]
 
-[40])
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[41] (./main.aux)
+
+
+[40]
+
+[41]
+Overfull \hbox (24.06546pt too wide) in paragraph at lines 742--750
+ [][] 
+ []
+
+)
+
+[42]
+
+[43] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 7C137DE9FC3CA485140DA3B8C38723C1;12091.
+(rerunfilecheck)             Checksum: 0BD14BC9755635EFC2F118051218CE64;12701.
  ) 
 Here is how much of TeX's memory you used:
- 29012 strings out of 473190
- 526597 string characters out of 5715801
- 956529 words of memory out of 5000000
- 51019 multiletter control sequences out of 15000+600000
- 628925 words of font info for 438 fonts, out of 8000000 for 9000
+ 29017 strings out of 473190
+ 526718 string characters out of 5715801
+ 957962 words of memory out of 5000000
+ 51022 multiletter control sequences out of 15000+600000
+ 627991 words of font info for 433 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,87p,3105b,824s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
@@ -1222,16 +1242,17 @@ live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/202
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2025/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fon
-ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/u
-rw/times/utmri8a.pfb>
-Output written on main.pdf (41 pages, 452299 bytes).
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2025/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/202
+5/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-
+dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
+/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw
+/times/utmri8a.pfb>
+Output written on main.pdf (43 pages, 474131 bytes).
 PDF statistics:
- 1204 PDF objects out of 1440 (max. 8388607)
- 899 compressed objects within 9 object streams
- 237 named destinations out of 1000 (max. 500000)
- 65004 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 1251 PDF objects out of 1440 (max. 8388607)
+ 936 compressed objects within 10 object streams
+ 246 named destinations out of 1000 (max. 500000)
+ 62972 words of extra memory for PDF output out of 74296 (max. 10000000)
 

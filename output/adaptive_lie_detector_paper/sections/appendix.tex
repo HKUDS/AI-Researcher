@@ -729,3 +729,24 @@ A reviewer asked whether the adversarial prompt drops refusal markers only in th
 \label{sec:diverse_claims}
 
 Equalized LOO by category (Mistral~7B, $n=100$): Scientific 80.0\% (24/30), Historical 75.0\% (15/20), Cultural 71.4\% (10/14), Technology 62.5\% (10/16), Geographic 60.0\% (12/20); overall 71.0\%. Mock results: factual 100\%, partially-true 100\%, subjective 83.3\%, implausible 66.7\%. Real LLM performance across categories is untested beyond Mistral~7B and Llama~70B equalized data.
+
+\section{Sonnet 4.5 Frontier Pilot: Full Details}
+\label{app:sonnet_pilot}
+
+Extended detail on the Sonnet~4.5 pilot summarized in \S\ref{sec:sonnet_frontier}. The pilot evaluates Claude Sonnet~4.5 via Amazon Bedrock on the same prompt-equalized protocol as the 7-target main panel ($n=100$ attempted; 50 matched true/false pairs; identical neutral prompt; 99 trials complete after one API error). Refusal-count mean markers: truth\,=\,1.38 vs.\ lie\,=\,3.27 ($d=1.14$); fixed $k\!\geq\!1$ rule accuracy 68.7\%; LOO-tuned threshold accuracy 73.7\%. The 5-feature pipeline on the same 99 saved transcripts under two extractors is shown in Table~\ref{tab:sonnet_crossfamily_app}.
+
+\begin{table}[h]
+\centering
+\caption{Claude Sonnet~4.5 prompt-equalized evaluation under two extractors on the same 99 saved transcripts. Refusal-count is regex-only and extractor-independent (identical across rows). Llama~3.3~70B via AWS Bedrock is the non-Anthropic cross-family reference; Haiku is same-family-from-below.}
+\label{tab:sonnet_crossfamily_app}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Extractor} & \textbf{Refusal-count LOO} & \textbf{Rule $k\geq 1$} & \textbf{5-feature LOO} \\
+\midrule
+Claude Haiku~4.5 (same-family-from-below) & 73.7\% & 68.7\% & 92.9\% \\
+Llama~3.3~70B (cross-family)              & 73.7\% & 68.7\% & 88.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Power calculation.} A paired bootstrap over the 99 matched transcripts (10k resamples; pairing by trial index; both extractors score identical conversations, so the CI reflects between-extractor variance on fixed transcripts) gives a 95\% CI on the observed $+$4\,pp Haiku margin of $[-$3.0, $+$11.1$]$\,pp and includes zero. A paired two-proportion power analysis shows detecting a $4$\,pp gap with 80\% power at $\alpha=0.05$ would require $n\approx 410$ at $\rho=0.5$ or $n\approx 570$ at $\rho=0.3$; our $n=99$ is $4$--$6\times$ underpowered for this effect size. The pilot therefore establishes only that (i) the refusal-count baseline at 73.7\% is roughly consistent with the $\geq$14B cluster, and (ii) the two pipeline values straddle the cross-family $\geq$14B cluster (82.5--84\%); we do not treat the Haiku--Llama gap as evidence of same-family bias on Sonnet, and leave frontier extractor triangulation (GPT-5 / Claude~Opus~4.x) and properly-powered $n{\geq}410$ evaluation to future work.
