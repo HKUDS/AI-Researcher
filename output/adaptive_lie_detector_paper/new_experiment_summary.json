@@ -1,0 +1,24 @@
+{
+  "sonnet": {
+    "name": "Claude Sonnet 4.5 (equalized)",
+    "n": 99,
+    "mean_truth": 1.38,
+    "mean_lie": 3.2653061224489797,
+    "cohens_d": 1.1356462390146618,
+    "loo_acc": 0.7373737373737373,
+    "rule_k1": 0.6868686868686869,
+    "pipeline_loo": 0.9292929292929293,
+    "threshold": 2
+  },
+  "adversarial": {
+    "name": "Llama 3B adversarial paraphrase (equalized)",
+    "n": 50,
+    "mean_truth": 0.16,
+    "mean_lie": 0.24,
+    "cohens_d": 0.17597653802562394,
+    "loo_acc": 0.56,
+    "rule_k1": 0.56,
+    "pipeline_loo": 0.68,
+    "threshold": 1
+  }
+}

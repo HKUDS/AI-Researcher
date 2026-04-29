@@ -1,0 +1,13 @@
+{
+  "n_paired": 99,
+  "haiku_loo": 0.9292929292929293,
+  "llama70b_loo": 0.8888888888888888,
+  "delta_pp": 4.040404040404044,
+  "bootstrap_mean_delta_pp": 3.99969696969697,
+  "bootstrap_ci_pp": [
+    -3.0303030303030276,
+    11.111111111111105
+  ],
+  "ci_includes_zero": true,
+  "n_boot": 10000
+}

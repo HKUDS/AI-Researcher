@@ -1,0 +1,40 @@
+% Llama vs Qwen within-family scale comparison
+% To be integrated after Qwen scale section
+
+\paragraph{Llama within-family replication (3B$\to$8B$\to$70B).}
+To validate whether the Qwen U-shaped pattern generalizes to other model families, we replicated the within-family scale analysis on Llama models: 3.2~3B, 3.1~8B, and 3.3~70B, all evaluated under the prompt-equalized protocol with refusal-count LOO analysis ($n=100$ each, Claude Haiku~4.5 cross-family extraction).
+
+Table~\ref{tab:llama_scale_sweep} shows the Llama results. Unlike Qwen's U-shape (50\%$\to$68\%$\to$72\%$\to$50\%), Llama exhibits a \textbf{flat-then-jump pattern}: no improvement from 3B to 8B (both 57.0\%, Fisher $p=1.000$), followed by a significant jump to 70B (76.0\%, $+$19\,pp, $p=0.004$).
+
+\begin{table}[h]
+\centering
+\caption{Llama within-family scale sweep. Refusal-count LOO accuracy with Fisher exact tests for adjacent increments.}
+\label{tab:llama_scale_sweep}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{n} & \textbf{LOO} & \textbf{Ref (T)} & \textbf{Ref (L)} & \textbf{vs.\ Prev} & \textbf{Fisher $p$} \\
+\midrule
+Llama 3.2 3B  & 100 & 57.0\% & 2.18 & 2.42 & -- & -- \\
+Llama 3.1 8B  & 100 & 57.0\% & 1.56 & 2.56 & 0\,pp & 1.000 \\
+Llama 3.3 70B & 100 & 76.0\% & 0.84 & 2.32 & +19\,pp & \textbf{0.004}* \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Family-specific scale effects.}
+Comparing Qwen and Llama reveals family-specific patterns:
+
+\textbf{Qwen (U-shape):} 50\% (3B) $\to$ 68\% (7B, $p=0.014$*) $\to$ 72\% (14B) $\to$ 50\% (32B, collapse). Peak at intermediate scale, driven by RLHF agreeableness training removing refusal markers at 32B.
+
+\textbf{Llama (flat-then-jump):} 57\% (3B) $\to$ 57\% (8B, no change) $\to$ 76\% (70B, $p=0.004$*). Significant improvement only at largest scale, with no 32B collapse observed.
+
+Three implications:
+
+\textbf{First}, scale effects are \textbf{family-specific}, not universal. The Qwen U-shape does not replicate on Llama. Different model families exhibit different scale-dependent patterns, likely driven by family-specific RLHF training objectives and data.
+
+\textbf{Second}, both families show at least one \textbf{significant within-family increment} (Qwen 3B$\to$7B: $p=0.014$; Llama 8B$\to$70B: $p=0.004$), validating that scale \emph{can} improve equalized detection within a single family. This addresses the concern that prior cross-family evidence was confounded by family composition.
+
+\textbf{Third}, the absence of a 32B collapse in Llama (unlike Qwen) demonstrates that the zero-refusal-marker phenomenon is training-regime-specific, not an inevitable consequence of scale. Llama 70B (generation 3.3, released late 2024) retains correction behavior under knowledge conflict, while Qwen 32B (generation 2.5) was trained for agreeableness. Future models may exhibit similar collapse if RLHF objectives prioritize user satisfaction over knowledge-conflict signaling.
+
+\paragraph{Limitations.}
+This analysis tests two model families (Qwen at 4 scales, Llama at 3 scales). Generalization to other families (e.g., Mistral, Gemma, DeepSeek) remains unknown. The Llama analysis spans three model \emph{generations} (3.2, 3.1, 3.3), introducing potential generational confounds beyond parameter scale. Ideally, a within-generation sweep (e.g., Llama 3.3 at 1B/3B/8B/70B) would isolate scale from architectural changes, but such data is unavailable. Additionally, we test only refusal-count detection; more sophisticated behavioral features may not exhibit family-specific patterns, though EXP-J (Section~\ref{sec:deployment}) found refusal count matched or exceeded the full LLM pipeline on 6 of 7 models, suggesting limited upside from feature complexity.

@@ -1,0 +1,68 @@
+{
+  "Mistral 7B": {
+    "unrelated": {
+      "n": 100,
+      "regex_loo": 0.59,
+      "regex_k1": 0.59,
+      "regex_thr": 1,
+      "pipeline_loo": 0.72,
+      "cohens_d": 0.3570967267970355,
+      "mean_truth": 0.14,
+      "mean_lie": 0.32
+    },
+    "related": {
+      "n": 100,
+      "regex_loo": 0.68,
+      "regex_k1": 0.68,
+      "regex_thr": 1,
+      "pipeline_loo": 0.71,
+      "cohens_d": 0.7021364776080025,
+      "mean_truth": 0.14,
+      "mean_lie": 0.62
+    }
+  },
+  "Llama 70B": {
+    "unrelated": {
+      "n": 100,
+      "regex_loo": 0.83,
+      "regex_k1": 0.83,
+      "regex_thr": 1,
+      "pipeline_loo": 0.66,
+      "cohens_d": 1.551845570287864,
+      "mean_truth": 0.06,
+      "mean_lie": 0.76
+    },
+    "related": {
+      "n": 100,
+      "regex_loo": 0.84,
+      "regex_k1": 0.84,
+      "regex_thr": 1,
+      "pipeline_loo": 0.8,
+      "cohens_d": 1.6449238215142628,
+      "mean_truth": 0.4,
+      "mean_lie": 1.92
+    }
+  },
+  "Qwen 14B": {
+    "unrelated": {
+      "n": 100,
+      "regex_loo": 0.63,
+      "regex_k1": 0.63,
+      "regex_thr": 1,
+      "pipeline_loo": 0.52,
+      "cohens_d": 0.7303408420536665,
+      "mean_truth": 0.04,
+      "mean_lie": 0.3
+    },
+    "related": {
+      "n": 100,
+      "regex_loo": 0.65,
+      "regex_k1": 0.65,
+      "regex_thr": 1,
+      "pipeline_loo": 0.81,
+      "cohens_d": 0.5888337169344419,
+      "mean_truth": 0.16,
+      "mean_lie": 0.6
+    }
+  }
+}

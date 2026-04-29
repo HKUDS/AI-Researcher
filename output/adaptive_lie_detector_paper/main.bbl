@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{24}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -11,6 +11,15 @@
 \newblock Technical report, Anthropic, 2024.
 \newblock URL
   \url{https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf}.
+
+\bibitem[{Anthropic}(2025)]{anthropic2025claude45}
+{Anthropic}.
+\newblock The {Claude} 4.5 model family: {Haiku} 4.5 and {Sonnet} 4.5.
+\newblock Technical report, Anthropic, 2025.
+\newblock URL \url{https://www.anthropic.com/claude}.
+\newblock Accessed via Amazon Bedrock (model IDs
+  \texttt{us.anthropic.claude-haiku-4-5-20251001-v1:0} and
+  \texttt{us.anthropic.claude-sonnet-4-5-20250929-v1:0}).
 
 \bibitem[Azaria and Mitchell(2023)]{azaria2023internal}
 Amos Azaria and Tom Mitchell.
@@ -30,11 +39,6 @@ Carson Denison, Monte MacDiarmid, Fazl Barez, David Duvenaud, Mia Glaese,
 \newblock Sycophancy to subterfuge: Investigating reward-tampering in language
   models.
 \newblock \emph{arXiv preprint arXiv:2406.10162}, 2024.
-
-\bibitem[Elhage et~al.(2022)]{elhage2022toy}
-Nelson Elhage et~al.
-\newblock Toy models of superposition.
-\newblock \emph{Transformer Circuits Thread}, 2022.
 
 \bibitem[Ganguli et~al.(2022)Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath,
   Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma,
@@ -80,7 +84,7 @@ Evan Hubinger, Chris van Merwijk, Vladimir Mikulik, Joar Skalse, and Scott
 
 \bibitem[Hubinger et~al.(2024)]{hubinger2024sleeper}
 Evan Hubinger et~al.
-\newblock Sleeper agents: Training deceptive llms that persist through safety
+\newblock Sleeper agents: Training deceptive {LLMs} that persist through safety
   training.
 \newblock \emph{arXiv preprint arXiv:2401.05566}, 2024.
 
@@ -101,13 +105,6 @@ Kenneth Li et~al.
   language model.
 \newblock \emph{arXiv preprint arXiv:2306.03341}, 2024.
 
-\bibitem[Meinke et~al.(2025)Meinke, Woods, Scheurer, Balesni, Shah, and
-  Hobbhahn]{meinke2025frontiermodelsarecapable}
-Alexander Meinke, Bronwyn Woods, Jérémy Scheurer, Mikita Balesni, Rusheb
-  Shah, and Marius Hobbhahn.
-\newblock Frontier models are capable of in-context scheming.
-\newblock \emph{arXiv preprint arXiv:2412.04984}, 2025.
-
 \bibitem[{Meta AI}(2024)]{meta2024llama3}
 {Meta AI}.
 \newblock The llama~3 herd of models.
@@ -120,12 +117,6 @@ Lorenzo Pacchiardi, Alex~J. Chan, Soren Mindermann, Ilan Moscovitz, Adri{\`a}
 \newblock How to catch an {AI} liar: Lie detection in black-box {LLMs} by
   asking unrelated questions.
 \newblock \emph{arXiv preprint arXiv:2309.15840}, 2023.
-
-\bibitem[Park et~al.(2023)Park, Goldstein, O'Gara, Chen, and
-  Hendrycks]{park2023ai}
-Peter~S. Park, Simon Goldstein, Aidan O'Gara, Michael Chen, and Dan Hendrycks.
-\newblock {AI} deception: A survey of examples, risks, and potential solutions.
-\newblock \emph{arXiv preprint arXiv:2308.14752}, 2023.
 
 \bibitem[Perez et~al.(2022{\natexlab{a}})Perez, Ringer,
   Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu,
@@ -165,13 +156,12 @@ F{\'a}bio Perez and Ian Ribeiro.
 \newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
   Natural Language Processing (EMNLP)}, 2022.
 
-\bibitem[Platt(1999)]{platt1999probabilistic}
-John~C. Platt.
-\newblock Probabilistic outputs for support vector machines and comparisons to
-  regularized likelihood methods.
-\newblock In Alexander~J. Smola, Peter Bartlett, Bernhard Sch{\"o}lkopf, and
-  Dale Schuurmans, editors, \emph{Advances in Large Margin Classifiers}, pages
-  61--74. MIT Press, Cambridge, MA, 1999.
+\bibitem[Research(2024)]{apollo2024liar}
+Apollo Research.
+\newblock Ai liar dataset: Goal-directed strategic deception scenarios.
+\newblock \url{https://www.apolloresearch.ai/}, 2024.
+\newblock Dataset for evaluating autonomous deception in reward-function
+  contexts.
 
 \bibitem[Scheurer et~al.(2024)Scheurer, Balesni, and
   Hobbhahn]{scheurer2024strategic}
@@ -190,14 +180,6 @@ Qwen Team.
 \newblock Qwen2.5 technical report.
 \newblock \emph{arXiv preprint arXiv:2412.15115}, 2025.
 
-\bibitem[van~der Weij et~al.(2024)van~der Weij, Hofst{\"a}tter, Jaffe, Brown,
-  and Ward]{vanderweij2024sandbagging}
-Teun van~der Weij, Felix Hofst{\"a}tter, Ollie Jaffe, Samuel~F. Brown, and
-  Francis~Rhys Ward.
-\newblock Ai sandbagging: Language models can strategically underperform on
-  evaluations.
-\newblock \emph{arXiv preprint arXiv:2406.07358}, 2024.
-
 \bibitem[Verga et~al.(2024)Verga, Hofst{\"a}tter, Althammer, Su, Piktus,
   Arkhangorodsky, Xu, White, and Lewis]{verga2024replacing}
 Pat Verga, Sebastian Hofst{\"a}tter, Sophia Althammer, Yixuan Su, Aleksandra
@@ -205,17 +187,6 @@ Pat Verga, Sebastian Hofst{\"a}tter, Sophia Althammer, Yixuan Su, Aleksandra
 \newblock Replacing judges with juries: Evaluating {LLM} generations with a
   panel of diverse models.
 \newblock \emph{arXiv preprint arXiv:2404.18796}, 2024.
-
-\bibitem[Vrij(2008)]{vrij2008detecting}
-Aldert Vrij.
-\newblock \emph{Detecting Lies and Deceit: Pitfalls and Opportunities}.
-\newblock Wiley, 2008.
-
-\bibitem[Vrij and Granhag(2019)]{vrij2019cognitive}
-Aldert Vrij and Pär~Anders Granhag.
-\newblock Eliciting and assessing information in intelligence interviews.
-\newblock \emph{Annual Review of Law and Social Science}, 15:\penalty0
-  351--371, 2019.
 
 \bibitem[Zou et~al.(2023)Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin,
   Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song,

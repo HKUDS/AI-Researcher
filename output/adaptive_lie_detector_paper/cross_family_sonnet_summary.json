@@ -1,0 +1,22 @@
+{
+  "Haiku (same-family-from-below)": {
+    "n": 99,
+    "pipeline_loo": 0.9292929292929293,
+    "regex_loo": 0.7373737373737373,
+    "regex_thr": 2,
+    "regex_k1": 0.6868686868686869,
+    "cohens_d": 1.1356462390146618,
+    "mean_truth": 1.38,
+    "mean_lie": 3.2653061224489797
+  },
+  "Llama 3.3 70B (cross-family)": {
+    "n": 99,
+    "pipeline_loo": 0.8888888888888888,
+    "regex_loo": 0.7373737373737373,
+    "regex_thr": 2,
+    "regex_k1": 0.6868686868686869,
+    "cohens_d": 1.1356462390146618,
+    "mean_truth": 1.38,
+    "mean_lie": 3.2653061224489797
+  }
+}

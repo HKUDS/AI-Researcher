@@ -1,0 +1,60 @@
+{
+  "targets": [
+    {
+      "label": "Llama 3.2 3B",
+      "status": "ok",
+      "n_entries": 100,
+      "n_scored": 100,
+      "llama70b_pipeline_loo": 0.5
+    },
+    {
+      "label": "Llama 3.1 8B",
+      "status": "ok",
+      "n_entries": 100,
+      "n_scored": 100,
+      "llama70b_pipeline_loo": 0.67
+    },
+    {
+      "label": "Mistral 7B",
+      "status": "ok",
+      "n_entries": 100,
+      "n_scored": 100,
+      "llama70b_pipeline_loo": 0.64
+    },
+    {
+      "label": "Qwen 2.5 7B",
+      "status": "ok",
+      "n_entries": 100,
+      "n_scored": 100,
+      "llama70b_pipeline_loo": 0.68
+    },
+    {
+      "label": "Qwen 2.5 14B",
+      "status": "ok",
+      "n_entries": 97,
+      "n_scored": 97,
+      "llama70b_pipeline_loo": 0.7216494845360825
+    },
+    {
+      "label": "Llama 3.3 70B",
+      "status": "ok",
+      "n_entries": 93,
+      "n_scored": 93,
+      "llama70b_pipeline_loo": 0.7419354838709677
+    },
+    {
+      "label": "Claude Haiku 4.5",
+      "status": "ok",
+      "n_entries": 99,
+      "n_scored": 99,
+      "llama70b_pipeline_loo": 0.7272727272727273
+    },
+    {
+      "label": "Qwen 2.5 32B",
+      "status": "ok",
+      "n_entries": 99,
+      "n_scored": 99,
+      "llama70b_pipeline_loo": 0.5959595959595959
+    }
+  ]
+}

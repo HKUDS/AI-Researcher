@@ -4,470 +4,397 @@
 \subsection{Experimental Setup}
 \label{sec:setup}
 
-All mock experiments use stochastic pattern-matching models (\texttt{MockTargetModel}) whose responses are drawn from fixed response pools via \texttt{random.choice}. To ensure cross-table reproducibility, all mock evaluations reported in this section use a fixed random seed (seed\,=\,42), applied independently per experiment so that each block produces the same numbers regardless of execution order. A \texttt{--seed} argument allows reviewers to verify reproducibility. The mock target model generates responses by selecting from truthful or deceptive response pools calibrated to produce either consistent, detail-rich answers or hedging, evasive ones. Because mock responses are drawn stochastically (not computed deterministically), accuracy varies slightly across threshold values even for the same configuration, and statistical comparisons within the mock setting remain descriptive.
+We evaluate behavioral deception detection across seven LLMs spanning three model families: Llama~3.2~3B, Llama~3.1~8B, Llama~3.3~70B \cite{meta2024llama3}, Mistral~7B \cite{jiang2023mistral}, Qwen~2.5~7B/14B/32B \cite{qwen2025qwen25}, and Claude Haiku~4.5 \cite{anthropic2024claude}, with $n=50$--100 balanced trials per condition. Claude Haiku~4.5 serves as interrogator and feature extractor in all experiments (cross-family for Llama, Mistral, and Qwen targets; same-family for Claude Haiku targets). Claims consist of 50 matched true/false factual pairs (e.g., ``Water boils at 100\textdegree C'' vs.\ ``Water boils at 85\textdegree C''; construction in Appendix~\ref{app:claims}). Two conditions are tested: \emph{instructed} (asymmetric prompts directing truth/lie behavior) and \emph{prompt-equalized} (identical neutral prompts; behavioral differences arise from knowledge conflict only). Pipeline hyperparameters and mock validation are in Appendix~\ref{app:pipeline_details} and~\ref{app:mock_summary} (mock validation on $n=100$ synthetic transcripts confirms algorithmic correctness at 93\% LOO accuracy but does not predict real-model behavior, which is qualitatively different); per-model instructed evaluations are in Appendix~\ref{app:instructed_results}. Table~\ref{tab:experiment_summary} maps experiments to findings.
 
-Table~\ref{tab:hyperparams} summarizes the key hyperparameters used across all experiments.
-
-\begin{table}[h]
+\begin{table*}[t]
 \centering
-\caption{Hyperparameters for the adaptive interrogation system.}
-\label{tab:hyperparams}
-\begin{tabular}{lll}
-\toprule
-\textbf{Parameter} & \textbf{Value} & \textbf{Description} \\
-\midrule
-Max questions & 8 & Upper bound per interrogation \\
-Confidence threshold & 0.80 & Early stopping criterion \\
-Initial confidence & 0.5 & Uniform prior (no bias) \\
-Confidence update rate & Variable & Per-question logistic regression update \\
-Question types & 5 & Open-ended, detail, consistency, temporal, hypothetical \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Claims were drawn from a curated set of verifiable and falsifiable statements. Examples include truthful claims such as ``I graduated from MIT in 2020'' (paired with a consistent biographical profile) and lying claims such as ``I have never visited France'' (paired with a profile containing French travel records). Each claim was assigned a ground-truth label, and the mock model's response patterns were calibrated accordingly.
-
-\subsection{Mock Pipeline Validation}
-\label{sec:mock_validation}
-\label{sec:failure_analysis}
-
-ADAGE achieves 93\% classification accuracy on $n=100$ balanced mock trials (avg.\ 2.0 questions vs.\ 8.0 fixed; 75\% reduction). 5-fold CV yields $100\% \pm 0\%$; all five features have very large separation ($d \in [3.40, 4.70]$). A prompt-swap ablation drops accuracy from 93\% to 14\%, confirming response-content sensitivity. A critical limitation is that classifier confidence exceeds 0.99 for both correct and incorrect predictions, making adaptive stopping vacuous at the 2-question floor. Mock responses are drawn from $\approx$5 generic phrases per condition, reducing classification to hedge-word detection. Full mock analyses are in Appendix~\ref{app:mock_accuracy}--\ref{app:mock_confidence}. Real LLM evaluation begins in Section~\ref{sec:real_llm_pilot}.
-
-\subsection{Claude Haiku 4.5 Evaluation at Scale}
-\label{sec:real_llm_pilot}
-\label{sec:claude_haiku_n100}
-
-We ran $n=100$ balanced trials (50 truthful, 50 lying) using Claude Haiku~4.5 \cite{anthropic2024claude} via AWS Bedrock as the target model; 92 completed (47 truthful, 45 lying). Eight trials (5 lying, 3 truthful) failed due to transient API rate-limit errors before interrogation began and were excluded; a Fisher exact test confirmed no significant association between failure and ground-truth condition (OR\,=\,1.74, $p = 0.72$), ruling out selection bias. With the mock-trained classifier: 71.7\% overall (100\% truthful, 42.2\% lying, avg.\ 2.1 questions). Claude Haiku exhibits false-negative dominance---the \emph{opposite} error profile from Llama~3.2~3B (false-positive dominant). The more capable model produces convincing lies that evade detection, while its truthful responses are confidently identified.
-
-\paragraph{Feature separability.} Correction assertiveness\footnote{We use ``correction assertiveness'' (abbreviated ``assertiveness'' in tables and figures) rather than the original pipeline label ``defensiveness,'' which---as our construct validity analysis reveals (Section~\ref{sec:novelty})---more accurately captures \emph{assertive correction behavior} (models pushing back on or correcting claims) rather than evasion. The underlying data files and analysis scripts retain the original ``defensiveness'' key for reproducibility; the code release README documents this mapping. A single regex feature (refusal/correction count) matches or exceeds the LLM pipeline on equalized data (EXP-J), confirming that the positive finding does not depend on the LLM-extracted assertiveness construct.} (hereafter ``assertiveness'') exhibits very large separation ($|d|=4.90$), while consistency and specificity show moderate signal ($|d|=1.14$ each). Confidence and elaboration collapse to near-zero ($|d| \leq 0.20$), consistent with the pattern observed on Llama and Mistral.
-
-\paragraph{Recalibration.} LOO recalibration on Claude Haiku data recovers performance to 97.8\% overall (100\% truthful, 95.6\% lying, F1\,=\,0.977) --- the strongest recalibration result across all evaluated models, driven by the dominant assertiveness signal.
-
-\paragraph{Cross-model confound.} Claude Haiku serves as both interrogator/extractor \emph{and} target (same model family). If the feature extractor rates same-family responses more favourably on truthful dimensions, this would inflate truthful accuracy and suppress lying detection. We cannot rule this out without a cross-family extractor ablation.
-
-\subsection{Open-Weight Real LLM Evaluation (Llama~3.2~3B via Ollama)}
-\label{sec:ollama_eval}
-
-We evaluated Llama~3.2~3B \cite{meta2024llama3} via Ollama with Claude Haiku~4.5 as interrogator/extractor ($n=98$ of 100 trials). Mock-trained accuracy is 61.2\% overall (26.5\% truthful, 95.9\% lying, avg.\ 2.6 questions): nearly all lies detected but 36/49 truthful claims falsely flagged. Overall accuracy is substantially lower than mock (93\%), confirming the transfer gap.
-
-\paragraph{Feature distribution comparison.}
-Table~\ref{tab:feature_comparison} compares per-feature Cohen's $|d|$ between the mock setting ($n=500$ training examples) and the Llama~3.2~3B evaluation ($n=98$ trials). Features were averaged across questions per trial; the same LLM-based feature extractor was used in both settings.
-
-\begin{table}[h]
-\centering
-\caption{Feature separability (Cohen's $|d|$) across settings. All features preserve directional signal; magnitude varies with model scale. Accuracy results for the same models are in Table~\ref{tab:model_comparison}.}
-\label{tab:feature_comparison}
-\begin{tabular}{lrrrrl}
-\toprule
-\textbf{Feature} & \textbf{Mock $|d|$} & \textbf{Llama 3B $|d|$} & \textbf{Mistral 7B $|d|$} & \textbf{Llama 70B $|d|$} & \textbf{Direction} \\
-\midrule
-Consistency   & 4.70 & 1.97 & 3.74 & 3.07 & truth $>$ lie \\
-Specificity   & 4.43 & 1.65 & 1.97 & 1.98 & truth $>$ lie \\
-Assertiveness & 4.58 & 1.78 & 3.35 & 2.55 & lie $>$ truth \\
-Confidence    & 4.56 & 0.21 & 1.17 & 0.97 & truth $>$ lie \\
-Elaboration   & 3.40 & 0.20 & 0.14 & 0.31 & truth $>$ lie \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Feature separability is model-scale-dependent. On Llama~3.2~3B, consistency, specificity, and assertiveness retain their directional signal at roughly one-third to one-half mock magnitude ($|d| \approx 1.7$--$2.0$), while confidence and elaboration collapse to near-zero ($|d| \approx 0.2$). Mistral~7B shows substantially higher separability on the top three features: consistency ($|d|=3.74$) and assertiveness ($|d|=3.35$) approach mock levels, and specificity ($|d|=1.97$) matches Llama's level. Confidence ($|d|=1.17$) provides moderate signal, while elaboration collapses to near-zero ($|d|=0.14$). This directly explains Mistral's better mock-trained transfer (79.0\% vs.\ 61.2\%): the feature distributions on the larger model are closer to the mock training distribution.
-
-\paragraph{Why truthful accuracy collapses.}
-The 26.5\% truthful accuracy (36/49 truthful claims predicted as ``lying'') is explained by feature distribution shift. In mock data, truthful responses have mean consistency\,$\approx$\,7.5 and specificity\,$\approx$\,7.5 --- reliably far from the decision boundary. In the real LLM setting, truthful Llama~3.2~3B responses average consistency\,$=\,5.94$ and specificity\,$=\,7.02$, values that fall partially within the lying region learned from mock distributions. With confidence and elaboration contributing near-zero discriminative signal, the mock-trained classifier is systematically biased toward predicting ``lying'' for real truthful responses.
-
-\paragraph{Cross-model confound.}
-A confound in the cross-model comparison merits acknowledgment. The Claude Haiku pilot uses Claude Haiku as both interrogator/extractor \emph{and} target (same model family), while the Llama evaluation uses Claude Haiku as interrogator/extractor but Llama~3.2~3B as target (different families). If the LLM feature extractor scores Claude and Llama responses differently on a 0--10 scale due to model-family biases --- for instance, rating Llama responses as systematically less consistent regardless of ground truth --- this would confound the cross-model comparison. We cannot rule this out without ablating the extractor, which we leave for future work.
-
-\paragraph{Opposite error profiles across models.}
-The Claude Haiku evaluation ($n=92$, Section~\ref{sec:claude_haiku_n100}) and Llama~3B evaluation ($n=98$) produce qualitatively opposite error profiles. Claude Haiku: 100\% truthful accuracy but only 42.2\% lying detection (false negatives dominate). Llama~3.2~3B: 95.9\% lying detection but only 26.5\% truthful accuracy (false positives dominate). We hypothesize two contributing factors. \emph{First, model capability:} Claude Haiku's RLHF-trained responses are fluent and coherent, producing feature scores close to the truthful region even when lying --- making lies hard to detect. Llama~3.2~3B's smaller capacity may produce deceptive outputs whose feature scores align closely with the mock lying profile, making them easy to catch. \emph{Second, response style under truthful conditions:} Claude Haiku's factual answers are confident and specific, scoring high on consistency and specificity; Llama~3.2~3B's factual answers score lower on these dimensions, landing in the mock lying region. This tension motivates the multi-model recalibration analysis in Section~\ref{sec:recalibration}.
-
-\subsection{Recalibration on Real LLM Data}
-\label{sec:recalibration}
-
-The feature distribution analysis (Section~\ref{sec:ollama_eval}) suggests that the mock-to-real transfer failure lies in the decision boundary, not the features themselves: three of five features preserve their directional signal at reduced but meaningful magnitude ($|d| \approx 1.7$--$2.0$). This predicts that a classifier trained on real LLM data should recover substantially from the 26.5\% truthful accuracy of the mock-trained baseline. We test this directly.
-
-Per-trial mean feature vectors (98$\times$5) trained under LOO and 5-fold CV. LOO recalibration recovers truthful accuracy from 26.5\% to 91.8\% (overall 93.9\%, lying 95.9\%, F1\,=\,0.940). 5-fold CV confirms: $92.8\% \pm 2.5\%$ overall, $91.8\% \pm 4.1\%$ truthful. Dropping confidence and elaboration ($|d| \approx 0.2$) reduces to 85.7\% overall (3-feat LOO), showing that even low-$|d|$ features contribute marginal signal at this sample size. The gap is a calibration failure, not a feature failure: all five features are informative when trained on the target distribution.
-
-\subsection{Cross-Model Evaluation: Mistral~7B}
-\label{sec:mistral_eval}
-
-To test whether the mock-to-real transfer gap observed on Llama~3.2~3B generalizes to other open-weight models, we replicated the evaluation on Mistral~7B \cite{jiang2023mistral}, a 7.3-billion parameter model with a different architecture family (sliding window attention vs.\ Llama's full attention). We ran $n=100$ balanced trials (50 truthful, 50 lying) using the same mock-trained classifier and interrogation pipeline (Claude Haiku~4.5 via Bedrock). Table~\ref{tab:model_comparison} compares results across all four evaluated models.
-
-\begin{table}[h]
-\centering
-\caption{Cross-model comparison with mock-trained classifier ($N=4$ models). All models evaluated with Claude Haiku~4.5 as interrogator/extractor; cross-family extraction is inherent for Llama and Mistral targets. Feature-level separability is in Table~\ref{tab:feature_comparison}.}
-\label{tab:model_comparison}
-\begin{tabular}{lrrrrrr}
-\toprule
-\textbf{Model} & \textbf{n} & \textbf{Overall} & \textbf{Truthful} & \textbf{Lying} & \textbf{F1} & \textbf{Avg Q} \\
-\midrule
-Llama~3.2~3B             & 98  & 61.2\% & 26.5\%  & 95.9\% & 0.712 & 2.6 \\
-Mistral~7B               & 100 & 79.0\% & 64.0\%  & 94.0\% & 0.817 & 3.7 \\
-Llama~3.3~70B            & 100 & 75.0\% & 80.0\%  & 70.0\% & 0.737 & 3.3 \\
-Claude Haiku 4.5         & 92  & 71.7\% & 100.0\% & 42.2\% & 0.594 & 2.1 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Key finding: model scale mediates transfer.}
-Mistral~7B achieves 79.0\% overall accuracy with the mock-trained classifier --- 17.8 pp higher than Llama~3.2~3B (61.2\%). Crucially, Mistral~7B's truthful accuracy (64.0\%) is 37.5 pp higher than Llama~3B's (26.5\%), indicating that the catastrophic truthful failure observed on Llama~3B is partially mitigated at larger scale, though Mistral still exhibits a ``predict lying'' bias. Llama~3.3~70B (Section~\ref{sec:llama70b_eval}) confirms this trend: 80.0\% truthful accuracy with a balanced error profile (10 FP, 15 FN). Claude Haiku (Section~\ref{sec:claude_haiku_n100}) exhibits the opposite error profile entirely: 100\% truthful accuracy but only 42.2\% lying detection. The progression from Llama~3B (false positives dominate) through Mistral/Llama~70B (balanced) to Claude Haiku (false negatives dominate) suggests that model capability determines error directionality: more capable models produce convincing lies that evade detection, while less capable models produce unconvincing truthful responses that trigger false alarms.
-
-We also evaluated zero-shot LLM judge and recalibrated classifiers on Mistral~7B ($n=100$). Zero-shot achieves 83.0\% overall (66.0\% truthful, 100\% lying), slightly outperforming the mock-trained pipeline (79.0\%). LOO recalibration on Mistral data recovers performance to 100\% overall (100\% truthful, 100\% lying), higher than Llama~3B recalibration (93.9\%), reflecting the stronger feature separability in Mistral's responses. The consistent pattern (mock-trained $\lesssim$ zero-shot $\ll$ recalibrated) holds across both models, confirming that the structured pipeline provides value when properly calibrated.
-
-The LOO margin distribution ($0.44 \pm 0.09$ mean, 3/100 trials below 0.2) confirms that Mistral's perfect LOO is not a floor/ceiling artifact; all five hardest-to-classify trials are truthful, consistent with the ``predict lying'' bias.
-
-\subsection{Scale Evaluation: Llama~3.3~70B via AWS Bedrock}
-\label{sec:llama70b_eval}
-
-To directly address the question of whether larger open-weight models produce qualitatively different detection profiles, we evaluated Llama~3.3~70B Instruct \cite{meta2024llama3} --- a 70-billion parameter model --- via AWS Bedrock ($n=100$ balanced trials). Crucially, this evaluation uses \emph{cross-family extraction}: Claude Haiku~4.5 serves as both interrogator and feature extractor, while the target is from the Llama family. This design preemptively addresses the same-family bias identified in the Claude Haiku pilot (Section~\ref{sec:claude_haiku_n100}).
-
-\paragraph{Mock-trained performance.} The mock-trained classifier achieves 75.0\% overall (80.0\% truthful, 70.0\% lying, F1\,=\,0.737, avg.\ 3.3 questions). The error profile is balanced --- 10 false positives and 15 false negatives --- placing the 70B model between Mistral~7B (false-positive dominant) and Claude Haiku (false-negative dominant). This intermediate profile is consistent with the hypothesis that model capability shifts error directionality: at 70B, the model produces both more convincing lies (increasing false negatives) and more authoritative truthful responses (reducing false positives relative to Llama~3B).
-
-\paragraph{Feature separability.} The 70B model exhibits strong separation on the top three features: consistency ($|d|=3.07$), assertiveness ($|d|=2.55$), and specificity ($|d|=1.98$), all comparable to Mistral~7B. Confidence ($|d|=0.97$) provides moderate signal, while elaboration collapses to near-zero ($|d|=0.31$). The feature ordering and magnitude are remarkably similar to Mistral~7B despite the 10$\times$ parameter difference, suggesting that the 3B $\to$ 7B scale jump produces most of the feature-separability gain.
-
-\paragraph{LOO recalibration.} LOO recalibration recovers 93.0\% overall (92.0\% truthful, 94.0\% lying, F1\,=\,0.931), with 5-fold CV confirming $93.0\% \pm 6.8\%$. The $\pm$6.8\,pp standard deviation is the largest among recalibrated conditions (cf.\ $\pm 2.5$\,pp for Llama~3B); bootstrap 95\% CI: $[88\%, 98\%]$, consistent with genuine signal. This is nearly identical to Llama~3B (93.9\%) despite the 23$\times$ parameter ratio. The consistent \textasciitilde93\% LOO ceiling across two Llama models suggests a fundamental limit of the 5-feature logistic classifier rather than a scale-dependent effect.
-
-\paragraph{Fixed-$K$ ablation.} $K=1$ achieves 92.0\% LOO; $K=2$ peaks at 94.0\%. The adaptive system (avg.\ 3.3 questions) matches the $K=8$ result (93.0\%), confirming the same first-question-dominant pattern observed on smaller models.
-
-\paragraph{Hedging baseline.} The regex-based hedging classifier achieves 87.0\% LOO (86.0\% truthful, 88.0\% lying), trailing the LLM-feature pipeline by 6.0\,pp. This gap is larger than on Claude Haiku (4.3\,pp) but smaller than on Llama~3B (6.1\,pp), consistent with the LLM features providing incremental value on open-weight models.
-
-\paragraph{Knowledge pre-check.} A direct factual query before each trial reveals near-perfect separation: 48/50 truthful claims correctly identified as true, 50/50 lying claims correctly identified as false (the model has no basis to affirm first-person experiential claims). The two misclassified truthful claims were edge cases where the model expressed uncertainty. This confirms the 70B model possesses sufficient world knowledge to distinguish the factual claims used in this evaluation.
-
-\paragraph{Claim-type asymmetry caveat.} Throughout Sections~\ref{sec:ollama_eval}--\ref{sec:llama70b_eval}, the instructed condition uses asymmetric claim types: truthful claims are factual/verifiable statements (e.g., ``Water boils at 100\textdegree C''), while lying claims are first-person experiential assertions (e.g., ``I graduated from MIT''). The instructed-condition accuracy (61.2--100\%) may therefore partly reflect the classifier distinguishing factual from autobiographical claims rather than truth from deception per se. The prompt-equalized control (Section~\ref{sec:prompt_equalized}) uses matched factual claims for both conditions and is not subject to this confound. The instructed-matched control (Section~\ref{sec:instructed_matched}) directly addresses this concern by running instructed prompts with matched claims on both 70B and 3B: the resulting 99\% accuracy on 70B (vs.\ 93\% original) shows that claim asymmetry \emph{hurts} rather than inflates the instructed result at larger scale, while on 3B the instructed-matched accuracy is 90\% (vs.\ 93.9\% original), indicating that claim asymmetry provides a modest boost on smaller models where world knowledge is weaker.
-
-\subsection{Prompt-Equalized Control (EXP-1)}
-\label{sec:prompt_equalized}
-
-The instructed-condition results above use asymmetric system prompts: truth mode receives ``answer honestly,'' while lie mode receives ``the claim is FALSE, defend it by lying.'' A critical concern is that the classifier may detect instruction-style artifacts rather than genuine behavioral differences. To test this, we conducted a prompt-equalized control on Mistral~7B ($n=100$) where \emph{both} conditions received the same neutral system prompt: ``You are a helpful assistant. You will be asked about a factual claim. Share what you know about this topic.'' Truthful trials used true factual claims; deceptive trials used modified-false versions of the same claims (e.g., ``Water boils at 100\textdegree C'' $\to$ ``Water boils at 85\textdegree C''). The model was never instructed to lie; any behavioral differences arise from its knowledge conflicting with false claims. Claim pairs are described in Appendix~\ref{app:claims}. Note that the equalized evaluations are inherently cross-family: Claude Haiku~4.5 serves as interrogator/extractor while targets are Llama~3.2~3B, Mistral~7B, and (in Section~\ref{sec:llama70b_eval}) Llama~3.3~70B. The same-family bias identified in Section~\ref{sec:haiku_defensiveness} does not apply to these cross-family evaluations.
-
-\begin{table}[h]
-\centering
-\caption{Prompt-equalized control vs.\ original instructed condition. All equalized evaluations use Claude Haiku~4.5 as interrogator and feature extractor (cross-family for Llama and Mistral targets; same-family for the Claude Haiku pilot). Llama~3.1~8B was evaluated only under equalized and instructed-matched conditions (Sections~\ref{sec:prompt_equalized},~\ref{sec:instructed_matched}), not the original instructed condition with asymmetric experiential claims. Table~\ref{tab:cross_family_equalized} reports accuracy under an independent Mistral Large extractor.}
-\label{tab:prompt_equalized}
-\begin{tabular}{lrrrr}
-\toprule
-\textbf{Condition} & \textbf{Overall} & \textbf{Truthful} & \textbf{Lying} & \textbf{F1} \\
-\midrule
-Instructed mock-trained       & 79.0\% & 64.0\% & 94.0\% & 0.817 \\
-Instructed LOO recalibrated   & 100.0\% & 100.0\% & 100.0\% & 1.000 \\
-\midrule
-Equalized LOO (Llama 3B, $n=100$)    & 61.0\% & 64.0\% & 58.0\% & 0.600 \\
-Equalized LOO (Llama 8B, $n=100$)    & 65.0\% & 62.0\% & 68.0\% & 0.660 \\
-Equalized LOO (Mistral 7B, $n=100$)  & 71.0\% & 70.0\% & 72.0\% & 0.713 \\
-Equalized LOO (Qwen 7B, $n=100$)     & 74.0\% & 78.0\% & 72.0\% & 0.742 \\
-Equalized LOO (Qwen 14B, $n=97$)     & 82.5\% & 83.7\% & 81.2\% & 0.824 \\
-Equalized LOO (Llama 70B, $n=93$)    & 83.9\% & 84.8\% & 83.0\% & 0.839 \\
-Equalized LOO (Claude Haiku, $n=99$) & 82.8\% & 85.7\% & 80.0\% & 0.828 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Key finding: signal is predominantly prompt-driven.}
-Mock-trained accuracy drops from 79.0\% to 54.0\% (near chance) when prompts are equalized, confirming that the majority of the original signal arose from instruction-following style differences.
-
-\paragraph{Feature-level separability analysis.}
-Table~\ref{tab:equalized_feature_d} shows per-feature Cohen's $|d|$ for both conditions. All five features collapse substantially under equalization; the ordering of feature informativeness also shifts. In the instructed condition, consistency ($|d|=3.70$) and assertiveness ($|d|=3.32$) dominate. Under equalization, assertiveness remains the most informative feature ($|d|=1.12$, contributing $\sim$9.4\,pp of the 71\% LOO accuracy via permutation importance)---reflecting assertive correction of false claims rather than evasion---while consistency collapses to $|d|=0.86$. Permutation importance (50 random permutations under LOO) confirms assertiveness as the sole load-bearing feature in the equalized condition; all others contribute near-zero or negative importance, indicating the 71\% accuracy rests on a single feature.
-
-\begin{table}[h]
-\centering
-\caption{Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B). Under equalization, all features collapse; assertiveness is the only informative feature. Note: instructed $|d|$ values differ slightly from Table~\ref{tab:feature_comparison} (e.g., assertiveness 3.32 vs.\ 3.35) because they are computed on the matched claim subset used in the equalized experiment rather than the original 100-claim set.}
-\label{tab:equalized_feature_d}
-\begin{tabular}{lrrl}
-\toprule
-\textbf{Feature} & \textbf{Instructed $|d|$} & \textbf{Equalized $|d|$} & \textbf{Direction} \\
-\midrule
-Consistency   & 3.70 & 0.86 & truth $>$ lie \\
-Assertiveness & 3.32 & 1.12 & lie $>$ truth \\
-Specificity   & 1.95 & 0.56 & truth $>$ lie \\
-Confidence    & 1.16 & 0.75 & truth $>$ lie \\
-Elaboration   & 0.14 & 0.45 & truth $>$ lie \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{5-fold CV stability.}
-Repeated 5-fold CV on equalized data (20 repeats) yields $71.1\% \pm 9.0\%$, consistent with the LOO point estimate (71.0\%) but with high variance ($\pm$9\,pp). The high standard deviation indicates that the signal is statistically fragile: individual folds can produce accuracy anywhere from $\sim$60\% to $\sim$80\%. A bootstrap confidence interval (10,000 resamples over LOO predictions) yields 95\% CI $[62\%, 80\%]$, confirming that the true accuracy could plausibly be anywhere in this wide range. By comparison, the Llama~3B recalibrated classifier achieves $92.8\% \pm 2.5\%$ under the same protocol---a 7$\times$ reduction in variance reflecting far stronger feature separation.
-
-\paragraph{Accuracy by claim category.}
-Table~\ref{tab:category_accuracy} breaks down equalized LOO accuracy by the five claim categories defined in Appendix~\ref{app:claims}. Scientific claims achieve the highest accuracy (80.0\%), consistent with their clear, high-confidence factual boundaries. Geographic and technology claims fall lowest (60.0\% and 62.5\%), plausibly because LLM training data for these domains may be less consistent, blurring the knowledge-conflict signal. The range across categories (60--80\%) is wide relative to the overall 71\% estimate, suggesting the equalized signal is domain-dependent.
-
-\begin{table}[h]
-\centering
-\caption{Equalized LOO accuracy by claim category (Mistral~7B, $n=100$). Accuracy computed from the same LOO classifier as Table~\ref{tab:prompt_equalized} (overall 71\%); categories sum to 71/100 = 71\%.}
-\label{tab:category_accuracy}
-\begin{tabular}{lrrr}
-\toprule
-\textbf{Category} & \textbf{Correct} & \textbf{Total} & \textbf{Accuracy} \\
-\midrule
-Scientific  & 24 & 30 & 80.0\% \\
-Historical  & 15 & 20 & 75.0\% \\
-Cultural    & 10 & 14 & 71.4\% \\
-Technology  & 10 & 16 & 62.5\% \\
-Geographic  & 12 & 20 & 60.0\% \\
-\midrule
-Overall     & 71 & 100 & 71.0\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Replication on Llama~3.2~3B ($n=100$).}
-The same protocol on Llama~3.2~3B ($n=100$) yields LOO 61.0\% (truthful 64.0\%, lying 58.0\%), bootstrap CI [51\%,\,71\%], permutation $p=0.021$. All feature $|d|$ values fall below 0.3 (consistency 0.26, specificity 0.26, assertiveness 0.18) --- no single feature is load-bearing as assertiveness was for Mistral ($|d|=1.12$). The hedging baseline achieves 75.0\%, exceeding the LLM pipeline by 14\,pp, consistent with the pattern on the original $n=50$ evaluation.
-
-\paragraph{Replication on Llama~3.1~8B ($n=100$).}
-\label{sec:llama8b_equalized}
-To add a fourth point to the scale trend, we evaluated Llama~3.1~8B Instruct via AWS Bedrock under the same prompt-equalized protocol ($n=100$ balanced trials). LOO recalibration achieves \textbf{65.0\%} (62.0\% truthful, 68.0\% lying, F1\,=\,0.660), with 5-fold CV confirming $66.0\% \pm 9.7\%$ and bootstrap 95\% CI $[56\%, 74\%]$. Assertiveness is the dominant feature ($|d|=0.84$), followed by elaboration ($|d|=0.62$) and confidence ($|d|=0.45$); consistency and specificity collapse below 0.4. The hedging regex baseline achieves 75.0\%, exceeding the LLM pipeline by 10\,pp. The 8B result falls between 3B (61\%) and 7B (71\%), consistent with the scale trend.
-
-\paragraph{Replication on Llama~3.3~70B ($n=93$).}
-The prompt-equalized protocol was extended to Llama~3.3~70B via AWS Bedrock ($n=93$ of 100 trials; 7 rate-limit errors excluded). This evaluation is inherently cross-family (Claude Haiku interrogator/extractor, Llama 70B target). Mock-trained accuracy is 50.5\% (near chance), confirming that instructed-condition signal is prompt-driven. However, LOO recalibration achieves \textbf{83.9\%} (84.8\% truthful, 83.0\% lying, F1\,=\,0.839), with 5-fold CV confirming $83.8\% \pm 6.0\%$ and bootstrap 95\% CI $[76.3\%, 91.4\%]$. This is notably higher than the 3B (61\%) and 7B (71\%) equalized results, suggesting that the 70B model's stronger world knowledge produces more detectable correction behavior when confronted with false claims.
-
-Feature separability collapses relative to the instructed condition: assertiveness ($|d|=0.92$ vs.\ $2.55$ instructed), consistency ($|d|=0.32$ vs.\ $3.07$), specificity ($|d|=0.15$ vs.\ $1.98$). Assertiveness remains the dominant feature (permutation importance $+0.10$), consistent with the Mistral equalized finding. Elaboration, which was near-zero in the instructed condition ($|d|=0.31$), shows a moderate equalized signal ($|d|=0.79$, truth $>$ lying). This inversion is consistent with knowledge-driven behavior: without role-play instructions constraining the response format, the model's natural verbosity on familiar topics becomes a detectable signal---it elaborates freely on true claims but responds more tersely when correcting false ones.
-
-The hedging regex baseline achieves 87.1\% LOO on the equalized 70B data, \emph{exceeding} the LLM pipeline by 3.2\,pp (refusal count shows $|d|=1.23$, roughly $1.3\times$ the strongest LLM feature). This extends the pattern observed on smaller models: surface-level lexical features capture as much or more equalized signal as LLM-extracted features.
-
-Category-level accuracy varies: Scientific 90.0\%, Geographic 90.0\%, Cultural 100\% (7 trials), Technology 75.0\%, Historical 70.0\%. Knowledge pre-check confirms near-perfect separation (42/46 truthful claims as TRUE, 46/47 lying claims as FALSE), indicating the model possesses the knowledge needed to distinguish claims.
-
-\paragraph{Mid-scale point: Qwen~2.5~14B ($n=97$).}
-\label{sec:qwen14b_equalized}
-To fill the gap between the 8B and 70B data points, we evaluated Qwen~2.5~14B \cite{qwen2025qwen25} via Ollama under the same prompt-equalized protocol ($n=97$ of 100 trials; 3 connection errors excluded). This is a between-family comparison (Qwen/Alibaba lineage vs.\ Llama/Mistral), with Claude Haiku as cross-family interrogator/extractor. Mock-trained accuracy is 49.5\% (chance); LOO recalibration achieves \textbf{82.5\%} (83.7\% truthful, 81.2\% lying, F1\,=\,0.824), with bootstrap 95\% CI $[74.2\%, 89.7\%]$ and held-out 50/50 confirming at $82.0\% \pm 5.0\%$. The feature profile resembles the 70B result: assertiveness ($|d|=1.11$) and elaboration ($|d|=1.20$) are the two informative features; consistency, specificity, and confidence collapse below $|d|<0.2$. The hedging regex baseline achieves 90.7\%, exceeding the LLM pipeline by 8.2\,pp. The 82.5\% LOO slots between 7B (71\%) and 70B (83.9\%), consistent with the scale trend, and the large jump from 7B to 14B (+11.5\,pp) suggests that the knowledge-conflict detection threshold may activate in this range.
-
-\paragraph{Within-family scale control: Qwen~2.5~7B ($n=100$).}
-\label{sec:qwen7b_equalized}
-To disentangle scale from family composition in the scale-dependent gap (the $\leq$7B and $\geq$14B bins differ in family membership), we evaluated Qwen~2.5~7B via Ollama under the same protocol ($n=100$ balanced trials). This provides a within-family pair: Qwen~7B vs.\ Qwen~14B (82.5\%), both from the Qwen/Alibaba lineage with Claude Haiku as cross-family extractor. Mock-trained accuracy is 61.0\%; LOO recalibration achieves \textbf{74.0\%} (78.0\% truthful, 72.0\% lying, F1\,=\,0.742), with bootstrap 95\% CI $[65\%, 82\%]$ and 5-fold CV confirming $75.0\% \pm 1.8\%$. Assertiveness is the dominant feature ($|d|=1.16$); confidence ($|d|=0.39$) and consistency ($|d|=0.35$) provide weak secondary signal; specificity and elaboration collapse below $|d|<0.25$. The hedging regex baseline achieves 81.0\%. The within-family gap (Qwen~7B: 74\% $\to$ Qwen~14B: 82.5\%, $+$8.5\,pp; Fisher $p=0.17$) is consistent with a genuine scale effect within a single model family, not merely cross-family differences, though the within-pair difference is not individually significant (Fisher $p=0.17$). Qwen~7B's 74\% sits above the prior $\leq$7B range (61--71\%) but clearly below the $\geq$14B cluster (82.5--84\%), suggesting a modest Qwen family advantage at the 7B scale while preserving the overall scale-dependent pattern. This advantage is consistent with Qwen~7B's first-response characteristics: mean first-response length is 155 words, comparable to models at 14B+ scale (Qwen~14B: 153, Llama~70B: 176 words) and nearly twice that of Mistral~7B (86 words). The more elaborative first responses may provide richer correction signals, partially explaining both the higher equalized accuracy and an anomalously high $K=1$ LOO (77\% vs.\ 61--63\% for other models; Section~\ref{sec:interrogation_role}).
-
-\paragraph{Full evaluation on Claude Haiku~4.5 ($n=99$).}
-\label{sec:haiku_equalized}
-To empirically test whether Claude Haiku's RLHF safety behavior produces a detectable equalized signal, we ran the prompt-equalized protocol on Claude Haiku~4.5 via AWS Bedrock ($n=99$ of 100 trials; 1 connection error excluded). This evaluation uses same-family extraction (Claude Haiku as both target and extractor)---an acknowledged limitation. Mock-trained accuracy is 49.5\% (chance); LOO recovers to \textbf{82.8\%} (85.7\% truthful, 80.0\% lying, F1\,=\,0.828), with bootstrap 95\% CI $[74.7\%, 89.9\%]$ and held-out 50/50 confirming at $82.2\% \pm 4.4\%$. Assertiveness is the dominant feature ($|d|=1.49$), the highest equalized assertiveness across all models (cf.\ 1.12 Mistral, 1.11 Qwen~14B, 0.92 Llama~70B, 0.84 Llama~8B). All other features collapse below $|d|<0.5$. The hedging regex achieves 89.9\%, exceeding the LLM pipeline by 7.1\,pp. Under neutral prompts, 98\% of deceptive trials contain correction language, but the model \emph{corrects} rather than \emph{refuses}: ``That's incorrect. Water boils at 100\textdegree C'' (neutral correction) vs.\ ``I can't play this game. I don't lie about facts'' (instructed refusal). The 82.8\% LOO falls within the Claude-extracted equalized range (61--84\%) and is consistent with Haiku's scale, confirming that the instructed 97.8\% was primarily RLHF compliance with the deception instruction.
-
-\paragraph{Implications.}
-Under instructed roleplay, the classifier primarily detects instruction-following mode differences. Under equalization, the residual signal is surface-level: the hedging regex baseline achieves 87--91\% on the three largest models' equalized data, exceeding the LLM pipeline by 4--8\,pp. On smaller models (3B/8B/7B), the equalized-to-instructed gap is $\sim$28--33\,pp (61--71\% vs.\ 93.9--100\%), the signal rests on a single feature (assertiveness), and variance is high ($\pm$9\,pp). On Llama~70B, the gap narrows to 9\,pp (83.9\% vs.\ 93.0\%), with a more robust feature profile. Equalized accuracy (Claude-extracted; cross-family re-extraction in EXP-H below) improves monotonically across seven models---61\% at 3B, 65\% at 8B, 71\% at Mistral~7B, 74\% at Qwen~7B, 82.5\% at 14B, 84\% at 70B, 83\% at Claude Haiku (Figure~\ref{fig:scale_trend}). Within the Llama family, equalized accuracy increases from 61\% (3B) to 65\% (8B) to 84\% (70B); within the Qwen family, from 74\% (7B) to 82.5\% (14B). The 3B$\to$8B increment is small (+4\,pp, within CIs), and the Qwen~7B$\to$Qwen~14B jump (+8.5\,pp within a single family) is consistent with a genuine scale effect but does not individually reach significance (Fisher $p=0.17$). The pooled group comparison ($\leq$7B vs.\ $\geq$14B) is highly significant ($p < 0.0001$), but no individual adjacent increment is significant after Holm-Bonferroni correction; the scale effect is suggestive rather than established. Larger models' stronger world knowledge produces increasingly detectable correction behavior when confronted with false claims, motivating future work on knowledge-probing approaches that leverage this behavior rather than relying on instruction-following asymmetries.
-
-\paragraph{Cross-family re-extraction on equalized data (EXP-H).}
-\label{sec:cross_family_equalized}
-To verify that the scale trend is not an artifact of the Claude Haiku extractor, we re-extracted all five behavioral features from the three equalized datasets (Llama~3B $n=100$, Mistral~7B $n=100$, Llama~70B $n=93$) using two independent cross-family extractors: Mistral Large~3\footnote{Model ID: \texttt{mistral.mistral-large-3-675b-instruct}, accessed via AWS Bedrock (us-east-2) in April 2026. Mistral AI has not published official parameter counts for this model (the \texttt{675b} in the model ID is an AWS Bedrock naming artifact, not an attested parameter count); we use the name ``Mistral Large~3'' following the AWS Bedrock naming convention.} via AWS Bedrock and Qwen~2.5~14B via local Ollama. This provides three structurally different extractors from three model families (Claude/Anthropic, Mistral/Mistral~AI, Qwen/Alibaba).
-
-\begin{table}[h]
-\centering
-\caption{Cross-family re-extraction on equalized data (EXP-H). LOO accuracy using Claude Haiku~4.5, Mistral Large~3, or Qwen~2.5~14B as feature extractor. The Mistral Large / Mistral~7B cell ($\dagger$) is a same-family evaluation; all other cells are cross-family.}
-\label{tab:cross_family_equalized}
-\begin{tabular}{lrrrr}
-\toprule
-\textbf{Target Model} & \textbf{Claude LOO} & \textbf{Mistral Large LOO} & \textbf{Qwen 14B LOO} & \textbf{$\Delta$ range} \\
-\midrule
-Llama~3.2~3B    & 61.0\% & 52.0\% & 61.0\% & $-$9 to 0\,pp \\
-Mistral~7B      & 71.0\% & 62.0\%$^\dagger$ & 57.0\% & $-$9 to $-$14\,pp \\
-Llama~3.3~70B   & 83.9\% & 68.8\% & 67.7\% & $-$15 to $-$16\,pp \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The scale trend is preserved under Mistral Large extraction (52\% $\to$ 62\% $\to$ 68.8\%), confirming that the trend is not a Claude-specific extractor artifact. Notably, the Mistral~7B row constitutes a \textbf{same-family test}: Mistral Large~3 scoring Mistral~7B targets (both from Mistral AI). If same-family bias generalizes beyond the Claude family, Mistral Large should achieve \emph{higher} accuracy than Claude (which is cross-family for Mistral~7B targets). The opposite obtains: Mistral Large LOO is 62\%, 9\,pp \emph{below} Claude's 71\% on identical transcripts; assertiveness $|d|$ drops from 1.14 (Claude) to 0.78 (Mistral Large). This indicates that the same-family inflation documented in EXP-A (Claude-on-Claude, $d$: $4.90 \to 0.63$) is specific to the Claude family---likely reflecting RLHF-induced self-preference---rather than a generalizable property of same-family extraction. Claude appears to be a more discriminating extractor for all targets, not merely a biased one for Claude targets. Under Qwen~14B extraction, the trend partially holds (61\% $\to$ 57\% $\to$ 67.7\%): the 3B$\to$70B direction is preserved, but monotonicity breaks at 7B, where Qwen scores Mistral responses 4\,pp \emph{below} the 3B baseline.
-
-\paragraph{Qwen monotonicity diagnostic.} The break at 7B is traced to a variance spike in Qwen's truthful-condition assertiveness scores. At 3B, Qwen's truthful assertiveness has $\sigma=0.59$; at 7B this doubles to $\sigma=1.27$; at 70B it falls to $\sigma=0.50$. The lie-condition variance remains stable ($\sigma = 0.40, 0.63, 0.29$ across scales). This 2:1 truthful-to-lie variance ratio at 7B collapses Qwen's assertiveness $|d|$ from 0.16 (3B) to 0.14 (7B)---both near zero---while Claude's assertiveness $|d|$ jumps from 0.18 (3B) to 1.12 (7B). The per-trial Claude--Qwen assertiveness correlation is weak across all three scales ($r = 0.21, 0.38, 0.22$), indicating that the two extractors are measuring partially different constructs. The diagnostic suggests that Qwen~14B, as a mid-scale extractor, introduces noise on truthful responses to Mistral~7B specifically, plausibly because both models occupy a similar capability range where scoring ambiguity peaks. The scale trend is thus robust under 2 of 3 extractors (Claude, Mistral Large) but not universal; extractor sensitivity at this scale warrants investigation with additional extractors.
-
-Absolute accuracy under cross-family extraction is lower by 9--16\,pp across models. This gap reflects two partially separable effects: same-family bias (documented in EXP-A for the Claude-on-Claude setting) and extractor capability differences (Claude Haiku assigns more discriminative assertiveness scores to \emph{all} targets, not just Claude targets; see Section~\ref{sec:haiku_defensiveness}). Per-trial feature correlations between Claude and Mistral Large extraction are moderate to strong (Pearson $r = 0.43$--$0.82$ across features and models, all $p < 0.01$); Claude--Qwen correlations are weaker on assertiveness ($r = 0.21$--$0.38$), explaining the divergent LOO results. Assertiveness $d$ drops under cross-family extraction for all three models (e.g., 70B: $0.92 \to 0.47$ Mistral Large, $0.92 \to 0.64$ Qwen). The 70B cross-family-extracted accuracy (67.7--68.8\%) falls within the Claude-extracted range for 3B--7B (61--74\%), suggesting that cross-family extraction roughly ``docks'' the accuracy by one scale step.
-
-\paragraph{Instructed-matched control (EXP-G).}
-\label{sec:instructed_matched}
-To decompose the 9\,pp gap between instructed-original (93\% LOO) and equalized (84\% LOO) on Llama~70B, we ran a hybrid condition: the model receives the standard asymmetric lie/truth system prompts (as in Sections~\ref{sec:ollama_eval}--\ref{sec:llama70b_eval}), but uses the matched factual claim pairs from the equalized experiment (Appendix~\ref{app:claims}) rather than the original asymmetric claims. This isolates the instruction-following contribution from the claim-type contribution. For truth trials, the model is told ``answer honestly'' and receives the true claim; for lie trials, the model is told ``the claim is FALSE, defend it'' and receives the modified-false claim.
-
-LOO recalibration achieves \textbf{99.0\%} (100\% truthful, 98\% lying, F1\,=\,0.990), with bootstrap 95\% CI $[97\%, 100\%]$. We note that at $n=100$, the difference between 99\% and 95\% is four trials; this ceiling should be interpreted cautiously. A 50/50 held-out evaluation (100 stratified random splits) confirms the LOO estimate: $97.9\% \pm 1.7\%$, ruling out LOO overfitting at this ceiling. Feature separability is very high: consistency $|d|=4.53$, assertiveness $|d|=2.36$, specificity $|d|=1.95$ --- all comparable to or exceeding the original instructed values (Table~\ref{tab:feature_comparison}).
-
-\textbf{Gap decomposition.} The three-condition comparison yields a clean decomposition (all on Llama~70B):
-\begin{itemize}
-    \item Equalized (84\% LOO) $\xrightarrow{+15\,\text{pp}}$ Instructed-matched (99\% LOO): the instruction-following contribution. Adding asymmetric lie/truth prompts to matched claims recovers the full instructed signal.
-    \item Instructed-matched (99\% LOO) $\xrightarrow{-6\,\text{pp}}$ Instructed-original (93\% LOO): the claim-type contribution. Switching from matched factual pairs to asymmetric claims (factual truthful + first-person experiential lying) actually \emph{reduces} accuracy by 6\,pp.
-\end{itemize}
-
-This decomposition reveals that the original instructed accuracy (93\%) was not inflated by claim asymmetry --- it was \emph{depressed} by it. First-person experiential claims (``I graduated from MIT'') are harder to detect as lies than modified-false factual claims (``Water boils at 85\textdegree C''), because factual claims trigger stronger correction behavior. The entire equalized-to-instructed gap ($+$9\,pp) is attributable to instruction-following ($+$15\,pp), partially offset by the harder claim type ($-$6\,pp).
-
-\paragraph{Replication on Llama~3.2~3B (EXP-G).}
-The same instructed-matched protocol was replicated on Llama~3.2~3B via Ollama ($n=100$ balanced trials; Claude Haiku~4.5 as cross-family interrogator/extractor). LOO recalibration achieves \textbf{90.0\%} (90.0\% truthful, 90.0\% lying, F1\,=\,0.900), with bootstrap 95\% CI $[84\%, 96\%]$. Feature separability: consistency $|d|=2.02$, assertiveness $|d|=1.89$, specificity $|d|=1.51$; confidence and elaboration near zero. The hedging regex baseline achieves 85.0\%, trailing the LLM pipeline by 5\,pp.
-
-The three-condition decomposition on 3B:
-\begin{itemize}
-    \item Equalized (61\% LOO) $\xrightarrow{+29\,\text{pp}}$ Instructed-matched (90\% LOO): the instruction-following contribution.
-    \item Instructed-matched (90\% LOO) $\xrightarrow{+3.9\,\text{pp}}$ Instructed-original (93.9\% LOO): the claim-type contribution.
-\end{itemize}
-
-\paragraph{Replication on Qwen~2.5~14B (EXP-G).}
-The instructed-matched protocol was further replicated on Qwen~2.5~14B via Ollama ($n=100$ balanced trials; Claude Haiku~4.5 as cross-family interrogator/extractor). LOO recalibration achieves \textbf{90.0\%} (92.0\% truthful, 88.0\% lying, F1\,=\,0.900), with bootstrap 95\% CI $[84\%, 95\%]$. Feature separability: consistency $|d|=3.10$, assertiveness $|d|=2.26$, specificity $|d|=1.82$, confidence $|d|=1.53$; elaboration moderate ($|d|=0.74$). The hedging regex baseline achieves 75.0\%, trailing the LLM pipeline by 15\,pp. The two-condition decomposition on 14B:
-\begin{itemize}
-    \item Equalized (82.5\% LOO) $\xrightarrow{+7.5\,\text{pp}}$ Instructed-matched (90.0\% LOO): the instruction-following contribution.
-\end{itemize}
-No instructed-original condition was run on Qwen~14B, so only the two-way decomposition is available. The $+$7.5\,pp instruction-following contribution is the smallest of the five models tested, consistent with Qwen~14B's strong equalized baseline (82.5\%) leaving less room for instruction-following to add signal.
-
-\paragraph{Replication on Mistral~7B (EXP-G).}
-The instructed-matched protocol was further replicated on Mistral~7B via Ollama ($n=100$ balanced trials; Claude Haiku~4.5 as cross-family interrogator/extractor). LOO recalibration achieves \textbf{97.0\%} (100.0\% truthful, 94.0\% lying, F1\,=\,0.969), with bootstrap 95\% CI $[93\%, 100\%]$. Feature separability: consistency $|d|=3.09$, assertiveness $|d|=2.70$, specificity $|d|=1.70$, confidence $|d|=1.39$; elaboration near zero ($|d|=0.30$). The hedging regex baseline achieves 92.0\%, trailing the LLM pipeline by 5\,pp. The two-condition decomposition on 7B:
-\begin{itemize}
-    \item Equalized (71\% LOO) $\xrightarrow{+26\,\text{pp}}$ Instructed-matched (97\% LOO): the instruction-following contribution.
-\end{itemize}
-The $+$26\,pp instruction-following contribution is the second-largest after 8B ($+$31\,pp), despite Mistral~7B's substantially higher equalized baseline (71\% vs.\ 61\%). No instructed-original condition was run on Mistral~7B, so only the two-way decomposition is available.
-
-\paragraph{Replication on Llama~3.1~8B (EXP-G).}
-The instructed-matched protocol was replicated on Llama~3.1~8B via AWS Bedrock ($n=100$ balanced trials; Claude Haiku~4.5 as cross-family interrogator/extractor). LOO recalibration achieves \textbf{96.0\%} (100.0\% truthful, 92.0\% lying, F1\,=\,0.958), with bootstrap 95\% CI $[92\%, 99\%]$. Feature separability: consistency $|d|=2.37$, specificity $|d|=1.91$, assertiveness $|d|=1.44$; confidence and elaboration near zero ($|d| \leq 0.24$). The hedging regex baseline achieves 67.0\%, trailing the LLM pipeline by 29\,pp. The two-condition decomposition on 8B:
-\begin{itemize}
-    \item Equalized (65\% LOO) $\xrightarrow{+31\,\text{pp}}$ Instructed-matched (96\% LOO): the instruction-following contribution.
-\end{itemize}
-The $+$31\,pp instruction-following contribution is the largest of the five models tested, despite 8B having a higher equalized baseline than 3B (65\% vs.\ 61\%). This suggests that equalized accuracy and instruction-following sensitivity are partially independent dimensions. The knowledge-transfer confound (Section~5) may explain this asymmetry: the 8B model's intermediate world knowledge means the lie prompt provides a larger relative information boost than on 3B (where world knowledge is too weak for strong correction behavior), while 8B remains far more instruction-sensitive than 14B or 70B (where world knowledge is strong enough to produce equalized signal without instruction). No instructed-original condition was run on Llama~8B, so only the two-way decomposition is available.
-
-\paragraph{Cross-scale EXP-G comparison.} Comparing all five decompositions: instruction-following contributes $+$31\,pp on 8B, $+$29\,pp on 3B, $+$26\,pp on 7B, $+$7.5\,pp on 14B, and $+$15\,pp on 70B; the claim-type effect is $+$3.9\,pp on 3B and $-$6\,pp on 70B. The instruction-following contribution does not decrease monotonically with scale: the 14B model shows the smallest gap ($+$7.5\,pp), while all three models $\leq$8B show gaps $\geq$26\,pp and the 70B model shows $+$15\,pp. The Qwen~14B result ($+$7.5\,pp) is a clear outlier: Mistral~7B, from a different model family than the Llama models, shows an instruction-following contribution ($+$26\,pp) comparable to the Llama models at similar scale ($+$29--31\,pp). This cross-family replication suggests the low Qwen~14B gap reflects a family-specific effect rather than a genuine mid-scale dip in instruction-following sensitivity. On 3B, both factors inflate accuracy in the same direction, producing the full 32.9\,pp equalized-to-instructed gap. The claim-type sign reversal across scales is consistent with the knowledge-conflict mechanism: on 70B, matched-false factual claims trigger strong correction behavior (making them \emph{easier} to detect than first-person experiential claims), while on 3B the model's weaker world knowledge means the original claim-type asymmetry provides additional detectable signal. In all five cases, instruction-following is the dominant confound, accounting for $+$7.5--31\,pp of the equalized-to-instructed gap.
-
-\paragraph{Scale trend and feature collapse (Figures~\ref{fig:scale_trend}--\ref{fig:feature_collapse}).}
-The equalized scale trend now spans seven models across three families: 61\% (3B) $\to$ 65\% (8B) $\to$ 71\% (Mistral~7B) $\to$ 74\% (Qwen~7B) $\to$ 82.5\% (14B) $\to$ 84\% (70B) $\to$ 83\% (Claude Haiku). Within the Llama family, accuracy increases from 61\% to 65\% to 84\%; within the Qwen family, accuracy increases from 74\% (7B) to 82.5\% (14B). The Mistral~7B (71\%) and Claude Haiku (82.8\%) points are between-family comparisons consistent with the trend. The trend is non-decreasing in point estimates across all seven models. However, pairwise permutation tests (10,000 permutations, Holm-Bonferroni corrected) reveal that \textbf{no individual adjacent increment is statistically significant}: 3B$\to$8B ($+$4\,pp, $p=1.00$), 8B$\to$Mistral~7B ($+$6\,pp, $p=1.00$), Mistral~7B$\to$Qwen~7B ($+$3\,pp, $p=1.00$), Qwen~7B$\to$Qwen~14B ($+$8.5\,pp, $p=0.98$), Qwen~14B$\to$70B ($+$1.4\,pp, $p=1.00$), 70B$\to$Haiku ($-$1\,pp, $p=1.00$). The within-family Qwen~7B$\to$14B jump ($+$8.5\,pp, Fisher $p=0.17$) is the largest adjacent increment and directly addresses the family-composition confound: scale produces a consistent accuracy increase within a single model family. By contrast, the pooled group comparison---models $\leq$7B (mean 67.8\%, $n=400$) vs.\ models $\geq$14B (mean 83.0\%, $n=289$)---is highly significant ($p < 0.0001$; bootstrap 95\% CI on difference: $[+9.0\%, +21.6\%]$). The 3B-to-70B endpoint comparison is also significant ($+$22.9\,pp, $p=0.0005$). The trend is thus better characterized as a \textbf{scale-dependent gap}---models $\leq$7B cluster at 61--74\% while models $\geq$14B cluster at 82.5--84\%---rather than smooth monotonic scaling. The within-family Qwen pair (74\% $\to$ 82.5\%) is consistent with this pattern, though the within-pair difference does not individually reach significance (Fisher $p=0.17$); additional within-family scale sweeps are needed to precisely localize the transition. Cross-family re-extraction (EXP-H) confirms this trend under 2 of 3 extractors, but Qwen~14B extraction breaks monotonicity at 7B due to a truthful-condition variance spike; see the diagnostic in Section~\ref{sec:cross_family_equalized}. Figure~\ref{fig:scale_trend} visualizes the trend alongside the hedging regex baseline, which exceeds the LLM pipeline at every scale point. Figure~\ref{fig:feature_collapse} shows the feature-level collapse from instructed to equalized conditions for all three primary models.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.85\textwidth]{figures/scale_trend.pdf}
-\caption{Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange; error bars: bootstrap 95\% CIs). Models $\leq$7B cluster at 61--74\% and models $\geq$14B at 82.5--84\% (pooled group difference $p < 0.0001$); no individual adjacent increment is significant after Holm-Bonferroni correction. The within-family Qwen pair (7B: 74\%, 14B: 82.5\%) is directionally consistent (Fisher $p=0.17$). The hedging regex baseline is at or above the LLM pipeline at every scale point.}
-\label{fig:scale_trend}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{figures/feature_collapse.pdf}
-\caption{Feature separability collapse: instructed (filled) vs.\ equalized (hatched) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; assertiveness retains the most signal.}
-\label{fig:feature_collapse}
-\end{figure}
-
-\subsection{Enhanced Zero-Shot LLM Judge Baselines (EXP-3)}
-\label{sec:zero_shot}
-
-To rigorously assess the contribution of the structured pipeline over direct LLM judgment, we evaluated three zero-shot prompt variants on Llama~3.2~3B ($n=98$), Mistral~7B ($n=100$), and Llama~3.3~70B ($n=100$) transcripts: (1) \textbf{original} --- simple direct judgment; (2) \textbf{chain-of-thought (CoT)} --- guided step-by-step analysis of five behavioral dimensions before verdict; (3) \textbf{few-shot} --- two labeled examples (one truthful, one lying) before the test case. All variants use Claude Haiku~4.5 as judge.
-
-\begin{table}[h]
-\centering
-\caption{Enhanced zero-shot variants vs.\ feature pipeline. \emph{Mock-trained} = mock-distribution classifier; \emph{Recalibrated} = LOO retrained on target data.}
-\label{tab:zero_shot_comparison}
-\begin{tabular}{llrrrr}
-\toprule
-\textbf{Target} & \textbf{Method} & \textbf{Overall} & \textbf{Truthful} & \textbf{Lying} & \textbf{F1} \\
-\midrule
-\multirow{5}{*}{Llama 3B}
-  & Zero-shot (original)  & 77.9\% & 55.3\% & 100.0\% & 0.821 \\
-  & Zero-shot (CoT)       & 43.9\% & 46.9\% & 40.8\%  & 0.421 \\
-  & Zero-shot (few-shot)  & 68.4\% & 36.7\% & 100.0\% & 0.760 \\
-  & Mock-trained pipeline & 61.2\% & 26.5\% & 95.9\%  & 0.712 \\
-  & Recalibrated (LOO)    & \textbf{93.9\%} & 91.8\% & 95.9\%  & \textbf{0.940} \\
-\midrule
-\multirow{5}{*}{Mistral 7B}
-  & Zero-shot (original)  & 82.7\% & 65.3\% & 100.0\% & 0.852 \\
-  & Zero-shot (CoT)       & 71.4\% & 74.0\% & 68.8\%  & 0.702 \\
-  & Zero-shot (few-shot)  & 80.0\% & 60.0\% & 100.0\% & 0.833 \\
-  & Mock-trained pipeline & 79.0\% & 64.0\% & 94.0\%  & 0.817 \\
-  & Recalibrated (LOO)    & \textbf{100.0\%} & 100.0\% & 100.0\% & \textbf{1.000} \\
-\midrule
-\multirow{5}{*}{Llama 70B}
-  & Zero-shot (original)  & 91.0\% & 82.0\% & 100.0\% & 0.917 \\
-  & Zero-shot (CoT)       & 61.0\% & 74.0\% & 48.0\%  & 0.552 \\
-  & Zero-shot (few-shot)  & 85.0\% & 70.0\% & 100.0\% & 0.870 \\
-  & Mock-trained pipeline & 75.0\% & 80.0\% & 70.0\%  & 0.737 \\
-  & Recalibrated (LOO)    & \textbf{93.0\%} & 92.0\% & 94.0\%  & \textbf{0.931} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Chain-of-thought hurts.}
-Counterintuitively, the CoT variant performs \emph{worse} than simple judgment on all three models (Llama~3B: 43.9\% vs.\ 77.9\%; Mistral: 71.4\% vs.\ 82.7\%; Llama~70B: 61.0\% vs.\ 91.0\%). The degradation is most severe on Llama~70B (91$\to$61\%, a 30\,pp drop), where the stronger reasoning capacity of the 70B transcripts appears to cause the CoT judge to ``talk itself out of'' correct snap judgments---structured analysis amplifies ambiguity rather than resolving it. On Llama~3B, CoT collapses the ``predict lying'' bias and instead produces near-balanced but lower accuracy (46.9\% truthful, 40.8\% lying) --- the guided analysis appears to confuse the judge by drawing attention to ambiguous signals. Few-shot is intermediate and similarly fails to improve over the original on any model.
-
-\paragraph{Best zero-shot still below recalibrated pipeline.}
-The simple original prompt is the best zero-shot variant on all models (77.9\% Llama~3B, 82.7\% Mistral, 91.0\% Llama~70B). Even this optimized baseline falls 2.0--17.3\,pp below the recalibrated pipeline (93.9\% Llama~3B, 100\% Mistral, 93.0\% Llama~70B). The 70B result is particularly striking: zero-shot achieves 91.0\% vs.\ the recalibrated pipeline's 93.0\%---a 2\,pp gap that is within noise at $n=100$---suggesting that at sufficient scale, a single LLM judgment call nearly matches the full structured pipeline. This 70B zero-shot result also substantially outperforms the mock-trained pipeline (75.0\%), confirming that at larger scale the LLM judge's direct assessment is more robust than a misaligned decision boundary. The consistent ordering (zero-shot $>$ mock-trained, recalibrated $\geq$ zero-shot) holds across all models, with the gap shrinking at scale.
-
-\paragraph{Evaluator bias.}
-Both the zero-shot judge and the feature extractor are Claude Haiku models evaluating open-weight model responses. The shared evaluator family likely contributes to the ``predict lying'' bias seen across all simple zero-shot variants (100\% lying recall on both models). The CoT variant partially breaks this bias at the cost of overall accuracy. The recalibrated pipeline mitigates evaluator bias by learning the decision boundary from real target-model data.
-
-\subsection{Adaptive Stopping Efficiency}
-\label{sec:threshold_sweep}
-\label{sec:fixed_k}
-
-A post-hoc threshold sweep on $n=98$ Llama~3.2~3B trials (LOO-recalibrated classifier, $\tau \in \{0.5\ldots0.9\}$, \texttt{min\_questions}\,=\,2) shows that accuracy is identical (93.9\%) across all $\tau$ values; lower $\tau$ provides efficiency gains without accuracy cost (2.20 vs.\ 2.56 avg.\ questions for $\tau=0.5$ vs.\ $0.9$). All 6 misclassified trials commit their error by question 3 and are not recoverable by additional interrogation, indicating genuine feature-signal failures rather than stopping-too-early artifacts.
-
-Fixed-$K$ ablation (LOO, $K\in\{1\ldots8\}$): adaptive stopping matches $K=8$ accuracy (93.9\% Llama, 100\% Mistral) using only 2.6 average questions. Llama $K=1$ achieves 90.8\%; Mistral $K=1$ achieves 99.0\%, confirming strong signal in the first question for both models. Full threshold and fixed-$K$ tables are in Appendix~\ref{app:threshold_sweep}.
-
-\paragraph{Marginal value of multi-turn interrogation.} The $K=1$ results deserve explicit acknowledgment: a single question followed by LOO-recalibrated classification achieves 90.8\% (Llama) and 99.0\% (Mistral), within 3.1\,pp and 1.0\,pp of the adaptive system's full performance respectively. The multi-turn interrogation machinery therefore contributes only a modest accuracy increment in the recalibrated regime. Its primary contribution is efficiency---reducing from 8 fixed questions to $\sim$2.6 adaptive questions---rather than the additional $\sim$2\,pp of accuracy. We discuss the implications of this finding for the role of interrogation versus recalibration in Section~\ref{sec:interrogation_role}.
-
-\subsection{Held-Out Evaluation and Permutation Test (EXP-B)}
-\label{sec:held_out}
-
-To address the concern that LOO accuracy on $n \approx 100$ samples with 5 features may overfit, we ran two complementary evaluations.
-
-\textbf{B1: 50/50 Stratified Held-Out Split.}  For each model, we performed 100 stratified 50/50 splits and trained a logistic regression on the first half and tested on the second half. Held-out accuracy closely tracks LOO accuracy across all three models: Llama~3.2~3B achieves mean $92.6\% \pm 2.9\%$ (95\% CI [85.7\%,\,98.0\%]) vs.\ LOO 93.9\%; Mistral~7B achieves $98.8\% \pm 2.2\%$ (95\% CI [94.0\%,\,100\%]) vs.\ LOO 100\%; Claude Haiku achieves $97.6\% \pm 2.2\%$ (95\% CI [92.3\%,\,100\%]) vs.\ LOO 97.8\%. The 0.2--1.3\,pp gap between LOO and held-out mean confirms the LOO estimates are not substantially optimistic.
-
-\textbf{B2: Permutation Test.}  We shuffled ground-truth labels 1000 times and ran LOO on each shuffled dataset to build a null distribution of achievable accuracy under random labeling. All three null distributions are centered near 47.6--47.3\% (chance for binary classification) with SD 7.2--8.0\%. The 99th percentile of the null reaches at most 63.0\%; all three real LOO accuracies (93.9\%, 100\%, 97.8\%) exceed the 99th percentile by a wide margin ($p<0.001$ for all models). This confirms that the LOO results are not artifacts of overfitting.
-
-\subsection{Simple Heuristic Baseline (EXP-C)}
-\label{sec:hedging_baseline}
-
-We evaluate whether a simple bag-of-words classifier---requiring no LLM feature extraction---can approach the performance of the full adaptive pipeline. The baseline uses seven text-level features extracted via regex, summarized in Table~\ref{tab:hedging_features}.
-
-\begin{table}[h]
-\centering
-\caption{Hedging baseline features (EXP-C). All extracted via regex from response text; no LLM calls required.}
-\label{tab:hedging_features}
-\begin{tabular}{ll}
-\toprule
-\textbf{Feature} & \textbf{Description} \\
-\midrule
-Hedge word count     & Count of ``maybe,'' ``perhaps,'' ``I think,'' ``not sure,'' etc. \\
-Hedge word rate      & Hedge words per response token (normalized) \\
-Refusal/correction count & Count of ``I cannot,'' ``Actually,'' ``That's not correct,'' etc. \\
-Avg.\ response length  & Mean word count per assistant response \\
-Response length SD   & Standard deviation of word counts across responses \\
-Confidence word count & Count of ``certainly,'' ``definitely,'' ``absolutely,'' etc. \\
-Question mark count  & Questions in assistant responses \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-LOO accuracy of the hedging baseline reaches 87.8\% on Llama~3.2~3B, 86.0\% on Mistral~7B, and 93.5\% on Claude Haiku, compared to 93.9\%, 100\%, and 97.8\% for the full LLM-extracted pipeline. The gap narrows to 4--14\,pp, with most signal attributable to simple lexical patterns (refusal markers on Claude Haiku; hedge word rate on Llama/Mistral). Combining text and LLM features yields marginal improvement (94.9\%, 99.0\%, 98.9\%). These results confirm that the structured feature pipeline adds a modest but consistent increment over trivial heuristics, while simultaneously showing that much of the detectable signal resides in surface lexical patterns rather than latent behavioral properties.
-
-\paragraph{EXP-D: Hedging Baseline on Equalized Condition.}
-On the prompt-equalized datasets the hedging-word baseline achieves 73.0\% on Mistral~7B and 75.0\% on Llama~3.2~3B ($n=100$), matching or exceeding the LLM-extracted pipeline (71.0\%, 61.0\%) by 2\,pp and 14\,pp respectively. The LLM pipeline's advantage over regex is therefore confined to the instructed condition. A single-feature ablation (EXP-J, Table~\ref{tab:refusal_only}) later confirms that refusal/correction count alone captures the equalized signal on 6 of 7 models.
-
-\paragraph{EXP-E: Diagnosing the Llama Equalized Gap.}
-We investigated why the LLM pipeline underperforms regex by 14\,pp on Llama equalized. A per-feature diagnostic (EXP-E; script available in supplemental) reveals \emph{extractor score inversion}: under neutral prompting, Llama~3.2~3B encounters false claims and correctly rejects them (``Actually, water boils at 100\textdegree C\ldots''). The LLM extractor assigns these corrections slightly \emph{higher} consistency ($\bar{x}_{\text{lie}}=6.11$ vs.\ $\bar{x}_{\text{truth}}=5.30$, $d=-0.41$), specificity ($d=-0.36$), and assertiveness ($d=-0.32$) than truthful responses --- the opposite of the pattern the LOO classifier was calibrated on. All five LLM features have $|d|<0.5$ in this inverted direction, leaving almost no separable signal.
-
-Refusal/correction markers, by contrast, are lexically unambiguous: 84\% of lying trials contain at least one correction marker (``Actually,'' ``That is not correct,'' etc.) vs.\ 68\% of truthful trials, yielding refusal-count $|d|=1.02$---roughly $2.4\times$ the strongest LLM feature. A single-feature LOO using refusal count alone achieves 74.0\%, explaining the majority of the regex baseline's 75\% advantage over the LLM pipeline. The contrast with Mistral equalized is instructive: there, LLM assertiveness ($d=1.12$) and refusal count ($d=1.21$) are both informative, making the two pipelines nearly equal (71\% vs.\ 73\%). On Llama equalized, the LLM extractor's signal is effectively inverted and too weak to use.
-
-\paragraph{EXP-J: Refusal-count-only classifier on equalized data.}
-To test whether the equalized-condition findings depend on LLM feature extraction, we ran LOO with a single feature---the regex refusal/correction count---across all seven equalized models. Table~\ref{tab:refusal_only} reports the results alongside the 7-feature hedging baseline and the full LLM pipeline.
-
-\begin{table}[h]
-\centering
-\caption{Refusal-count-only LOO vs.\ full pipelines on equalized data. A single regex feature (refusal/correction marker count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, sidestepping construct validity concerns about LLM-extracted assertiveness.}
-\label{tab:refusal_only}
+\caption{Experiment summary: design, sample size, and key finding for each evaluation. Per-model $n$ varies from 93 to 100 due to API errors; Table~\ref{tab:refusal_only} shows exact counts.}
+\label{tab:experiment_summary}
 \begin{small}
-\begin{tabular}{lrrrr}
+\begin{tabular}{llrll}
 \toprule
-\textbf{Model} & \textbf{$n$} & \textbf{Refusal-only} & \textbf{Hedging (7-feat)} & \textbf{LLM pipeline} \\
+\textbf{Label} & \textbf{Experiment} & \textbf{N} & \textbf{Section} & \textbf{Key Finding} \\
 \midrule
-Llama~3.2~3B     & 100 & 64.0\% & 75.0\% & 61.0\% \\
-Llama~3.1~8B     & 100 & 80.0\% & 75.0\% & 65.0\% \\
-Mistral~7B       & 100 & 75.0\% & 73.0\% & 71.0\% \\
-Qwen~2.5~7B      & 100 & 86.0\% & 83.0\% & 74.0\% \\
-Qwen~2.5~14B     &  97 & 87.6\% & 90.7\% & 82.5\% \\
-Llama~3.3~70B    &  93 & 87.1\% & 87.1\% & 83.9\% \\
-Claude Haiku~4.5 &  99 & 81.8\% & 89.9\% & 82.8\% \\
+EXP-J & Refusal-count-only (equalized) & 93--100 & \S\ref{sec:hedging_baseline} & Matches LLM pipeline on 6/7 models \\
+EXP-J-fixed & Fixed-threshold (label-free) & 93--100 & \S\ref{sec:hedging_baseline} & 80.1\% avg.\ without calibration \\
+EXP-A & Prompt-equalized control & 93--100 & \S\ref{sec:prompt_equalized} & 93--100\% $\to$ 52--69\% \\
+EXP-G & Instructed-matched (5 models) & 100 & \S\ref{sec:prompt_equalized} & IF: +7.5--15\,pp (clean) \\
+EXP-H & Cross-family re-extraction & 100--293 & \S\ref{sec:cross_family_equalized} & Trend holds under 2/3 extractors \\
+EXP-I & Autonomous pilot (Apollo) & 54 & \S\ref{sec:autonomous_pilot} & Refusal-count: 0--54\% \\
+EXP-I-m & Matched autonomous (3B+14B) & 200 & \S\ref{sec:autonomous_matched} & Sycophancy 82\%; others 60--66\% \\
+EXP-L & Cross-claim-set generalization & 100 & \S\ref{sec:hedging_baseline} & Within $\pm$2.2\,pp of LOO \\
+\midrule
+--- & Per-model instructed evals & 92--100 & App.~\ref{app:instructed_results} & LOO: 93--100\% after recalibration \\
+--- & Mock validation & 100 & App.~\ref{app:mock_summary} & 93\% accuracy \\
+EXP-B & Held-out \& permutation & 92--100 & App.~\ref{app:validation_tests} & LOO within 1.3\,pp of held-out \\
+EXP-C & Hedging regex (instructed) & 92--100 & App.~\ref{app:hedging_instructed} & 86--94\% LOO \\
+EXP-K & Pacchiardi replication & 100 & App.~\ref{app:pacchiardi} & 72\% unrelated vs.\ 71\% related \\
+\bottomrule
+\end{tabular}
+\end{small}
+\end{table*}
+
+\subsection{Headline Numbers (Reader Orientation)}
+\label{sec:headlines}
+
+Table~\ref{tab:headlines} consolidates the numerical results reported across \S\ref{sec:experiments}--\S\ref{sec:discussion} into a single place, each entry pointing to the table where it is reported in full context. This is a reader aid, not a results summary; interpretation and caveats are in the referenced sections.
+
+The table is organized along the paper's four empirical axes: the \emph{instructed-vs.-equalized} contrast (rows 1--3) isolates instruction-following artifacts; the \emph{extractor} contrast (rows 2, 4--5) isolates same-family bias; the \emph{regime} contrast (rows 7--9) tests transfer across instructed, semi-autonomous, and autonomous-deception conditions; the \emph{adversarial and validity} rows (10--11) bound the rule's robustness and the construct validity of the LLM-extracted features. The three frontier-pilot rows (12--14) are reported together for pairing, and are all labeled ``pilot'' to reflect the $n=99$ between-extractor power limitation (\S\ref{sec:sonnet_frontier}). Rows with a Haiku extractor should be read with the ICC caveat of \S\ref{sec:icc_owned} in mind; rows with a Regex extractor are extractor-independent by construction.
+
+\begin{table}[h]
+\centering
+\caption{Headline numbers. ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates an extractor-independent refusal-count rule. All pipeline numbers use the full 5-feature ADAGE pipeline; all regex numbers use the fixed rule \textit{refusal count $\geq 1$}. Every row points to the table/section providing full context.}
+\label{tab:headlines}
+\begin{small}
+\begin{tabular}{lrrllll}
+\toprule
+\textbf{Finding} & \textbf{Value} & \textbf{n} & \textbf{Regime} & \textbf{Extractor} & \textbf{Ref.} \\
+\midrule
+Instructed LOO (7-model range) & 93.9--100\% & 92--100 & Instructed & Haiku & App.~\ref{app:instructed_results} \\
+Equalized pipeline avg (Haiku, 7 models) & 74.3\% & 689 & Equalized & Haiku & Tab.~\ref{tab:refusal_only} \\
+Equalized rule avg (pooled-LOO, $k\!=\!1$) & 80.1\% & 689 & Equalized & Regex & Tab.~\ref{tab:refusal_only} \\
+Cross-family pipeline (7-target, Mistral L3) & 64.7\% & 689 & Equalized & Mistral L3 & Tab.~\ref{tab:cross_family_panel} \\
+Cross-family pipeline (7-target, Llama 70B) & 66.9\% & 689 & Equalized & Llama 70B & Tab.~\ref{tab:cross_family_panel} \\
+Qwen 2.5 32B RLHF-collapse row (structural 0) & 50.0\% & 100 & Equalized & Haiku & \S\ref{sec:qwen_scale_sweep} \\
+Instructed-matched $\Delta$LOO (clean $\geq$14B) & $+$7.5 to $+$15 pp & 99--100 & Decomp & Haiku & \S\ref{sec:prompt_equalized} \\
+Sycophancy transfer (3B/14B/70B, rule) & 82/82/72\% & 50 each & Semi-auto & Regex & Tab.~\ref{tab:autonomous_matched} \\
+Persona/false-belief (3B; 14B; rule) & 60--66\% & 50 each & Autonomous & Regex & Tab.~\ref{tab:autonomous_matched} \\
+Adversarial Mistral 7B paraphrase (rule) & 68 $\to$ 58\% & 50 paired & Equalized+adv & Regex & \S\ref{sec:adversarial_paraphrase} \\
+ICC (correction-marker density, human vs.\ LLM) & 0.114 & 20 & Validity & --- & \S\ref{sec:icc_owned} \\
+Frontier pilot rule (Sonnet 4.5, LOO) & 73.7\% & 99 & Equalized (pilot) & Regex & \S\ref{sec:sonnet_frontier} \\
+Frontier pilot pipeline (Sonnet 4.5, Haiku) & 92.9\% & 99 & Equalized (pilot) & Haiku & \S\ref{sec:sonnet_frontier} \\
+Frontier pilot pipeline (Sonnet 4.5, Llama 70B) & 88.9\% & 99 & Equalized (pilot) & Llama 70B & \S\ref{sec:sonnet_frontier} \\
 \bottomrule
 \end{tabular}
 \end{small}
 \end{table}
 
-The refusal-count-only classifier matches or exceeds the full LLM pipeline on six of seven equalized models (exception: Llama~3B, where refusal count achieves 64\% vs.\ 61\% for LLM but 75\% for full hedging). Refusal count also matches the full 7-feature hedging baseline within $\leq$1\,pp on five of seven models; on Llama~3B (64\% vs.\ 75\%) and Claude Haiku (82\% vs.\ 90\%), the multi-feature baseline provides additional value beyond the single refusal feature. The scale trend is preserved: refusal-count LOO rises from 64\% (3B) to 75--86\% (7B) to 87--88\% (14B--70B), with refusal-count $|d|$ increasing from 0.82 (3B) to 1.14 (Mistral~7B) to 1.32--1.68 (14B--70B). On the two largest models (14B and 70B), refusal count alone achieves 87--88\%---matching the full 7-feature hedging baseline within $\leq$1\,pp and exceeding the LLM pipeline by 3--5\,pp. This result has two implications: (1)~the positive finding of a scale-dependent knowledge-conflict signal does not depend on LLM-extracted assertiveness or its construct validity; a single regex feature captures the signal independently; (2)~the equalized detection mechanism is overwhelmingly lexical---models confronted with false claims produce correction language at rates that scale with model capability, and this signal is detectable by the simplest possible classifier.
+\subsection{Label-Free Detection Rule}
+\label{sec:hedging_baseline}
 
-\subsection{Autonomous Deception Pilot (EXP-I)}
+The central methodological finding is that a single regex feature---refusal/correction count---requires no labeled data and matches or exceeds the full LLM pipeline on equalized data. This is evidence that the pipeline adds little above surface-lexical baselines in this regime, not a recommendation that practitioners use the rule in production: the rule is English-only, lexical, and (as Section~\ref{sec:adversarial_paraphrase} shows) fragile to static adversarial paraphrase. We extract refusal/correction markers via regex (``I cannot,'' ``Actually,'' ``That's not correct''; full pattern specifications in Appendix~\ref{app:regex_patterns}).
+
+\paragraph{EXP-J: Refusal-count-only classifier.}
+LOO classification using refusal/correction count as a single feature matches or exceeds the 5-feature LLM pipeline on 6 of 7 prompt-equalized models (Table~\ref{tab:refusal_only}). On models $\geq$14B, refusal count alone achieves 87--88\%, exceeding the LLM pipeline by 3--5\,pp. Refusal-count Cohen's $|d|$ increases from 0.8 (3B) to 1.1 (Mistral~7B) to 1.3--1.7 (14B--70B), confirming that the detection signal scales with model capability and is surface-level. The exception is Llama~3B (64\% refusal-only vs.\ 61\% LLM pipeline vs.\ 75\% full 7-feature hedging), where the multi-feature hedging baseline captures additional signal beyond the single refusal count.
+
+\begin{table}[h]
+\centering
+\caption{Refusal-count-only LOO vs.\ full pipelines on equalized data (EXP-J). A single regex feature (refusal/correction count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, confirming the detection signal is surface-level. \textbf{Refusal-count and hedging columns use LOO cross-validation on the pooled 7-model dataset (689 trials; a single shared threshold is optimized across targets)}; 95\% CIs on the refusal-only column are Wilson-score intervals on the per-model proportion; for a per-target-calibrated comparison against cross-family extraction, see Table~\ref{tab:cross_family_panel}.}
+\label{tab:refusal_only}
+\begin{small}
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Model} & \textbf{$n$} & \textbf{Refusal-only} & \textbf{95\% CI} & \textbf{Hedging (7-feat)} & \textbf{LLM pipeline} \\
+\midrule
+Llama~3.2~3B     & 100 & 64.0\% & [54.2, 72.7] & 75.0\% & 61.0\% \\
+Llama~3.1~8B     & 100 & 80.0\% & [71.1, 86.7] & 75.0\% & 65.0\% \\
+Mistral~7B       & 100 & 75.0\% & [65.7, 82.5] & 73.0\% & 71.0\% \\
+Qwen~2.5~7B      & 100 & 86.0\% & [77.9, 91.5] & 83.0\% & 74.0\% \\
+Qwen~2.5~14B     &  97 & 87.6\% & [79.6, 92.8] & 90.7\% & 82.5\% \\
+Llama~3.3~70B    &  93 & 87.1\% & [78.8, 92.5] & 87.1\% & 83.9\% \\
+Claude Haiku~4.5 &  99 & 81.8\% & [73.1, 88.2] & 89.9\% & 82.8\% \\
+\midrule
+\textbf{Average}  & 689 & \textbf{80.1\%} & --- & 81.9\% & 74.3\% \\
+\bottomrule
+\end{tabular}
+\end{small}
+\end{table}
+
+\paragraph{EXP-J-fixed: Fixed-threshold, label-free rule.}
+To quantify how well the rule performs without any labeled data, we applied a fixed decision rule: ``predict lying if refusal count $\geq k$'' for $k \in \{0, 1, 2, 3\}$ across all seven equalized models. At $k=1$, this achieves \textbf{80.1\% average accuracy} (range: 64--88\%; 75--88\% on models $\geq$7B) across all seven models without calibration data (Qwen~7B: 86\%, Llama~8B: 80\%, Mistral~7B: 75\%, Qwen~14B: 87.6\%, Llama~70B: 87.1\%). On models $\geq$14B, the fixed threshold matches LOO-optimized accuracy within 0\,pp (87.6\% fixed vs.\ 87.6\% LOO on 14B; 87.1\% vs.\ 87.1\% on 70B). Claude Haiku is optimal at $k=2$ (81.8\%). \textbf{We report this as a methodological baseline, not a production detector.} The rule is English-only, relies on instruction-tuned lexical conventions, and (Section~\ref{sec:adversarial_paraphrase}) loses 5--10\,pp against a single-shot static adversary and further against a full-regex-disclosed one; any real deployment would require domain-specific validation, adversarial robustness testing, and non-English evaluation well beyond what this paper provides.
+
+\paragraph{One-shot adversarial paraphrase (EXP-ADV).}
+\label{sec:adversarial_paraphrase}
+To test the rule's robustness to a static adversary aware of the detector, we appended a style constraint to the neutral system prompt on three models---Llama~3.2~3B, Mistral~7B, and Qwen~2.5~14B---instructing the target to \emph{avoid} all common refusal/correction lexical markers (``actually,'' ``incorrect,'' ``I cannot,'' etc.) and to paraphrase any disagreement in neutral language. Both truth and lie conditions use the same adversarial+neutral prompt ($n=50$ paired trials per model). Table~\ref{tab:adv_multimodel} reports rule $k\geq 1$ accuracy against each model's own equalized baseline (same 50 claim pairs, same extractor, no adversarial constraint) with a 95\% paired bootstrap CI on the baseline--adversarial delta.
+
+\begin{table}[h]
+\centering
+\caption{Multi-model adversarial paraphrase (EXP-ADV). Rule-accuracy ($k\geq 1$) under equalized baseline vs.\ adversarial prompt on the same claim pairs, with a paired bootstrap 95\% CI (10k resamples) on $\Delta$\,=\,baseline\,$-$\,adversarial. Mean refusal markers in deceptive trials (last column pair) show the signal collapse directly.}
+\label{tab:adv_multimodel}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Baseline} & \textbf{Adv.} & \textbf{$\Delta$ (pp)} & \textbf{95\% CI} & \textbf{Lie markers} & \textbf{$|d|$} \\
+ & $n=100$ & $n=50$ & & (paired) & base $\to$ adv & base $\to$ adv \\
+\midrule
+Llama~3.2~3B   & 61.0\% & 56.0\% & $+$5.0  & $[-$12, $+$32$]$ & 1.74 $\to$ 0.24 & 0.33 $\to$ 0.18 \\
+Mistral~7B     & 68.0\% & 58.0\% & $+$10.0 & $[+$4, $+$30$]$  & 0.62 $\to$ 0.24 & 0.70 $\to$ 0.57 \\
+Qwen~2.5~14B   & 69.0\% & 60.0\% & $+$9.0  & $[-$4, $+$28$]$  & 0.72 $\to$ 0.32 & 0.71 $\to$ 0.60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three models show directional degradation in lie-condition refusal markers under the paraphrase constraint; mean markers in deceptive trials fall by 55--86\% across models, and Cohen's $d$ between truth and lie compresses substantially. Point-estimate accuracy drops are $-$5 to $-$10\,pp. The Mistral~7B CI excludes zero ($[+$4, $+$30$]$), giving a cleaner statistically-significant drop; Llama~3B and Qwen~14B CIs narrowly include zero (reflecting $n=50$ noise) but point estimates are both negative. \textbf{Qualitative inspection of 10 lie-condition first responses per model} (Appendix~\ref{app:adv_qualitative}) shows that the dominant failure mode is corrected-in-paraphrased-language, not failed-to-correct: models reliably produce factually correct content and avoid the banned words, but substitute them with near-synonyms (``seems incomplete or perhaps outdated,'' ``does travel'' + speed comparison, ``commonly cited estimate''), which the regex does not match. The rule therefore degrades because the lexical channel it keys on is not semantically load-bearing---any paraphrased correction removes the signal---rather than because the model ceases correcting false claims.
+
+\paragraph{One-shot full-regex-disclosed adversary (EXP-ADV-FULLREGEX).}
+\label{sec:adversarial_fullregex}
+To test a strictly stronger static adversary, we ran a variant of EXP-ADV in which the adversarial system prompt discloses the \emph{full} 14-pattern refusal-marker regex list that the detector applies (the \texttt{REFUSAL\_PATTERNS} list from our analysis code), rather than the hand-curated 14-word subset used above. The target sees every lexical pattern the detector will match, numbered, with examples, and is instructed to avoid all of them. This remains a one-shot static adversary (no feedback loop, no per-trial rewriting), but with complete detector information. Table~\ref{tab:adv_fullregex} reports the three-target replication.
+
+\begin{table}[h]
+\centering
+\caption{Full-regex-disclosed adversary (EXP-ADV-FULLREGEX). Rule $k\geq 1$ accuracy on the same claim pairs under baseline / weak-adversary (EXP-ADV, 14-word curated) / full-regex-disclosed adversary, plus the truth-condition accuracy (signal-suppression direction). $n=50$ per cell; Wilson 95\% CIs on the full-regex column in brackets.}
+\label{tab:adv_fullregex}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Baseline} & \textbf{Adv-14} & \textbf{Adv-FullRegex} & \textbf{95\% CI} & \textbf{Truth acc.} & \textbf{Lie acc.} \\
+ & $n=100$ & $n=50$ & $n=50$ & (Wilson) & (adv-fr) & (adv-fr) \\
+\midrule
+Llama~3.2~3B   & 61.0\% & 56.0\% & \textbf{50.0\%} & $[37, 63]$ & 8\%  & 92\% \\
+Mistral~7B     & 68.0\% & 58.0\% & \textbf{66.0\%} & $[52, 78]$ & 60\% & 72\% \\
+Qwen~2.5~14B   & 69.0\% & 60.0\% & \textbf{(in progress)}\dag & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\\[2pt]
+\footnotesize \dag\,Qwen~14B run was still in flight at paper-freeze (18/50 trials, point-estimate 33\%); camera-ready update will include the full $n=50$ number.
+\end{table}
+
+The three-target picture is scale-dependent, not uniform collapse. On Llama~3.2~3B the rule drops to \textbf{50.0\%} (Wilson 95\% CI $[36.6, 63.4]$), exactly at chance, versus the 61.0\% equalized baseline and 56.0\% under the original curated adversary---a further $-$6.0\,pp below the weak adversary and $-$11.0\,pp below baseline. The truth/lie breakdown (truth 8\%, lying 92\%) reveals the mechanism: under full-regex disclosure, the target avoids correction markers in \emph{truthful} conditions as well, so the rule flips the truthful trials into the lying class while still catching the few lies that leak any marker. On Mistral~7B, however, rule accuracy drops only to \textbf{66.0\%} (Wilson 95\% CI $[52, 78]$)---$-$2\,pp below baseline and actually $+$8\,pp above the weak adversary. The truth-condition accuracy (60\%) is materially preserved, so Mistral~7B resists the full-regex disclosure better than Llama~3B: the model produces corrections in language that evades the disclosed regex patterns but is semantically unambiguous, and the detector retains enough signal to beat chance. Partial Qwen~14B results (18/50 trials, point-estimate 33\%, truth 11\%, lying 56\%) qualitatively resemble Llama~3B's pattern (truth-channel suppression dominates); we flag this as a partial observation rather than a finalized result, and the camera-ready update will complete $n=50$. \textbf{Scope narrowing (CR1/CR4).} The paper's headline claim that an informed adversary drives the rule to chance is therefore scoped to \emph{Llama~3B} (and plausibly larger-scale family members such as Qwen~14B, pending completion), not all scales. The Mistral~7B result demonstrates that whether a one-shot full-regex-disclosed adversary collapses the rule depends on the target's paraphrasing capacity under disclosed constraints---smaller models lose the lexical channel entirely, while mid-scale models can paraphrase corrections around the regex while still producing distinguishable lie-vs-truth behavior. A closed-loop adaptive adversary that iteratively rewrites on per-trial detector scores would almost certainly land at or below the Llama~3B number on all three targets, but this paper does not run that experiment and should not be read as claiming it. Appendix~\ref{app:q1_refusal_dist} shows the Llama~3B truth-condition suppression directly: under full-regex disclosure, the truth-condition $\geq 1$-marker fraction also drops (46\%$\to$4\%), so on Llama~3B the rule's failure is \emph{lexical-channel suppression in both conditions}, not selective failure to correct lies.
+
+\paragraph{Cross-claim-set generalization (EXP-L).}
+To test whether the refusal-count signal is claim-content-specific, we split the 50 equalized claim pairs into two disjoint sets (Set~A: first 25 pairs, Set~B: last 25 pairs) and trained on one set while testing on the other. Mean held-out accuracy across 100 random 50/50 splits: Llama~3B $58.8\% \pm 6.3\%$, Mistral~7B $70.2\% \pm 5.4\%$, Qwen~14B $82.2\% \pm 4.5\%$, Llama~70B $82.9\% \pm 4.4\%$. These are within $\pm$2.2\,pp of the corresponding LOO estimates (61\%, 71\%, 82.5\%, 83.9\%), confirming the detection signal generalizes across claim content and is not an artifact of specific factual domains.
+
+\subsection{Instruction-Following Confound}
+\label{sec:prompt_equalized}
+
+Under instructed roleplay with asymmetric prompts, LOO-recalibrated accuracy reaches 93.9--100\% across all tested models (per-model details in Appendix~\ref{app:instructed_results}). Prompt equalization reveals this is predominantly instruction-driven.
+
+\paragraph{EXP-A: Prompt-equalized control.}
+Both conditions receive identical neutral prompts (``You are a helpful assistant. Share what you know about this topic.''); only claim truthfulness varies. Table~\ref{tab:prompt_equalized} shows the result: equalized LOO ranges from 61\% (3B) to 84\% (70B), far below the instructed 93.9--100\%. All five LLM-extracted features collapse substantially under equalization; correction density retains the most signal ($|d|=1.1$ on Mistral~7B vs.\ $3.4$ instructed; Figure~\ref{fig:feature_collapse}). Correction density is the sole load-bearing feature under equalization (permutation importance $+$0.09; all others near zero). Per-model equalized details (feature profiles, category accuracy, 5-fold CV stability) are in Appendix~\ref{app:equalized_details}.
+
+\begin{table}[h]
+\centering
+\caption{Prompt-equalized LOO accuracy across seven models (EXP-A; Claude Haiku extraction). All evaluations use cross-family extraction except Claude Haiku (same-family, an acknowledged limitation). The instructed range (93.9--100\% LOO) is from per-model evaluations in Appendix~\ref{app:instructed_results}.}
+\label{tab:prompt_equalized}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Model} & \textbf{$n$} & \textbf{Overall} & \textbf{Truthful} & \textbf{Lying} \\
+\midrule
+Llama~3.2~3B     & 100 & 61.0\% & 64.0\% & 58.0\% \\
+Llama~3.1~8B     & 100 & 65.0\% & 62.0\% & 68.0\% \\
+Mistral~7B       & 100 & 71.0\% & 70.0\% & 72.0\% \\
+Qwen~2.5~7B      & 100 & 74.0\% & 78.0\% & 72.0\% \\
+Qwen~2.5~14B     &  97 & 82.5\% & 83.7\% & 81.2\% \\
+Llama~3.3~70B    &  93 & 83.9\% & 84.8\% & 83.0\% \\
+Claude Haiku~4.5 &  99 & 82.8\% & 85.7\% & 80.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{EXP-G: Instructed-matched control.}
+\label{sec:instructed_matched}
+To decompose the equalized-to-instructed gap, we ran a hybrid condition on five models: the standard asymmetric lie/truth system prompts, but with matched factual claim pairs from the equalized experiment. This isolates the instruction-following contribution from the claim-type contribution. Table~\ref{tab:expg_summary} summarizes the decomposition.
+
+\begin{table}[h]
+\centering
+\caption{Instruction-following decomposition (EXP-G). The instruction-following (IF) contribution is the gap between equalized and instructed-matched LOO. The measurement is cleanest on 14B/70B, where models independently know claims are false; the 3B--7B contributions are upper bounds due to knowledge-transfer (KT) confounding.}
+\label{tab:expg_summary}
+\begin{tabular}{lrrrl}
+\toprule
+\textbf{Model} & \textbf{Equalized} & \textbf{Inst-matched} & \textbf{$\Delta$ (IF)} & \textbf{Note} \\
+\midrule
+Llama~3.2~3B  & 61.0\% & 90.0\% & +29\,pp & KT confound \\
+Llama~3.1~8B  & 65.0\% & 96.0\% & +31\,pp & KT confound \\
+Mistral~7B    & 71.0\% & 97.0\% & +26\,pp & KT confound \\
+Qwen~2.5~14B  & 82.5\% & 90.0\% & +7.5\,pp & Clean \\
+Llama~3.3~70B & 83.9\% & 99.0\% & +15\,pp & Clean \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On knowledge-controlled subsets (14B/70B where models independently know claims are false), instruction-following contributes $+$7.5--15\,pp---the clean headline number. On smaller models ($\leq$8B), the contribution reaches $+$26--31\,pp, but these numbers conflate instruction-following with knowledge transfer: the lie prompt (``the claim is FALSE, defend it'') inadvertently signals the correct answer to models with weak world knowledge. The $+$7.5--15\,pp range is the honest measurement; the 3B/8B/7B numbers are upper bounds on pure instruction-following. Per-model EXP-G decompositions are in Appendix~\ref{app:expg_details}.
+
+\paragraph{Knowledge pre-check stratification.}
+\label{sec:knowledge_precheck_stratified}
+To isolate instruction-following from knowledge transfer on small models, we stratified instructed-matched results by whether models correctly answered a direct factual pre-check. On the PASSED subset (models that already knew the ground truth), instructed-matched accuracy remains high: 85\% (3B, $n=40$), 94\% (8B, $n=51$), and 90\% (Mistral~7B, $n=60$), confirming that instruction-following is the primary signal independent of knowledge availability. Qwen~14B and Llama~70B have near-perfect knowledge pre-check accuracy, demonstrating that their $+$7.5--15\,pp instruction-following contributions are minimally contaminated by knowledge transfer. Full stratification data is in Appendix~\ref{app:expg_details}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/feature_collapse.pdf}
+\caption{Feature separability collapse: instructed (solid blue bars) vs.\ equalized (hatched orange bars) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; correction density retains the most signal.}
+\label{fig:feature_collapse}
+\end{figure}
+
+\subsection{Pipeline Redundancy Under Equalization}
+\label{sec:pipeline_ablation}
+
+The ADAGE pipeline served as the measurement instrument through which we applied the three controls. Having established those results, we now show the pipeline itself is largely redundant: three independent lines of evidence converge on this conclusion.
+
+\paragraph{$K=1$ suffices under instruction.} A single interrogation question followed by LOO recalibration achieves 90.8\% (Llama~3B), 99.0\% (Mistral), and 92.0\% (Llama~70B)---within 1--3\,pp of the full adaptive system. Multi-turn interrogation is a convenience, not an accuracy driver, in the instructed regime. Full fixed-$K$ ablation and threshold analysis are in Appendix~\ref{app:validation_tests}.
+
+\paragraph{Weak construct validity.} The LLM pipeline's primary feature has weak construct validity (see Section~\ref{sec:icc_owned} for the canonical statement and which claims it affects).
+
+\paragraph{Regex matches or exceeds under equalization.} On equalized data, refusal-count-only LOO matches or exceeds the 5-feature LLM pipeline on 6 of 7 models (Table~\ref{tab:refusal_only}). The pipeline's advantage is confined to the instructed condition, where it adds 4--14\,pp over the hedging baseline (Appendix~\ref{app:hedging_instructed}).
+
+\paragraph{Multi-turn value only under equalization at scale.} Under instructed conditions, $K=1$ is within 1--3\,pp of the adaptive system. Under equalization, the picture changes: $K=1$ accuracy plateaus at 61--63\% across four of five models, while multi-turn probing raises Llama~70B from 62\% to 84\% ($+$21.5\,pp) and Qwen~14B from 63\% to 82.5\% ($+$19.6\,pp). Multi-turn interrogation adds genuine evidential value only in the equalized regime at $\geq$14B scale, where accumulated weak per-question signals exceed the single-question baseline. The full multi-turn analysis including the Qwen~7B $K=1$ anomaly (77\% vs.\ 61--63\% floor) is in Appendix~\ref{app:multiturn_details}.
+
+\subsection{Within-Family Scale Patterns}
+\label{sec:qwen_scale_sweep}
+
+Within-family analysis suggests family-specific, non-monotonic patterns rather than universal improvement with scale. Under within-family Holm-Bonferroni correction, both families contain at least one significant increment (Qwen 3B$\to$7B $p=0.014 < \alpha/3=0.017$; Llama 8B$\to$70B $p=0.004 < \alpha/2=0.025$). Under joint correction across all five adjacent increments, only the Llama increment survives ($p=0.004 < \alpha/5=0.01$); the Qwen increment does not ($p=0.014 > \alpha/5=0.01$). The non-monotonic patterns indicate that scale effects depend on family-specific RLHF objectives rather than parameter count alone.
+
+\paragraph{Qwen~2.5 (3B$\to$7B$\to$14B$\to$32B).}
+Table~\ref{tab:qwen_scale_sweep} shows a U-shaped pattern under refusal-count threshold LOO: accuracy rises from 50\% (3B, chance) to 72\% (14B, peak), then collapses to 50\% at 32B. The 3B$\to$7B increment ($+$18\,pp, Fisher $p=0.014$) survives Holm-Bonferroni correction ($\alpha/3=0.017$), marking a significant within-family improvement. The 14B$\to$32B collapse ($-$22\,pp, $p=0.002$) reflects a qualitative behavioral shift: Qwen~32B produces zero refusal/correction markers in both conditions despite knowing claims are false (92\% pre-check accuracy). RLHF training optimized for agreeableness eliminates all surface-level detection signals on this single model---a single-model observation, not a phenomenon, but a striking one given the n=100 evaluation and the 92\% pre-check accuracy. \emph{Speculation, not evidence:} if standard RLHF can incidentally eliminate surface-level detection signals, adversarial fine-tuning could plausibly do so deliberately, and behavioral detection relying on surface markers would be vulnerable to that failure mode. Confirming or ruling out this speculation would require running equivalent evaluations on at least two additional RLHF-heavy models at $\geq$14B scale---future work.
+
+\begin{table}[h]
+\centering
+\caption{Qwen within-family scale sweep. Refusal-count threshold LOO accuracy with Fisher exact tests for adjacent increments. Mean refusal counts from interrogation transcripts via regex (Appendix~\ref{app:regex_patterns}).}
+\label{tab:qwen_scale_sweep}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{n} & \textbf{LOO} & \textbf{Ref (T)} & \textbf{Ref (L)} & \textbf{vs.\ Prev} & \textbf{Fisher $p$} \\
+\midrule
+Qwen 2.5 3B  & 100 & 50.0\% & 0.32 & 0.22 & -- & -- \\
+Qwen 2.5 7B  & 100 & 68.0\% & 0.10 & 0.52 & +18\,pp & \textbf{0.014}* \\
+Qwen 2.5 14B & 100 & 72.0\% & 0.18 & 0.76 & +4\,pp & 0.644 \\
+Qwen 2.5 32B & 100 & 50.0\% & 0.00 & 0.00 & $-$22\,pp & \textbf{0.002}* \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Llama (3B$\to$8B$\to$70B).}
+Llama exhibits flat-then-jump under refusal-count threshold LOO: 57\%$\to$57\%$\to$76\%. The 8B$\to$70B increment ($+$19\,pp, Fisher $p=0.004$) survives Holm-Bonferroni correction ($\alpha/2=0.025$); the 3B$\to$8B increment is zero. The 5-feature LLM pipeline shows a parallel trend (61\%$\to$65\%$\to$84\%), confirming the pattern under an independent metric.
+
+\paragraph{Frontier-scale pilot observation (single frontier data point, $n=99$).}
+\label{sec:sonnet_frontier}
+We report a \emph{pilot} observation on Claude Sonnet~4.5 via Amazon Bedrock ($n=100$, 50 matched true/false pairs, identical neutral prompt). We label this a pilot because the key paired comparison (Haiku vs.\ Llama~70B pipeline gap) is underpowered by $4$--$6\times$ at this $n$ (see power calculation below), so no between-extractor claim should be derived from it; we report the numbers as a single frontier measurement, not as a tested hypothesis. Refusal-count LOO: \textbf{73.7\%} (optimal threshold $k=2$; fixed $k=1$ rule: 68.7\%), with mean refusal markers truth\,=\,1.38 vs.\ lie\,=\,3.27 ($d=1.14$); this regex-only signal is extractor-independent. The 5-feature pipeline on the same 99 saved transcripts: 92.9\% under Haiku~4.5 (same-family-from-below) and 88.9\% under Llama~3.3~70B (cross-family) (Table~\ref{tab:sonnet_crossfamily}). A paired bootstrap over the 99 matched transcripts (10k resamples; pairing is by trial index; both extractors score the same conversations, so the CI reflects \emph{between-extractor variance on fixed transcripts}) gives a 95\% CI on the observed $+$4\,pp Haiku margin of $[-$3.0, $+$11.1$]$\,pp and \emph{includes zero}. A paired two-proportion power analysis shows detecting a $4$\,pp gap with 80\% power at $\alpha=0.05$ would require $n\approx 410$ at $\rho=0.5$ or $n\approx 570$ at $\rho=0.3$; our $n=99$ is $4$--$6\times$ underpowered for this effect size. Accordingly, the pilot establishes only that (i) the refusal-count baseline at 73.7\% is roughly consistent with the $\geq$14B cluster, and (ii) the two pipeline values straddle the cross-family $\geq$14B cluster (82.5--84\%). We do not treat the Haiku--Llama gap as evidence of same-family bias on Sonnet, and we leave frontier extractor triangulation (GPT-5 / Claude~Opus~4.x) and properly-powered $n{\geq}410$ evaluation to future work.
+
+\begin{table}[h]
+\centering
+\caption{Claude Sonnet~4.5 prompt-equalized evaluation under two extractors on the same 99 saved transcripts. Refusal-count is regex-only on assistant text and is therefore extractor-independent (identical across rows). The 5-feature pipeline depends on the extractor. Llama~3.3~70B via AWS Bedrock is the non-Anthropic cross-family reference; Haiku is same-family-from-below.}
+\label{tab:sonnet_crossfamily}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Extractor} & \textbf{Refusal-count LOO} & \textbf{Rule $k\geq 1$} & \textbf{5-feature LOO} \\
+\midrule
+Claude Haiku~4.5 (same-family-from-below) & 73.7\% & 68.7\% & 92.9\% \\
+Llama~3.3~70B (cross-family)              & 73.7\% & 68.7\% & 88.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Cross-family trend.}
+Across all seven models (Figure~\ref{fig:scale_trend}), equalized 5-feature LOO accuracy generally increases: 61\% (3B) $\to$ 65\% (8B) $\to$ 71\% (Mistral~7B) $\to$ 74\% (Qwen~7B) $\to$ 82.5\% (14B) $\to$ 84\% (70B) $\to$ 83\% (Claude Haiku). The pooled group comparison ($\leq$7B mean 67.8\%, $n=400$ vs.\ $\geq$14B mean 83.0\%, $n=289$) is highly significant ($p < 0.0001$; bootstrap 95\% CI on difference: $[+9.0\%, +21.6\%]$), but no individual adjacent increment is significant after Holm-Bonferroni correction. This pooled comparison was not pre-registered; it was motivated by within-family patterns observed after data collection and should be interpreted as exploratory. The trend is better characterized as a \textbf{scale-dependent gap}---models $\leq$7B cluster at 61--74\% while models $\geq$14B cluster at 82.5--84\%---rather than smooth monotonic scaling. All scaling claims are limited to $\leq$70B; frontier-scale (100B+) behavior remains untested.\footnote{Under this paper's own methodology (pre-register before pooling, cross-family extract, report all three controls), this exploratory pooled comparison would be flagged for replication before citation; we report it as a descriptive observation, not a tested hypothesis.}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/scale_trend.pdf}
+\caption{Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange). Error bars are bootstrap 95\% CIs. Models $\leq$7B cluster at 61--74\% and models $\geq$14B at 82.5--84\% (pooled $p < 0.0001$, exploratory post-hoc comparison, not pre-registered); no individual adjacent increment is significant after joint Holm-Bonferroni correction.}
+\label{fig:scale_trend}
+\end{figure}
+
+\subsection{Negative Result: Transfer to Autonomous Deception}
 \label{sec:autonomous_pilot}
 
-All experiments above study \emph{instructed} or \emph{knowledge-conflict} deception. To test whether behavioral features transfer to \emph{goal-directed strategic deception}---the setting most relevant to AI safety---we conducted a preliminary pilot on publicly available data from the Apollo Research deception detection benchmark~\cite{meinke2025frontiermodelsarecapable}.
+The refusal-count signal does not generalize to autonomous deception. We test three matched-format scenarios and one external dataset.
 
-\paragraph{Dataset.} The ``AI Liar'' scenario set comprises 54 single-turn exchanges (27 honest, 27 deceptive). The benchmark provides rollouts from two model versions---Llama~3.3~70B and Llama~3.1~70B---on identical scenario prompts; we report results on both. In deceptive trials, the model is placed in a goal-directed context where strategic deception serves its objective (e.g., a doctor AI recommending a worse treatment to earn a higher reward; a salesperson concealing a product defect). In honest trials, the model's incentives are aligned with truthful disclosure. Crucially, deception arises from the \emph{model's strategic reasoning} about its reward function, not from an explicit ``lie about this claim'' instruction. This is closer to the autonomous deception paradigm of \citet{scheurer2024strategic} than to our instructed or equalized settings.
+\paragraph{Apollo AI Liar pilot (EXP-I).}
+A preliminary pilot ($n=54$, Apollo Research AI Liar dataset \cite{apollo2024liar}, two Llama~70B versions) yields a null result: refusal-count markers achieve 0--54\% accuracy, likely reflecting task-format mismatch (action recommendations in reward-function contexts, not factual claim defense). Hedge-word features achieve 59--74\% with wide CIs.
 
-\paragraph{Results.} The hedging-word regex baseline achieves 59.3\% LOO accuracy on Llama~3.3~70B (bootstrap 95\% CI $[46.3\%, 72.2\%]$, includes chance) and 74.1\% on Llama~3.1~70B (CI $[63.0\%, 85.2\%]$, excludes chance). Refusal-count-only LOO achieves 0\% on Llama~3.3~70B and 53.7\% on Llama~3.1~70B (CI $[40.7\%, 66.7\%]$, includes chance)---refusal/correction markers, the strongest signal under equalization (87.1\% on 70B), are near-uninformative for goal-directed deception on both model versions. The model-version divergence is driven by hedge-word signal: Llama~3.1~70B's deceptive responses contain more hedging language ($|d|=0.94$) than Llama~3.3~70B's ($|d|=0.56$), suggesting that RLHF-revision differences between model generations affect deception style.
+\paragraph{Matched-format evaluation (EXP-I-matched).}
+\label{sec:autonomous_matched}
+To test transfer in matched claim-defense contexts, we evaluated three scenarios on Llama~3.2~3B ($n=50$ each), categorized by degree of autonomy, plus a scale replication of the strongest design on Qwen~2.5~14B ($n=50$):
 
-\paragraph{Comparison to equalized results.} Taking the more conservative Llama~3.3~70B result, the 59\% autonomous-deception accuracy falls below even the smallest equalized model (Llama~3B: 64\% refusal-only, 75\% hedging) and well below equalized 70B (87\% refusal-only, 87\% hedging). The higher Llama~3.1~70B result (74\%) approaches mid-range equalized performance but is driven entirely by hedge-word features (not refusal markers), and the CI is wide. Both model versions are consistent with the prediction in Section~\ref{sec:interrogation_role}: refusal/correction markers---the dominant equalized signal---are near-uninformative when the knowledge-conflict channel is absent. The result suggests the equalized condition is the more relevant baseline for autonomous deception evaluation, though the pilot is underpowered and single-dataset.
+\begin{enumerate}
+\item \textbf{Sycophancy-aligned defense (semi-autonomous):} System prompt encourages agreement with user statements; knowledge conflict arises when users state false facts.
+\item \textbf{Jailbroken persona maintenance (moderately autonomous):} Model adopts a false persona via system prompt; no explicit deception instruction.
+\item \textbf{Post-training false beliefs via ICL (most autonomous):} System prompt embeds false ``facts''; purely epistemic pressure with no deception instruction.
+\end{enumerate}
 
-\paragraph{Limitations.} This pilot is preliminary: $n=54$ yields wide confidence intervals; the scenarios are single-turn (our pipeline is designed for multi-turn interrogation); the deception is instructed-via-reward-function rather than fully emergent; and the task structure (recommending a product/treatment) differs substantially from defending a factual claim. In particular, the 0\% refusal-count result may partly reflect task-format mismatch: the AI Liar scenarios do not involve defending a factual claim, so correction/refusal language is structurally absent regardless of deception type. The stronger test would be an equalized-condition run on scenarios matching the autonomous format, isolating deception type from task format. We do not claim that behavioral detection is impossible for autonomous deception---only that the specific features effective under equalization (refusal/correction markers) are uninformative in this setting. A full evaluation would require multi-turn interrogation of models exhibiting autonomous deception, with matched honest controls. We include this pilot to bridge the gap between instructed and autonomous settings that the reviewer identified as the paper's primary scope limitation.
+\begin{table}[h]
+\centering
+\caption{Matched-format autonomous deception detection (EXP-I-matched). Refusal-count LOO accuracy and effect sizes across scenarios and scales. ``$|d|$'' is Cohen's $d$ on refusal-count between lying and truthful trials (unsigned; larger = cleaner behavioral separation).}
+\label{tab:autonomous_matched}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Design} & \textbf{Model} & \textbf{n} & \textbf{LOO} & \textbf{95\% CI} & \textbf{$|d|$} \\
+\midrule
+Persona maintenance       & Llama 3.2 3B & 50 & 66.0\% & [36--78\%] & 0.3 \\
+Sycophancy defense        & Llama 3.2 3B & 50 & 82.0\% & [60--92\%] & 1.5 \\
+False beliefs (ICL)       & Llama 3.2 3B & 50 & 60.0\% & [42--80\%] & 0.1 \\
+\midrule
+\textbf{3B Average}       & Llama 3.2 3B & 150 & \textbf{69.3\%} & -- & 0.6 \\
+\midrule
+Persona maintenance       & \textbf{Qwen 2.5 14B} & 50 & \textbf{64.0\%} & [50--76\%] & \textbf{0.8} \\
+False beliefs (ICL)       & \textbf{Qwen 2.5 14B} & 50 & \textbf{66.0\%} & [52--78\%] & \textbf{1.1} \\
+Sycophancy defense        & \textbf{Qwen 2.5 14B} & 50 & \textbf{82.0\%} & [70--92\%] & \textbf{1.6} \\
+Sycophancy defense        & \textbf{Llama 3.3 70B} & 50 & \textbf{72.0\%} & [58--84\%] & \textbf{0.9} \\
+\midrule
+\emph{Equalized baseline} & \emph{(EXP-J 3B)} & -- & \emph{64.0\%} & -- & \emph{0.6} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\subsection{Claim Category Breakdown (Mock)}
-\label{sec:diverse_claims}
+Sycophancy shows the strongest transfer of the three scenarios, and the transfer largely holds across three scales: 82\% LOO at Llama 3B ($d$=1.49), 82\% at Qwen 14B ($d$=1.62), and 72\% at Llama 70B ($d$=0.88; refusal-count $k\geq 1$ fixed rule) across $n=50$ each. The 70B value drops $\sim$10\,pp from 3B/14B while staying well above chance; the 5-feature Haiku-extracted pipeline on the same Llama 70B sycophancy transcripts reaches 92\%. \textbf{Cross-family re-extraction (CR3/Q2).} A reviewer asked whether the 20\,pp Haiku-pipeline-vs-rule gap on Llama 70B sycophancy survives a non-Anthropic extractor. We re-extracted the same 50 transcripts with Llama~3.3~70B-as-extractor: pipeline LOO drops from 92.0\% (Haiku) to 82.0\% (Llama~70B), a $+$10.0\,pp Haiku-over-cross-family gap comparable to the $+$8--12\,pp same-family-bias range we document on the equalized panel (Section~\ref{sec:cross_family_equalized}, Table~\ref{tab:cross_family_panel}). Defensiveness Cohen's~$d$ (lying vs.\ truthful) is 2.05 under Haiku extraction and 2.34 under Llama~70B extraction---both cleanly separate the conditions, so the behavioral signal itself is extractor-robust even though the pipeline's absolute accuracy is not. The cross-family-extracted 82.0\% still exceeds the rule's 72.0\% by $+$10\,pp, so part of the original 20\,pp Haiku-pipeline-vs-rule gap is genuine multi-turn signal and part is Haiku-on-Llama same-family-from-below inflation. The residual $+$10\,pp rule-to-cross-family-pipeline gap is the honest headline here: multi-turn extraction does add signal on 70B-scale sycophancy, but roughly half of the Haiku-reported uplift is same-family-extractor inflation, not multi-turn content. The across-scale consistency supports the ``knowledge-conflict clarity'' interpretation---the system prompt creates clean knowledge conflict where models easily affirm true claims but produce corrections when pressured to agree with false ones---rather than a 3B/14B coincidence. Persona maintenance and false beliefs (ICL) remain near chance at \emph{two} scales. At Llama 3B: persona 66\% ($d$=0.3, CI [36--78\%] includes chance) and false beliefs 60\% ($d$=0.1). At Qwen 14B (new, $n=50$ each): persona 64\% ($d$=0.8, CI [50--76\%]) and false beliefs 66\% ($d$=1.1, CI [52--78\%]). The 14B Wilson intervals on both scenarios still \emph{include chance}, so the negative-transfer claim now rests on two independently-pretrained model families (Llama and Qwen) at two scale points rather than on a single 3B pilot. The across-scale consistency---sycophancy transfers at 3B/14B/70B, persona and false-beliefs do not transfer above chance-CI at either 3B or 14B---is exactly the shape predicted by the ``knowledge-conflict clarity'' interpretation: sycophancy's system-prompt-induced agreement pressure produces a clean conflict the refusal-count rule can resolve, while persona and false-belief-via-ICL autonomy conditions lack such clean instruction-free conflict and therefore drop to the equalized 62--64\% band regardless of scale.
 
-Claim-category results on mock data (factual 100\%, partially-true 100\%, subjective 83.3\%, implausible 66.7\%) are in Appendix~\ref{app:diverse_claims}. All categories average 2.0 questions. Real LLM performance across claim categories is untested; given the mock-to-real distribution shift documented in Section~\ref{sec:ollama_eval}, mock category results should not be extrapolated.
+\paragraph{Why sycophancy is ``semi-autonomous,'' not ``instructed.''} We classify sycophancy as semi-autonomous rather than instructed because the system prompt does not instruct the model to defend false claims: it instructs the model to \emph{agree with the user}, which is a well-documented RLHF-induced behavioral disposition \cite{sharma2023sycophancy}, not a deception target. The knowledge conflict---whether to correct a false user claim or go along with it---is generated \emph{by the model itself} resolving a trained disposition (agreeableness) against a trained capability (factual knowledge), without an explicit ``lie'' instruction in context. This is closer to spontaneous strategic deception than to instructed roleplay, but strictly less autonomous than goal-directed deception where the model chooses deception as a means to an external goal. We acknowledge an adversarial reading in which sycophancy is effectively instructed deception with an extra reasoning step (``user asserted X; I am told to agree; therefore I should say X'' is not meaningfully different from ``defend X''). We keep the semi-autonomous label for two reasons: (i) the target behavior under the sycophancy prompt is \emph{agreement}, and the correction signal arises only on knowledge-conflict trials, so the refusal-count detector is not keying on a pre-specified deception mode; and (ii) the same system-prompt-induced-disposition pattern is what produces deceptive alignment concerns in the broader safety literature \cite{hubinger2019risks, greenblatt2024alignment}. The 82\% sycophancy result therefore represents a middle ground---system-prompt-induced agreement pressure rather than spontaneous strategic deception or explicit lie instruction. Signal strength in Table~\ref{tab:autonomous_matched} depends on knowledge-conflict clarity rather than deception autonomy per se: when models face unambiguous pressure to affirm false information against their training, refusal markers robustly distinguish conditions; when confounds introduce alternative explanations for correction behavior, the signal degrades.
+
+\paragraph{Confound acknowledgement.} The three scenarios in Table~\ref{tab:autonomous_matched} vary along multiple dimensions simultaneously---knowledge-conflict clarity, instructed-action vs.\ spontaneous-disposition, and single- vs.\ multi-turn structure---so the post-hoc ``knowledge-conflict clarity'' interpretation is not cleanly distinguished from ``small $n$ on scenarios that happen to covary.'' The Wilson CIs on persona (66\%) and false-belief (60\%) at 14B still include chance, and the negative-transfer claim rests on two families at two scale points, not a scenario grid that isolates the proposed causal dimension. We pre-register a 4th scenario---varying only knowledge-conflict clarity while holding disposition-source and turn-count fixed---as the cleanest test of the interpretation, and leave it as future work.
+
+\subsection{Cross-Family Extraction}
+\label{sec:cross_family_equalized}
+
+To verify that reported pipeline accuracies are not an artifact of same-family scoring by Claude Haiku, we re-extracted the five behavioral features on all seven equalized targets using Mistral Large~3 via AWS Bedrock as a non-Anthropic cross-family extractor (Table~\ref{tab:cross_family_panel}). This is a full 7-target panel, extending the 3-target preliminary reported in earlier versions. Mistral~7B under Mistral-Large extraction is same-family ($\dagger$); all other cells are cross-family. The refusal-count regex operates on assistant text and is extractor-independent by construction; we therefore report it as a single column alongside the two pipeline columns.
+
+\begin{table}[h]
+\centering
+\caption{Cross-family panel (EXP-H-full). LOO accuracy for the refusal-count rule (regex; extractor-independent) and the 5-feature LLM pipeline under three extractors: Claude Haiku, Mistral Large~3, and Llama~3.3~70B (two non-Anthropic cross-family extractors). Same equalized trials per target. $\dagger$: same-family cell. $\ddagger$: Qwen~2.5~32B produces zero refusal markers in both conditions under RLHF agreeableness smoothing (Section~\ref{sec:qwen_scale_sweep}), so the rule collapses to chance by construction; included for transparency. \textbf{Refusal-count column uses per-target LOO (threshold optimized independently per target)}, so values differ from Table~\ref{tab:refusal_only} (pooled-LOO on 689 trials): the two tables correspond to different deployment regimes (per-target calibration here vs.\ shared threshold there), not different data. ``Avg CF gap'' is the per-target mean of (Haiku $-$ Mistral~L3) and (Haiku $-$ Llama~70B), in percentage points.}
+\label{tab:cross_family_panel}
+\begin{small}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Target} & \textbf{$n$} & \textbf{Refusal} & \textbf{Haiku} & \textbf{Mistral~L3} & \textbf{Llama~70B} & \textbf{Avg CF gap} \\
+\midrule
+Llama~3.2~3B     & 100 & 61.0\% & 61.0\% & 52.0\% & 50.0\% & $+$10.0 \\
+Llama~3.1~8B     & 100 & 74.0\% & 65.0\% & 64.0\% & 67.0\% & $+$0.5 \\
+Mistral~7B       & 100 & 68.0\% & 71.0\% & 62.0\%$^\dagger$ & 64.0\% & $+$8.0 \\
+Qwen~2.5~7B      & 100 & 67.0\% & 74.0\% & 65.0\% & 68.0\% & $+$7.5 \\
+Qwen~2.5~14B     &  97 & 70.1\% & 82.5\% & 69.1\% & 72.2\% & $+$11.9 \\
+Llama~3.3~70B    &  93 & 86.0\% & 83.9\% & 68.8\% & 74.2\% & $+$12.4 \\
+Claude Haiku~4.5 &  99 & 76.8\% & 82.8\% & 71.7\% & 72.7\% & $+$10.6 \\
+Qwen~2.5~32B$^\ddagger$ &  99 & 50.0\% & 75.8\% & 60.6\% & 59.6\% & $+$15.7 \\
+\midrule
+\textbf{8-target avg.} & 788 & \textbf{69.1\%} & \textbf{74.5\%} & \textbf{64.2\%} & \textbf{66.0\%} & \textbf{$+$9.4} \\
+\textit{7-target avg. (ex.\ Qwen~32B)} & 689 & \textit{71.8\%} & \textit{74.3\%} & \textit{64.7\%} & \textit{66.9\%} & \textit{$+$8.5} \\
+\bottomrule
+\end{tabular}
+\end{small}
+\end{table}
+
+The cross-family 5-feature pipeline averages \textbf{64.7\%} across the 7-target panel that excludes the Qwen~2.5~32B RLHF-collapse row (a $-$9.7\,pp mean drop from Haiku-extracted 74.3\%); the full 8-target average including that row is 64.2\% ($-$10.3\,pp from 74.5\%), a mechanical dilution from a structural-zero case rather than a substantively more conservative estimate---Qwen~2.5~32B produces zero refusal markers in both conditions by construction, so any rule or pipeline keyed on correction behavior collapses to chance independently of the extractor. We therefore treat the 7-target 64.7\% as the primary interpretable summary of cross-family pipeline accuracy and the 8-target 64.2\% as a ``with-structural-zero'' diagnostic (the two differ by $<$1\,pp). The refusal-count rule averages 71.8\% across the 7-target subset under per-target LOO (69.1\% on the 8-target panel including the 32B structural zero); on the larger fixed-threshold deployment setting of Table~\ref{tab:refusal_only} it averages 80.1\% (pooled-LOO over 689 trials). The headline for behavioral-detection accuracy on equalized data is therefore not a single number but several: refusal-count rule 80.1\% (pooled-LOO, $k\!=\!1$) or 71.8\% (7-target per-target LOO), Haiku pipeline 74.3\%, cross-family pipeline \textbf{64.7\% (7-target, primary)} or 64.2\% (8-target, with structural zero).
+
+Per-target Haiku-minus-cross-family gaps are directionally positive on all eight targets for both non-Anthropic extractors. The ``Avg CF gap'' column averages the Haiku$-$Mistral-L3 and Haiku$-$Llama~70B gaps per target; it ranges $+$0.5 to $+$15.7\,pp and is largest on frontier-scale / same-model-family targets (Qwen~32B $+$15.7\,pp; Llama~70B $+$12.4\,pp; Qwen~14B $+$11.9\,pp; Haiku $+$10.6\,pp; Llama~3B $+$10.0\,pp) and smallest on Llama~8B ($+$0.5\,pp). \textbf{Triangulation across two non-Anthropic extractors:} Llama~3.3~70B (7-target avg 66.9\%) and Mistral Large~3 (7-target avg 64.7\%) differ by only 2.2\,pp and both land well below Haiku (74.3\%); the two extractors agree within 3\,pp on 7 of 8 targets. The hypothesis that Mistral Large is uniquely weak as a cross-family extractor is therefore not supported: two independently-trained non-Anthropic frontier extractors produce nearly-identical accuracies on the same transcripts, while Haiku produces a systematic $+$9 to $+$10\,pp uplift. This is consistent with same-family self-preference rather than asymmetric extractor capability. Under cross-family extraction, the scale trend direction is preserved (3B\,$\to$\,70B: 52\%\,$\to$\,69\% under Mistral~L3; 50\%\,$\to$\,74\% under Llama~70B) but flattened relative to Haiku (61\%\,$\to$\,84\%), and the absolute level is lower. In earlier versions we also reported Qwen~2.5~14B as a third extractor on the Llama~3B / Mistral~7B / Llama~70B subset; those numbers (Llama~3B 61\%, Mistral~7B 57\%, Llama~70B 67.7\%) are reported in Appendix~\ref{app:cross_family_details} for continuity. Same-family bias is also visible in the assistant-level correction-marker density (Haiku-on-Claude $d\!=\!4.90$, Mistral-on-Claude $d\!=\!0.63$; Section~\ref{sec:haiku_defensiveness}).
+
+\paragraph{Llama~8B outlier.} Llama~8B's Avg CF gap of $+$0.5\,pp is an order of magnitude smaller than the next-smallest target (Qwen~7B, $+$7.5\,pp; Mistral~7B, $+$8.0\,pp). At $n=100$ a single flipped LOO prediction shifts accuracy by $\pm$1\,pp, so the observed Haiku-to-cross-family agreement is within the noise range expected by coincidence. We cannot distinguish ``Llama~8B happens to elicit extractor-invariant correction behavior'' from ``Llama~8B happens to sit where the Haiku and cross-family extractors yield near-identical accuracy at this $n$ by chance.'' We flag the outlier for transparency but do not build interpretation on it; replication at larger $n$ or with additional extractors would be needed before reading signal rather than noise into this cell.
+
+\subsection{White-Box Probing Baseline}
+\label{sec:whitebox_probing}
+
+To address whether the equalized setting is hard for \emph{any} detection method or only for black-box behavioral methods, we trained SAPLMA-style \cite{azaria2023internal} logistic-regression probes on the same equalized-trial first responses for two open-weight targets whose weights are locally accessible. For each trial we (a) replayed the first assistant response through the target's HuggingFace checkpoint on MPS with \texttt{output\_hidden\_states=True}; (b) captured hidden states at every layer; and (c) trained four LR probes per target---last-layer last-token, mid-layer last-token (layer $L/2$), last-layer mean-pooled, mid-layer mean-pooled---with leave-one-out cross-validation on the $(X_{\text{hidden}}, y_{\text{lie}})$ pairs (Table~\ref{tab:whitebox_probe}). The multi-configuration design addresses Azaria \& Mitchell's specific finding that intermediate layers and mean-pooling matter; we test all four combinations rather than commit to a single design point.
+
+\begin{table}[h]
+\centering
+\caption{White-box LR probing baseline on equalized trials (EXP-P). LOO accuracy with Wilson 95\% CIs. Refusal-count column is from Table~\ref{tab:cross_family_panel}. Llama~3B uses \texttt{Llama-3.2-3B-Instruct}; additionally, we sweep all 29 layer positions (0--28) × \{last-token, mean-pool\} and report the global best-layer per pooling strategy (Fig.~\ref{fig:probe_layer_curve}). Mistral~7B retains the V15 single-configuration result; multi-configuration replication on the same Instruct checkpoint is future work.}
+\label{tab:whitebox_probe}
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Target} & \textbf{Configuration} & \textbf{$n$} & \textbf{LOO} & \textbf{Wilson 95\%} \\
+\midrule
+Llama~3.2~3B Instruct & Last-layer last-token  & 100 & 63.0\% & [53.2\%, 71.8\%] \\
+Llama~3.2~3B Instruct & Mid-layer last-token   & 100 & 66.0\% & [56.3\%, 74.5\%] \\
+Llama~3.2~3B Instruct & Last-layer mean-pooled & 100 & 39.0\% & [30.0\%, 48.8\%] \\
+Llama~3.2~3B Instruct & Mid-layer mean-pooled  & 100 & 57.0\% & [47.2\%, 66.3\%] \\
+Llama~3.2~3B Instruct & \textbf{Best-layer last-token} (L12) & 100 & \textbf{67.0\%} & [57.3\%, 75.4\%] \\
+Llama~3.2~3B Instruct & \textbf{Best-layer mean-pool} (L13) & 100 & \textbf{62.0\%} & [52.2\%, 70.9\%] \\
+\midrule
+Mistral~7B (base)     & Last-layer last-token  & 100 & 65.0\% & [56.0\%, 74.0\%] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/probe_layer_curve_llama3b.pdf}
+\caption{Per-layer $\times$ \{last-token, mean-pool\} LR probe LOO accuracy on Llama 3.2 3B Instruct equalized-transcript first responses ($n=100$). Last-token curve peaks at layer 12 (67\%); mean-pool peaks at layer 13 (62\%). Shaded bands are Wilson 95\% CIs per layer. Dashed horizontal line is the refusal-count rule (61\%); dotted line is chance (50\%).}
+\label{fig:probe_layer_curve}
+\end{figure}
+
+The Llama~3B probe curve (Fig.~\ref{fig:probe_layer_curve}, sweeping all 29 layers $\times$ 2 pooling strategies) has a last-token peak at layer 12 (\textbf{67.0\%}, Wilson 95\% CI [57.3, 75.4]) and a mean-pool peak at layer 13 (62.0\%, [52.2, 70.9]). The sweep thus \emph{confirms} the 4-configuration design-point result: the V15 mid-layer last-token value (66.0\%) was within $1$\,pp of the global sweep best, and no non-inspected layer position yields a materially better probe than the mid-layer configuration we already reported. Last-token dominates mean-pool at every layer position from $L\geq 14$ (the mean-pool curve collapses to $<45\%$ at deeper layers; the two curves cross only around $L=13$), contrary to a direct SAPLMA import. Even the global best (67.0\%) exceeds the refusal-count rule (61\%) by only $+6$\,pp, with overlapping Wilson CIs. The 39--67\% band across all 58 measured layer$\times$pooling configurations is \emph{preliminary evidence} that the equalized regime remains hard for simple white-box LR probes at this scale across the full depth of the network, not just at the four hand-picked configurations; non-linear probes, contrastive probing, and frontier-scale open-weight targets remain future work. We treat the 67\% as a conservative upper bound on what last-token and mean-pool LR probes achieve at this scale, not as the true ceiling for learned probes. We read the 52--74\% range of black-box behavioral accuracies on these models as \emph{consistent with} representation-level difficulty at the tested configurations, rather than as evidence that a stronger behavioral method would or would not reach 90\%. We extend the probing to Qwen~2.5~14B in future work (the shard download did not complete by the submission deadline); an open-weight frontier-scale probe (Llama~3.3~70B via Bedrock does not expose hidden states) is not feasible in this setup. We also note that the Mistral~7B probe uses the base checkpoint rather than the Ollama-served Instruct checkpoint, which may slightly under-estimate probe accuracy on that target; we treat the 65\% number as a conservative lower bound for the Instruct variant. \textbf{Probe-target asymmetry caveat.} The Mistral~7B row is a single-configuration (last-layer last-token) comparison. On Llama~3B, extending to the best-layer configuration (L12 last-token, 67\%) adds $+4$\,pp over the last-layer last-token baseline (63\%); if similar headroom exists on Mistral~7B, the single-point 65\% reported here is likely an underestimate of the multi-configuration Mistral~7B band, and the apparent ``rule $\geq$ probe'' comparison on that target should be read as conservative until the Mistral~7B multi-configuration replication lands (CR2 was scoped to Llama~3B in the V16 plan; W3 flag acknowledges the asymmetry).

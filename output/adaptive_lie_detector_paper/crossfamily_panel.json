@@ -1,0 +1,115 @@
+{
+  "targets": [
+    {
+      "label": "Llama 3.2 3B",
+      "status": "ok",
+      "n_trials": 100,
+      "n_haiku": 100,
+      "n_crossfamily": 50,
+      "refusal_count_loo": 0.61,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.61,
+      "haiku_pipeline_loo": 0.61,
+      "crossfamily_pipeline_loo": 0.52,
+      "gap_haiku_minus_crossfamily_pp": 8.999999999999996
+    },
+    {
+      "label": "Llama 3.1 8B",
+      "status": "ok",
+      "n_trials": 100,
+      "n_haiku": 100,
+      "n_crossfamily": 100,
+      "refusal_count_loo": 0.74,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.74,
+      "haiku_pipeline_loo": 0.65,
+      "crossfamily_pipeline_loo": 0.64,
+      "gap_haiku_minus_crossfamily_pp": 1.0000000000000009
+    },
+    {
+      "label": "Mistral 7B",
+      "status": "ok",
+      "n_trials": 100,
+      "n_haiku": 100,
+      "n_crossfamily": 100,
+      "refusal_count_loo": 0.68,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.68,
+      "haiku_pipeline_loo": 0.71,
+      "crossfamily_pipeline_loo": 0.62,
+      "gap_haiku_minus_crossfamily_pp": 8.999999999999996
+    },
+    {
+      "label": "Qwen 2.5 7B",
+      "status": "ok",
+      "n_trials": 100,
+      "n_haiku": 100,
+      "n_crossfamily": 100,
+      "refusal_count_loo": 0.67,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.67,
+      "haiku_pipeline_loo": 0.74,
+      "crossfamily_pipeline_loo": 0.65,
+      "gap_haiku_minus_crossfamily_pp": 8.999999999999996
+    },
+    {
+      "label": "Qwen 2.5 14B",
+      "status": "ok",
+      "n_trials": 97,
+      "n_haiku": 97,
+      "n_crossfamily": 97,
+      "refusal_count_loo": 0.7010309278350515,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.7010309278350515,
+      "haiku_pipeline_loo": 0.8247422680412371,
+      "crossfamily_pipeline_loo": 0.6907216494845361,
+      "gap_haiku_minus_crossfamily_pp": 13.4020618556701
+    },
+    {
+      "label": "Llama 3.3 70B",
+      "status": "ok",
+      "n_trials": 93,
+      "n_haiku": 93,
+      "n_crossfamily": 93,
+      "refusal_count_loo": 0.8602150537634409,
+      "refusal_count_thr": 1,
+      "refusal_count_k1": 0.8602150537634409,
+      "haiku_pipeline_loo": 0.8387096774193549,
+      "crossfamily_pipeline_loo": 0.6881720430107527,
+      "gap_haiku_minus_crossfamily_pp": 15.053763440860212
+    },
+    {
+      "label": "Claude Haiku 4.5",
+      "status": "ok",
+      "n_trials": 99,
+      "n_haiku": 99,
+      "n_crossfamily": 99,
+      "refusal_count_loo": 0.7676767676767676,
+      "refusal_count_thr": 4,
+      "refusal_count_k1": 0.6767676767676768,
+      "haiku_pipeline_loo": 0.8282828282828283,
+      "crossfamily_pipeline_loo": 0.7171717171717171,
+      "gap_haiku_minus_crossfamily_pp": 11.111111111111116
+    },
+    {
+      "label": "Qwen 2.5 32B",
+      "status": "ok",
+      "n_trials": 99,
+      "n_haiku": 99,
+      "n_crossfamily": 99,
+      "refusal_count_loo": 0.0,
+      "refusal_count_thr": 0,
+      "refusal_count_k1": 0.5050505050505051,
+      "haiku_pipeline_loo": 0.7575757575757576,
+      "crossfamily_pipeline_loo": 0.6060606060606061,
+      "gap_haiku_minus_crossfamily_pp": 15.151515151515149
+    }
+  ],
+  "n_targets": 8,
+  "averages": {
+    "refusal_count_k1": 0.6803830204270843,
+    "haiku_pipeline_loo": 0.7449138164148972,
+    "crossfamily_pipeline_loo": 0.6415157519659516,
+    "gap_pp": 10.339806444894561
+  }
+}
