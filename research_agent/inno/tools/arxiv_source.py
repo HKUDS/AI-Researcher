@@ -17,26 +17,26 @@ def search_arxiv(query, max_results=10):
     Returns:
         list: list of papers info
     """
-    # 构建API URL
+    # API URL 구축
     base_url = 'http://export.arxiv.org/api/query?'
-    search_query = urllib.parse.quote(query)
+
     
-    # 设置API参数
+    # API 매개변수 설정
     params = {
-        'search_query': f'ti:{search_query}',
+        'search_query': f'ti:{query}',
         'start': 0,
         'max_results': max_results,
         'sortBy': 'relevance',
         'sortOrder': 'descending'
     }
     
-    # 构建完整的查询URL
+    # 전체 쿼리 URL 생성
     query_url = base_url + urllib.parse.urlencode(params)
     
-    # 发送请求并解析结果
+    # 요청 전송 및 결과 파싱
     response = feedparser.parse(query_url)
     
-    # 提取论文信息
+    # 논문 정보 추출
     papers = []
     for entry in response.entries:
         paper = {
@@ -49,46 +49,46 @@ def search_arxiv(query, max_results=10):
         }
         papers.append(paper)
         
-        # 遵守API速率限制
+        # API 속도 제한 준수
         time.sleep(0.5)
     
     return papers
 
 def extract_tex_content(tar_path, ):
     """
-    从tar.gz文件中提取所有.tex文件的内容
-    
-    参数:
-        tar_path: tar.gz文件路径
-    
-    返回:
-        str: 所有.tex文件内容的拼接，格式为 filename + content
+    Extract all .tex file contents from a tar.gz archive.
+
+    Args:
+        tar_path: path to the tar.gz file
+
+    Returns:
+        str: concatenated contents of all .tex files, each prefixed with its filename
     """
     try:
         all_content = []
         
         with tarfile.open(tar_path, 'r:gz') as tar:
-            # 获取所有.tex文件
+            # 모든 .tex 파일 가져오기
             tex_files = [f for f in tar.getmembers() if f.name.endswith('.tex')]
             
             for tex_file in tex_files:
-                # 提取文件内容
+                # 파일 내용 추출
                 f = tar.extractfile(tex_file)
                 if f is not None:
                     try:
-                        # 尝试以utf-8解码
+                        # utf-8로 디코딩 시도
                         content = f.read().decode('utf-8')
                     except UnicodeDecodeError:
-                        # 如果utf-8失败，尝试latin-1
+                        # utf-8 실패 시 latin-1 시도
                         f.seek(0)
                         content = f.read().decode('latin-1')
                     
-                    # 添加文件名和内容
+                    # 파일명과 내용 추가
                     all_content.append(f"\n{'='*50}\nFilename: {tex_file.name}\n{'='*50}\n")
                     all_content.append(content)
                     all_content.append("\n\n")
         
-        # 将所有内容拼接成一个字符串
+        # 모든 내용을 하나의 문자열로 결합
         return "".join(all_content)
     
     except Exception as e:
@@ -104,16 +104,16 @@ def download_arxiv_source(arxiv_url, local_root, workplace_name, title: str):
         workplace_name: workplace name
     """
     try:
-        # 从URL中提取论文ID
+        # URL에서 논문 ID 추출
         paper_id = re.search(r'abs/([^/]+)', arxiv_url).group(1)
         
-        # 构建source URL
+        # 소스 URL 생성
         source_url = f'http://arxiv.org/src/{paper_id}'
         
-        # 发送请求
+        # 요청보내기
         response = requests.get(source_url)
         
-        # 检查状态码
+        # 상태 코드 확인
         if response.status_code == 200:
             try: 
                 paper_src_dir = os.path.join(local_root, workplace_name, "paper_source")
