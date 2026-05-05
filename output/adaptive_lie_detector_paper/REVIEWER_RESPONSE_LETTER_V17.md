@@ -50,9 +50,20 @@ Results:
 - **Low-clarity** false claims: near-miss or partially-true variants of the same domain (e.g., "Water boils at 99°C", "The Earth orbits the Sun every 360 days")
 - **TRUE claims** are identical across both conditions (15 shared true claims); only the false-side is manipulated.
 
-15 claim domains × (true, high-false, low-false) triples. Executed at n=50 per condition (= 25 true + 25 false per condition) on three models via Ollama: Llama 3.2 3B, Mistral 7B, Qwen 2.5 14B. Full numbers are reported in §4.7.X (Section `sec:exp_i_4th_scenario`); pre-registered prediction is that refusal-count LOO should be **higher under high-clarity than low-clarity** if the knowledge-conflict-clarity interpretation is correct.
+15 claim domains × (true, high-false, low-false) triples. Executed at n=50 per condition (= 25 true + 25 false per condition) on three models via Ollama: Llama 3.2 3B, Mistral 7B, Qwen 2.5 14B. Pre-registered prediction: refusal-count LOO should be **higher under high-clarity than low-clarity** if the knowledge-conflict-clarity interpretation is correct.
 
-**Why this is the right test.** The confound we flagged in V16 is that the three EXP-I-matched scenarios (sycophancy, persona, false beliefs via ICL) vary along three axes at once — knowledge-conflict clarity, instructed-action vs spontaneous-disposition, and single- vs multi-turn structure. The 4th scenario holds disposition-source and turn-count fixed at the sycophancy-multi-turn setting (the one that robustly transfers at 82% across three scales) and manipulates only clarity. A positive high-vs-low contrast is clean evidence that clarity is the controlling axis; a null contrast tells us clarity is not load-bearing and the sycophancy result rests on the disposition-source / multi-turn axes instead.
+**Result (pre-registered null / inverted).** Refusal-count LOO per condition (Wilson 95% CI; Cohen's d):
+
+| Target | High-clarity | Low-clarity | Δ (pp) |
+|---|---|---|---|
+| Llama 3.2 3B | 60.0% [46, 72]; +0.45 | 68.0% [54, 79]; +0.95 | −8.0 |
+| Mistral 7B | 65.3% [51, 77]; +0.84 | 72.0% [58, 83]; +1.10 | −6.7 |
+| Qwen 2.5 14B | 74.0% [60, 84]; +1.12 | 72.0% [58, 83]; +1.11 | +2.0 |
+| **Mean** | **66.4%** | **70.7%** | **−4.2** |
+
+Two of three targets show the opposite direction from the pre-registration (Llama 3B and Mistral 7B: Δ=−8.0, −6.7 pp); Qwen 14B is flat (+2.0 pp); all three Wilson CIs substantially overlap. We therefore **reject** the "knowledge-conflict clarity" interpretation as the controlling axis of the §4.7 sycophancy-vs-persona-vs-false-belief gap, and update the paper's framing: under the sycophancy prompt, refusal-count signal is preserved across both clarity conditions (60–74% high, 68–72% low), so the controlling axis is the **disposition-source** (system-prompt-induced agreement pressure) rather than the magnitude of the false claim. The abstract, §1, §4.7, and §4.7.X all carry the updated language; §5 explicitly flags the V14–V16 "knowledge-conflict clarity" gloss as not supported by this pre-registered test.
+
+**Why this is the right test.** The confound flagged in V16 is that the three EXP-I-matched scenarios vary along three axes at once — clarity, disposition-source, turn-count. The 4th scenario holds disposition-source and turn-count fixed at the sycophancy-multi-turn setting (the one that robustly transfers at 82% across three scales) and manipulates only clarity. The null/inverted result is clean evidence that clarity is not load-bearing, and the sycophancy transfer rests on the disposition-source axis instead.
 
 **Files.**
 - New: `code/adaptive_lie_detector/experiments/run_exp_i_4th_scenario.py`

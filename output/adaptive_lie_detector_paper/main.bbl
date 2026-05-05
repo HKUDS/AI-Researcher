@@ -1,25 +1,15 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{21}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[{Anthropic}(2024)]{anthropic2024claude}
+\bibitem[{Anthropic}(2025)]{anthropic2024claude}
 {Anthropic}.
-\newblock The {Claude} 3 model family: {Opus}, {Sonnet}, {Haiku}.
-\newblock Technical report, Anthropic, 2024.
-\newblock URL
-  \url{https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf}.
-
-\bibitem[{Anthropic}(2025)]{anthropic2025claude45}
-{Anthropic}.
-\newblock The {Claude} 4.5 model family: {Haiku} 4.5 and {Sonnet} 4.5.
+\newblock Claude 4.5 model family: {Sonnet}, {Opus}, {Haiku}.
 \newblock Technical report, Anthropic, 2025.
 \newblock URL \url{https://www.anthropic.com/claude}.
-\newblock Accessed via Amazon Bedrock (model IDs
-  \texttt{us.anthropic.claude-haiku-4-5-20251001-v1:0} and
-  \texttt{us.anthropic.claude-sonnet-4-5-20250929-v1:0}).
 
 \bibitem[Azaria and Mitchell(2023)]{azaria2023internal}
 Amos Azaria and Tom Mitchell.
@@ -118,36 +108,10 @@ Lorenzo Pacchiardi, Alex~J. Chan, Soren Mindermann, Ilan Moscovitz, Adri{\`a}
   asking unrelated questions.
 \newblock \emph{arXiv preprint arXiv:2309.15840}, 2023.
 
-\bibitem[Perez et~al.(2022{\natexlab{a}})Perez, Ringer,
-  Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu,
-  Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei,
-  Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller,
-  Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland,
-  Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston,
-  Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai,
-  Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger,
-  Schiefer, and Kaplan]{perez2022discovering}
-Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen,
-  Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu,
-  Saurav Kadavath, Andy Jones, Anna Chen, Ben Mann, Brian Israel, Bryan
-  Seethor, Cameron McKinnon, Christopher Olah, Da~Yan, Daniela Amodei, Dario
-  Amodei, Dawn Drain, Dustin Li, Eli Tran-Johnson, Guro Khundadze, Jackson
-  Kernion, James Landis, Jamie Kerr, Jared Mueller, Jeeyoon Hyun, Joshua
-  Landau, Kamal Ndousse, Landon Goldberg, Liane Lovitt, Martin Lucas, Michael
-  Sellitto, Miranda Zhang, Neerav Kingsland, Nelson Elhage, Nicholas Joseph,
-  Noem{\'\i} Mercado, Nova DasSarma, Oliver Rausch, Robin Larson, Sam
-  McCandlish, Scott Johnston, Shauna Kravec, Sheer El~Showk, Tamera Lanham,
-  Timothy Telleen-Lawton, Tom Brown, Tom Henighan, Tristan Hume, Yuntao Bai,
-  Zac Hatfield-Dodds, Jack Clark, Samuel~R. Bowman, Amanda Askell, Roger
-  Grosse, Danny Hernandez, Deep Ganguli, Evan Hubinger, Nicholas Schiefer, and
-  Jared Kaplan.
-\newblock Discovering language model behaviors with model-written evaluations.
-\newblock \emph{arXiv preprint arXiv:2212.09251}, 2022{\natexlab{a}}.
-
-\bibitem[Perez et~al.(2022{\natexlab{b}})]{perez2022red}
+\bibitem[Perez et~al.(2022)]{perez2022red}
 Ethan Perez et~al.
 \newblock Red teaming language models with language models.
-\newblock In \emph{arXiv preprint arXiv:2202.03286}, 2022{\natexlab{b}}.
+\newblock In \emph{arXiv preprint arXiv:2202.03286}, 2022.
 
 \bibitem[Perez and Ribeiro(2022)]{perez2022ignore}
 F{\'a}bio Perez and Ian Ribeiro.
@@ -155,13 +119,6 @@ F{\'a}bio Perez and Ian Ribeiro.
   {LLMs} through a global scale prompt hacking competition.
 \newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
   Natural Language Processing (EMNLP)}, 2022.
-
-\bibitem[Research(2024)]{apollo2024liar}
-Apollo Research.
-\newblock Ai liar dataset: Goal-directed strategic deception scenarios.
-\newblock \url{https://www.apolloresearch.ai/}, 2024.
-\newblock Dataset for evaluating autonomous deception in reward-function
-  contexts.
 
 \bibitem[Scheurer et~al.(2024)Scheurer, Balesni, and
   Hobbhahn]{scheurer2024strategic}

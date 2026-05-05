@@ -2,36 +2,33 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{anthropic2025claude45}
-\citation{sharma2023sycophancy}
-\citation{verga2024replacing}
+\citation{pacchiardi2023catch}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{How to read this paper.}{2}{paragraph*.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation and Contributions}{2}{subsection.1.1}\protected@file@percent }
 \newlabel{sec:motivation}{{1.1}{2}{Motivation and Contributions}{subsection.1.1}{}}
 \citation{hubinger2019risks,scheurer2024strategic,greenblatt2024alignment}
-\citation{apollo2024liar}
-\@writefile{toc}{\contentsline {paragraph}{Scope: English-only and lexical-fragile.}{3}{paragraph*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Scope limitation: instructed roleplay vs.\ autonomous deception.}{3}{paragraph*.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Which headline accuracy to cite. Cite: \textbf  {54.5\%} for construct-validated accuracy; \textbf  {80.1\%} for surface-lexical ceiling; \textbf  {64.7\%} for upper bound.}}{3}{table.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:headline_decision}{{1}{3}{Which headline accuracy to cite. Cite: \textbf {54.5\%} for construct-validated accuracy; \textbf {80.1\%} for surface-lexical ceiling; \textbf {64.7\%} for upper bound}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Scope.}{3}{paragraph*.3}\protected@file@percent }
 \citation{goodfellow2014explaining}
 \citation{perez2022ignore}
 \citation{zou2023representation}
 \citation{burns2022discovering}
 \citation{azaria2023internal}
 \citation{li2024inference}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Approach}{4}{subsection.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Paper Organization}{4}{subsection.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{4}{section.2}\protected@file@percent }
-\newlabel{sec:related_work}{{2}{4}{Related Work}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Adversarial Examples and Prompt Injection}{4}{subsection.2.1}\protected@file@percent }
 \citation{pacchiardi2023catch}
 \citation{sharma2023sycophancy}
 \citation{sharma2023sycophancy}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{4}{section.2}\protected@file@percent }
+\newlabel{sec:related_work}{{2}{4}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Adversarial Examples and Prompt Injection}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Representation Engineering and Probing Classifiers}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Black-box behavioral approaches.}{4}{paragraph*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sycophancy and instruction-following controls.}{4}{paragraph*.5}\protected@file@percent }
 \citation{ganguli2022red}
 \citation{perez2022red}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Representation Engineering and Probing Classifiers}{5}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Black-box behavioral approaches.}{5}{paragraph*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Sycophancy and instruction-following controls.}{5}{paragraph*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}LLM Red-Teaming and Evaluation}{5}{subsection.2.3}\protected@file@percent }
 \citation{scheurer2024strategic}
 \citation{greenblatt2024alignment}
 \citation{denison2024sycophancy}
@@ -41,314 +38,367 @@
 \citation{zou2023representation,burns2022discovering,azaria2023internal,li2024inference}
 \citation{ganguli2022red,perez2022red}
 \citation{scheurer2024strategic,greenblatt2024alignment,denison2024sycophancy}
-\@writefile{toc}{\contentsline {paragraph}{Autonomous deception and strategic behavior.}{6}{paragraph*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{LLM-as-judge reliability.}{6}{paragraph*.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Summary of the gap.}{6}{paragraph*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{6}{section.3}\protected@file@percent }
-\newlabel{sec:methodology}{{3}{6}{Methodology}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Evaluation Controls}{6}{subsection.3.1}\protected@file@percent }
-\newlabel{sec:eval_controls}{{3.1}{6}{Evaluation Controls}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}LLM Red-Teaming and Evaluation}{5}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Autonomous deception and strategic behavior.}{5}{paragraph*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{LLM-as-judge reliability.}{5}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Summary of the gap.}{5}{paragraph*.8}\protected@file@percent }
 \citation{meta2024llama3}
 \citation{jiang2023mistral}
 \citation{qwen2025qwen25}
 \citation{anthropic2024claude}
-\@writefile{toc}{\contentsline {paragraph}{Prompt equalization.}{7}{paragraph*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-family feature extraction.}{7}{paragraph*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Surface-level baselines.}{7}{paragraph*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Measurement Apparatus: ADAGE Pipeline}{7}{subsection.3.2}\protected@file@percent }
-\newlabel{sec:system_overview}{{3.2}{7}{Measurement Apparatus: ADAGE Pipeline}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{6}{section.3}\protected@file@percent }
+\newlabel{sec:methodology}{{3}{6}{Methodology}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Evaluation Controls}{6}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:eval_controls}{{3.1}{6}{Evaluation Controls}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Prompt equalization.}{6}{paragraph*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-family feature extraction.}{6}{paragraph*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Surface-level baselines.}{6}{paragraph*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Interrogation Pipeline}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:system_overview}{{3.2}{6}{Interrogation Pipeline}{subsection.3.2}{}}
+\expandafter \gdef \csname pgfplots@legend@to@name@summarylegend\endcsname {\begingroup \def \pgfplots@legend@to@name {\pgfkeysdef {/pgfplots/every axis legend}{\pgfkeysalso {cells={anchor=center},inner xsep={3pt},inner ysep={2pt},nodes={inner sep=2pt,text depth=0.15em},anchor={north east},shape={rectangle},fill={white},draw={black},at={(0.98,0.98)},font={\scriptsize },at={(0.5,1.03)},anchor={south}}}\pgfkeysdef {/pgfplots/every legend image post}{}\def \numplots {3}\def \plotnum {0}\def \plotnumofactualtype {0}\matrix [/pgfplots/every axis legend]{\begingroup \def \pgfplots@draw@image {\def \tikz@plot@handler {\pgfkeys {/pgf/plots/@handler options/.cd, start=\relax , end macro=\relax , point macro=\pgfutil@gobble , jump macro=\relax , special macro=\pgfutil@gobble ,start={ \pgfmathparse {\pgfplotbarwidth }\xdef \pgfplotbarwidth@ {\pgfmathresult pt}\pgfmathparse {\pgfplotbarshift }\xdef \pgfplotbarshift@ {\pgfmathresult pt}\pgfplotyzerolevelstreamstart }, end macro=\pgfplotyzerolevelstreamend , point macro=\pgf@plot@ybar@handler }\begingroup \escapechar =-1 \edef \pgfplotsplothandlername {\string \pgfplothandlerybar }\pgfmath@smuggleone \pgfplotsplothandlername \endgroup \def \pgfplotsplothandlerLUAfactory {function(axis, pointmetainputhandler) return pgfplots.GenericPlothandler.new("\pgfplotsplothandlername ", axis,pointmetainputhandler) end}\def \pgfplotsplothandlerLUAvisualizerfactory {pgfplots.defaultPlotVisualizerFactory}\let \pgfplotsplothandlersurveydifflen =\pgfplotsplothandlersurveydifflen@snaptonearest \let \pgfplotsplothandlersurveypointattime =\pgfplotsplothandlersurveypointattime@snaptonearest \def \pgfplotbarwidth {\pgfplots@ybar@width }\def \pgfplotbarshift {\pgfplots@ybar@shift }}\pgfkeysdef {/pgfplots/legend image code}{\draw [,/tikz/.cd,bar width=3pt,yshift=-0.2em,bar shift=0pt] plot coordinates {(0cm,0.8em) (2*\pgfplotbarwidth ,0.6em)};}\pgfkeysdef {/pgfplots/every legend image post}{}\pgfkeyssetvalue {/pgfplots/mark list fill}{.!80!black}\pgfplots@show@small@legendplots {fill={black!70},draw={black!70}}{}}\ifpgfpicture \pgfplots@draw@image \else \expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \begingroup \tikzappendtofigurename {_crossref}\fi \tikz []{\pgfplots@draw@image }\expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \endgroup \fi \fi \endgroup \pgfmatrixnextcell \node []{Instructed};\pgfmatrixnextcell \begingroup \def \pgfplots@draw@image {\def \tikz@plot@handler {\pgfkeys {/pgf/plots/@handler options/.cd, start=\relax , end macro=\relax , point macro=\pgfutil@gobble , jump macro=\relax , special macro=\pgfutil@gobble ,start={ \pgfmathparse {\pgfplotbarwidth }\xdef \pgfplotbarwidth@ {\pgfmathresult pt}\pgfmathparse {\pgfplotbarshift }\xdef \pgfplotbarshift@ {\pgfmathresult pt}\pgfplotyzerolevelstreamstart }, end macro=\pgfplotyzerolevelstreamend , point macro=\pgf@plot@ybar@handler }\begingroup \escapechar =-1 \edef \pgfplotsplothandlername {\string \pgfplothandlerybar }\pgfmath@smuggleone \pgfplotsplothandlername \endgroup \def \pgfplotsplothandlerLUAfactory {function(axis, pointmetainputhandler) return pgfplots.GenericPlothandler.new("\pgfplotsplothandlername ", axis,pointmetainputhandler) end}\def \pgfplotsplothandlerLUAvisualizerfactory {pgfplots.defaultPlotVisualizerFactory}\let \pgfplotsplothandlersurveydifflen =\pgfplotsplothandlersurveydifflen@snaptonearest \let \pgfplotsplothandlersurveypointattime =\pgfplotsplothandlersurveypointattime@snaptonearest \def \pgfplotbarwidth {\pgfplots@ybar@width }\def \pgfplotbarshift {\pgfplots@ybar@shift }}\pgfkeysdef {/pgfplots/legend image code}{\draw [,/tikz/.cd,bar width=3pt,yshift=-0.2em,bar shift=0pt] plot coordinates {(0cm,0.8em) (2*\pgfplotbarwidth ,0.6em)};}\pgfkeysdef {/pgfplots/every legend image post}{}\pgfkeyssetvalue {/pgfplots/mark list fill}{.!80!black}\pgfplots@show@small@legendplots {fill={blue!55},draw={blue!55}}{}}\ifpgfpicture \pgfplots@draw@image \else \expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \begingroup \tikzappendtofigurename {_crossref}\fi \tikz []{\pgfplots@draw@image }\expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \endgroup \fi \fi \endgroup \pgfmatrixnextcell \node []{Equalized rule};\pgfmatrixnextcell \begingroup \def \pgfplots@draw@image {\def \tikz@plot@handler {\pgfkeys {/pgf/plots/@handler options/.cd, start=\relax , end macro=\relax , point macro=\pgfutil@gobble , jump macro=\relax , special macro=\pgfutil@gobble ,start={ \pgfmathparse {\pgfplotbarwidth }\xdef \pgfplotbarwidth@ {\pgfmathresult pt}\pgfmathparse {\pgfplotbarshift }\xdef \pgfplotbarshift@ {\pgfmathresult pt}\pgfplotyzerolevelstreamstart }, end macro=\pgfplotyzerolevelstreamend , point macro=\pgf@plot@ybar@handler }\begingroup \escapechar =-1 \edef \pgfplotsplothandlername {\string \pgfplothandlerybar }\pgfmath@smuggleone \pgfplotsplothandlername \endgroup \def \pgfplotsplothandlerLUAfactory {function(axis, pointmetainputhandler) return pgfplots.GenericPlothandler.new("\pgfplotsplothandlername ", axis,pointmetainputhandler) end}\def \pgfplotsplothandlerLUAvisualizerfactory {pgfplots.defaultPlotVisualizerFactory}\let \pgfplotsplothandlersurveydifflen =\pgfplotsplothandlersurveydifflen@snaptonearest \let \pgfplotsplothandlersurveypointattime =\pgfplotsplothandlersurveypointattime@snaptonearest \def \pgfplotbarwidth {\pgfplots@ybar@width }\def \pgfplotbarshift {\pgfplots@ybar@shift }}\pgfkeysdef {/pgfplots/legend image code}{\draw [,/tikz/.cd,bar width=3pt,yshift=-0.2em,bar shift=0pt] plot coordinates {(0cm,0.8em) (2*\pgfplotbarwidth ,0.6em)};}\pgfkeysdef {/pgfplots/every legend image post}{}\pgfkeyssetvalue {/pgfplots/mark list fill}{.!80!black}\pgfplots@show@small@legendplots {fill={orange!65},draw={orange!65}}{}}\ifpgfpicture \pgfplots@draw@image \else \expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \begingroup \tikzappendtofigurename {_crossref}\fi \tikz []{\pgfplots@draw@image }\expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \endgroup \fi \fi \endgroup \pgfmatrixnextcell \node []{Cross-family pipeline};\\};}\ifpgfpicture \pgfplots@legend@to@name \else \expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \begingroup \tikzappendtofigurename {_crossref}\fi \tikz [/pgfplots/every legend to name picture/.try]{\pgfplots@legend@to@name }\expandafter \ifx \csname tikzappendtofigurename\endcsname \relax \else \endgroup \fi \fi \endgroup }
+\newlabel{summarylegend}{{\expandafter\protect\csname pgfplots@legend@to@name@summarylegend\endcsname}{7}{Experimental Setup}{pgfplotslink.4.0}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Summary results. \textbf  {(a)} Three-control accuracy collapse: instructed LOO (black) → equalized rule $k=1$ (blue) → cross-family pipeline Mistral~L3 (orange), per model. Joint application collapses accuracy 30--41\,pp. \textbf  {(b)} Sycophancy transfer: dark blue = sycophancy LOO ($n\!=\!200$); light blue = system-prompt-only control (no epistemic pressure, $n\!=\!200$). Persona/false-belief cells are \emph  {excluded}: spot-checks reveal scenario-design artifact (models abandoning false personas), so these cells provide no evidence about detector capability. $^\dag  $Sycophancy 70B ($n\!=\!50$, preliminary, not in headline summaries). SP-only = system-prompt-only control. All results equalized; models $\leq $70B.}}{7}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:summary_results}{{1}{7}{Summary results. \textbf {(a)} Three-control accuracy collapse: instructed LOO (black) → equalized rule $k=1$ (blue) → cross-family pipeline Mistral~L3 (orange), per model. Joint application collapses accuracy 30--41\,pp. \textbf {(b)} Sycophancy transfer: dark blue = sycophancy LOO ($n\!=\!200$); light blue = system-prompt-only control (no epistemic pressure, $n\!=\!200$). Persona/false-belief cells are \emph {excluded}: spot-checks reveal scenario-design artifact (models abandoning false personas), so these cells provide no evidence about detector capability. $^\dag $Sycophancy 70B ($n\!=\!50$, preliminary, not in headline summaries). SP-only = system-prompt-only control. All results equalized; models $\leq $70B}{figure.caption.12}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{7}{section.4}\protected@file@percent }
 \newlabel{sec:experiments}{{4}{7}{Experiments}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{7}{subsection.4.1}\protected@file@percent }
 \newlabel{sec:setup}{{4.1}{7}{Experimental Setup}{subsection.4.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Experiment summary: design, sample size, and key finding for each evaluation. Per-model $n$ varies from 93 to 100 due to API errors; Table~\ref {tab:refusal_only} shows exact counts.}}{8}{table.caption.11}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:experiment_summary}{{1}{8}{Experiment summary: design, sample size, and key finding for each evaluation. Per-model $n$ varies from 93 to 100 due to API errors; Table~\ref {tab:refusal_only} shows exact counts}{table.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Headline Numbers (Reader Orientation)}{8}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:headlines}{{4.2}{8}{Headline Numbers (Reader Orientation)}{subsection.4.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces \textbf  {Primary claim-supporting numbers.} One canonical value per claim (instructed-vs.-equalized, extractor-contrast, regime-contrast axes). ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). Diagnostic rows (adversarial, ICC, frontier pilot) are in Table~\ref {tab:headlines_diagnostics}.}}{8}{table.caption.12}\protected@file@percent }
-\newlabel{tab:headlines_primary}{{2}{8}{\textbf {Primary claim-supporting numbers.} One canonical value per claim (instructed-vs.-equalized, extractor-contrast, regime-contrast axes). ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). Diagnostic rows (adversarial, ICC, frontier pilot) are in Table~\ref {tab:headlines_diagnostics}}{table.caption.12}{}}
-\newlabel{tab:headlines}{{2}{8}{\textbf {Primary claim-supporting numbers.} One canonical value per claim (instructed-vs.-equalized, extractor-contrast, regime-contrast axes). ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). Diagnostic rows (adversarial, ICC, frontier pilot) are in Table~\ref {tab:headlines_diagnostics}}{table.caption.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Label-Free Detection Rule}{8}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:hedging_baseline}{{4.3}{8}{Label-Free Detection Rule}{subsection.4.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces \textbf  {Diagnostic numbers.} Adversarial robustness, construct-validity, and a single underpowered frontier pilot. These rows bound the claim-supporting numbers in Table~\ref {tab:headlines_primary} but should not be read as primary headlines. The three Sonnet rows are labeled ``pilot'' to reflect the $n=99$ between-extractor power limitation (\S  \ref {sec:sonnet_frontier}).}}{9}{table.caption.13}\protected@file@percent }
-\newlabel{tab:headlines_diagnostics}{{3}{9}{\textbf {Diagnostic numbers.} Adversarial robustness, construct-validity, and a single underpowered frontier pilot. These rows bound the claim-supporting numbers in Table~\ref {tab:headlines_primary} but should not be read as primary headlines. The three Sonnet rows are labeled ``pilot'' to reflect the $n=99$ between-extractor power limitation (\S \ref {sec:sonnet_frontier})}{table.caption.13}{}}
-\@writefile{toc}{\contentsline {paragraph}{EXP-J: Refusal-count-only classifier.}{9}{paragraph*.14}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Refusal-count-only LOO vs.\ full pipelines on equalized data (EXP-J). A single regex feature (refusal/correction count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, confirming the detection signal is surface-level. \textbf  {Refusal-count and hedging columns use LOO cross-validation on the pooled 7-model dataset (689 trials; a single shared threshold is optimized across targets)}; 95\% CIs on the refusal-only column are Wilson-score intervals on the per-model proportion; for a per-target-calibrated comparison against cross-family extraction, see Table~\ref {tab:cross_family_panel}.}}{9}{table.caption.15}\protected@file@percent }
-\newlabel{tab:refusal_only}{{4}{9}{Refusal-count-only LOO vs.\ full pipelines on equalized data (EXP-J). A single regex feature (refusal/correction count) matches or exceeds the 5-feature LLM pipeline on 6 of 7 models, confirming the detection signal is surface-level. \textbf {Refusal-count and hedging columns use LOO cross-validation on the pooled 7-model dataset (689 trials; a single shared threshold is optimized across targets)}; 95\% CIs on the refusal-only column are Wilson-score intervals on the per-model proportion; for a per-target-calibrated comparison against cross-family extraction, see Table~\ref {tab:cross_family_panel}}{table.caption.15}{}}
-\@writefile{toc}{\contentsline {paragraph}{EXP-J-fixed: Fixed-threshold, label-free rule.}{9}{paragraph*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{One-shot adversarial paraphrase (EXP-ADV).}{9}{paragraph*.17}\protected@file@percent }
-\newlabel{sec:adversarial_paraphrase}{{4.3}{9}{One-shot adversarial paraphrase (EXP-ADV)}{paragraph*.17}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Multi-model adversarial paraphrase (EXP-ADV). Rule-accuracy ($k\geq 1$) under equalized baseline vs.\ adversarial prompt on the same claim pairs, with a paired bootstrap 95\% CI (10k resamples) on $\Delta $\,=\,baseline\,$-$\,adversarial. Mean refusal markers in deceptive trials (last column pair) show the signal collapse directly.}}{10}{table.caption.18}\protected@file@percent }
-\newlabel{tab:adv_multimodel}{{5}{10}{Multi-model adversarial paraphrase (EXP-ADV). Rule-accuracy ($k\geq 1$) under equalized baseline vs.\ adversarial prompt on the same claim pairs, with a paired bootstrap 95\% CI (10k resamples) on $\Delta $\,=\,baseline\,$-$\,adversarial. Mean refusal markers in deceptive trials (last column pair) show the signal collapse directly}{table.caption.18}{}}
-\@writefile{toc}{\contentsline {paragraph}{One-shot full-regex-disclosed adversary (EXP-ADV-FULLREGEX).}{10}{paragraph*.19}\protected@file@percent }
-\newlabel{sec:adversarial_fullregex}{{4.3}{10}{One-shot full-regex-disclosed adversary (EXP-ADV-FULLREGEX)}{paragraph*.19}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Full-regex-disclosed adversary (EXP-ADV-FULLREGEX). Rule $k\geq 1$ accuracy on the same claim pairs under baseline / weak-adversary (EXP-ADV, 14-word curated) / full-regex-disclosed adversary, plus the truth-condition accuracy (signal-suppression direction). $n=50$ per cell; Wilson 95\% CIs on the full-regex column in brackets.}}{10}{table.caption.20}\protected@file@percent }
-\newlabel{tab:adv_fullregex}{{6}{10}{Full-regex-disclosed adversary (EXP-ADV-FULLREGEX). Rule $k\geq 1$ accuracy on the same claim pairs under baseline / weak-adversary (EXP-ADV, 14-word curated) / full-regex-disclosed adversary, plus the truth-condition accuracy (signal-suppression direction). $n=50$ per cell; Wilson 95\% CIs on the full-regex column in brackets}{table.caption.20}{}}
-\@writefile{toc}{\contentsline {paragraph}{Cross-claim-set generalization (EXP-L).}{11}{paragraph*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Instruction-Following Confound}{11}{subsection.4.4}\protected@file@percent }
-\newlabel{sec:prompt_equalized}{{4.4}{11}{Instruction-Following Confound}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{EXP-A: Prompt-equalized control.}{11}{paragraph*.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{EXP-G: Instructed-matched control.}{11}{paragraph*.24}\protected@file@percent }
-\newlabel{sec:instructed_matched}{{4.4}{11}{EXP-G: Instructed-matched control}{paragraph*.24}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Prompt-equalized LOO accuracy across seven models (EXP-A; Claude Haiku extraction). All evaluations use cross-family extraction except Claude Haiku (same-family, an acknowledged limitation). The instructed range (93.9--100\% LOO) is from per-model evaluations in Appendix~\ref {app:instructed_results}.}}{12}{table.caption.23}\protected@file@percent }
-\newlabel{tab:prompt_equalized}{{7}{12}{Prompt-equalized LOO accuracy across seven models (EXP-A; Claude Haiku extraction). All evaluations use cross-family extraction except Claude Haiku (same-family, an acknowledged limitation). The instructed range (93.9--100\% LOO) is from per-model evaluations in Appendix~\ref {app:instructed_results}}{table.caption.23}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Instruction-following decomposition (EXP-G). The instruction-following (IF) contribution is the gap between equalized and instructed-matched LOO. The measurement is cleanest on 14B/70B, where models independently know claims are false; the 3B--7B contributions are upper bounds due to knowledge-transfer (KT) confounding.}}{12}{table.caption.25}\protected@file@percent }
-\newlabel{tab:expg_summary}{{8}{12}{Instruction-following decomposition (EXP-G). The instruction-following (IF) contribution is the gap between equalized and instructed-matched LOO. The measurement is cleanest on 14B/70B, where models independently know claims are false; the 3B--7B contributions are upper bounds due to knowledge-transfer (KT) confounding}{table.caption.25}{}}
-\@writefile{toc}{\contentsline {paragraph}{Knowledge pre-check stratification.}{12}{paragraph*.26}\protected@file@percent }
-\newlabel{sec:knowledge_precheck_stratified}{{4.4}{12}{Knowledge pre-check stratification}{paragraph*.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Pipeline Redundancy Under Equalization}{12}{subsection.4.5}\protected@file@percent }
-\newlabel{sec:pipeline_ablation}{{4.5}{12}{Pipeline Redundancy Under Equalization}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{$K=1$ suffices under instruction.}{12}{paragraph*.28}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Feature separability collapse: instructed (solid blue bars) vs.\ equalized (hatched orange bars) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; correction density retains the most signal.}}{13}{figure.caption.27}\protected@file@percent }
-\newlabel{fig:feature_collapse}{{1}{13}{Feature separability collapse: instructed (solid blue bars) vs.\ equalized (hatched orange bars) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; correction density retains the most signal}{figure.caption.27}{}}
-\@writefile{toc}{\contentsline {paragraph}{Weak construct validity.}{13}{paragraph*.29}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Regex matches or exceeds under equalization.}{13}{paragraph*.30}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Multi-turn value only under equalization at scale.}{13}{paragraph*.31}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Within-Family Scale Patterns}{13}{subsection.4.6}\protected@file@percent }
-\newlabel{sec:qwen_scale_sweep}{{4.6}{13}{Within-Family Scale Patterns}{subsection.4.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5 (3B$\to $7B$\to $14B$\to $32B).}{13}{paragraph*.32}\protected@file@percent }
-\citation{apollo2024liar}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Qwen within-family scale sweep. Refusal-count threshold LOO accuracy with Fisher exact tests for adjacent increments. Mean refusal counts from interrogation transcripts via regex (Appendix~\ref {app:regex_patterns}).}}{14}{table.caption.33}\protected@file@percent }
-\newlabel{tab:qwen_scale_sweep}{{9}{14}{Qwen within-family scale sweep. Refusal-count threshold LOO accuracy with Fisher exact tests for adjacent increments. Mean refusal counts from interrogation transcripts via regex (Appendix~\ref {app:regex_patterns})}{table.caption.33}{}}
-\@writefile{toc}{\contentsline {paragraph}{Llama (3B$\to $8B$\to $70B).}{14}{paragraph*.34}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Frontier-scale pilot observation ($n=99$).}{14}{paragraph*.35}\protected@file@percent }
-\newlabel{sec:sonnet_frontier}{{4.6}{14}{Frontier-scale pilot observation ($n=99$)}{paragraph*.35}{}}
-\@writefile{toc}{\contentsline {paragraph}{Cross-family trend.}{14}{paragraph*.36}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Negative Result: Transfer to Autonomous Deception}{14}{subsection.4.7}\protected@file@percent }
-\newlabel{sec:autonomous_pilot}{{4.7}{14}{Negative Result: Transfer to Autonomous Deception}{subsection.4.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{Apollo AI Liar pilot (EXP-I).}{14}{paragraph*.38}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange). Error bars are bootstrap 95\% CIs. Models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (pooled $p < 0.0001$, exploratory post-hoc comparison, not pre-registered); no individual adjacent increment is significant after joint Holm-Bonferroni correction.}}{15}{figure.caption.37}\protected@file@percent }
-\newlabel{fig:scale_trend}{{2}{15}{Prompt-equalized detection accuracy by model scale (LOO pipeline in blue, hedging regex in orange). Error bars are bootstrap 95\% CIs. Models $\leq $7B cluster at 61--74\% and models $\geq $14B at 82.5--84\% (pooled $p < 0.0001$, exploratory post-hoc comparison, not pre-registered); no individual adjacent increment is significant after joint Holm-Bonferroni correction}{figure.caption.37}{}}
-\@writefile{toc}{\contentsline {paragraph}{Matched-format evaluation (EXP-I-matched).}{15}{paragraph*.39}\protected@file@percent }
-\newlabel{sec:autonomous_matched}{{4.7}{15}{Matched-format evaluation (EXP-I-matched)}{paragraph*.39}{}}
-\citation{sharma2023sycophancy}
-\citation{hubinger2019risks,greenblatt2024alignment}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Matched-format autonomous deception detection (EXP-I-matched). Refusal-count LOO accuracy and effect sizes across scenarios and scales. ``$|d|$'' is Cohen's $d$ on refusal-count between lying and truthful trials (unsigned; larger = cleaner behavioral separation).}}{16}{table.caption.40}\protected@file@percent }
-\newlabel{tab:autonomous_matched}{{10}{16}{Matched-format autonomous deception detection (EXP-I-matched). Refusal-count LOO accuracy and effect sizes across scenarios and scales. ``$|d|$'' is Cohen's $d$ on refusal-count between lying and truthful trials (unsigned; larger = cleaner behavioral separation)}{table.caption.40}{}}
-\@writefile{toc}{\contentsline {paragraph}{Why sycophancy is ``semi-autonomous,'' not ``instructed.''}{16}{paragraph*.41}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Confound acknowledgement.}{17}{paragraph*.42}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.1}Pre-Registered 4th Scenario: Knowledge-Conflict Clarity}{17}{subsubsection.4.7.1}\protected@file@percent }
-\newlabel{sec:exp_i_4th_scenario}{{4.7.1}{17}{Pre-Registered 4th Scenario: Knowledge-Conflict Clarity}{subsubsection.4.7.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Pre-registered 4th scenario (R2, \texttt  {sec:exp\_i\_4th\_scenario}). Refusal-count LOO on sycophancy-aligned targets under high-clarity vs.\ low-clarity knowledge-conflict on the FALSE side; TRUE claims shared. $n=50$ per condition per model. A positive $\Delta $ supports the knowledge-conflict-clarity interpretation of the §\ref {sec:autonomous_matched} sycophancy-vs-persona-vs-false-belief gap.}}{17}{table.caption.43}\protected@file@percent }
-\newlabel{tab:exp_i_4th_scenario}{{11}{17}{Pre-registered 4th scenario (R2, \texttt {sec:exp\_i\_4th\_scenario}). Refusal-count LOO on sycophancy-aligned targets under high-clarity vs.\ low-clarity knowledge-conflict on the FALSE side; TRUE claims shared. $n=50$ per condition per model. A positive $\Delta $ supports the knowledge-conflict-clarity interpretation of the §\ref {sec:autonomous_matched} sycophancy-vs-persona-vs-false-belief gap}{table.caption.43}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Cross-Family Extraction}{17}{subsection.4.8}\protected@file@percent }
-\newlabel{sec:cross_family_equalized}{{4.8}{17}{Cross-Family Extraction}{subsection.4.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Cross-family panel (EXP-H-full). LOO accuracy for the refusal-count rule (regex; extractor-independent) and the 5-feature LLM pipeline under three extractors: Claude Haiku, Mistral Large~3, and Llama~3.3~70B (two non-Anthropic cross-family extractors). Same equalized trials per target. $\dagger $: same-family cell. $\ddagger $: Qwen~2.5~32B produces zero refusal markers in both conditions under RLHF agreeableness smoothing (Section~\ref {sec:qwen_scale_sweep}), so the rule collapses to chance by construction; included for transparency. \textbf  {Refusal-count column uses per-target LOO (threshold optimized independently per target)}, so values differ from Table~\ref {tab:refusal_only} (pooled-LOO on 689 trials): the two tables correspond to different deployment regimes (per-target calibration here vs.\ shared threshold there), not different data. ``Avg CF gap'' is the per-target mean of (Haiku $-$ Mistral~L3) and (Haiku $-$ Llama~70B), in percentage points.}}{18}{table.caption.44}\protected@file@percent }
-\newlabel{tab:cross_family_panel}{{12}{18}{Cross-family panel (EXP-H-full). LOO accuracy for the refusal-count rule (regex; extractor-independent) and the 5-feature LLM pipeline under three extractors: Claude Haiku, Mistral Large~3, and Llama~3.3~70B (two non-Anthropic cross-family extractors). Same equalized trials per target. $\dagger $: same-family cell. $\ddagger $: Qwen~2.5~32B produces zero refusal markers in both conditions under RLHF agreeableness smoothing (Section~\ref {sec:qwen_scale_sweep}), so the rule collapses to chance by construction; included for transparency. \textbf {Refusal-count column uses per-target LOO (threshold optimized independently per target)}, so values differ from Table~\ref {tab:refusal_only} (pooled-LOO on 689 trials): the two tables correspond to different deployment regimes (per-target calibration here vs.\ shared threshold there), not different data. ``Avg CF gap'' is the per-target mean of (Haiku $-$ Mistral~L3) and (Haiku $-$ Llama~70B), in percentage points}{table.caption.44}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Label-Free Detection Rule}{7}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:hedging_baseline}{{4.2}{7}{Label-Free Detection Rule}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{EXP-J (fixed $k=1$): label-free result.}{7}{paragraph*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Adversarial robustness (EXP-ADV).}{8}{paragraph*.14}\protected@file@percent }
+\newlabel{sec:adversarial_paraphrase}{{4.2}{8}{Adversarial robustness (EXP-ADV)}{paragraph*.14}{}}
+\newlabel{sec:adversarial_fullregex}{{4.2}{8}{Adversarial robustness (EXP-ADV)}{paragraph*.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Adversarial robustness ($n=200$ for Adv-FullRegex; $n=50$ for Adv-14, preliminary). \textbf  {LC} = lying-channel suppression: refusal markers drop selectively in lie trials; truth channel stays calibrated. \textbf  {Bi} = both channels disrupted (near-parity; Mistral~7B exception). At Adv-FullRegex ($n=200$): Llama~3B T-acc=33\%, L-acc=57\% (lie collapses $\Rightarrow $ LC); Mistral~7B T=96\%, L=12\% (both shifted $\Rightarrow $ Bi). Full distributions in Appendix~\ref {app:adv_n50}.}}{8}{table.caption.15}\protected@file@percent }
+\newlabel{tab:adv_summary}{{2}{8}{Adversarial robustness ($n=200$ for Adv-FullRegex; $n=50$ for Adv-14, preliminary). \textbf {LC} = lying-channel suppression: refusal markers drop selectively in lie trials; truth channel stays calibrated. \textbf {Bi} = both channels disrupted (near-parity; Mistral~7B exception). At Adv-FullRegex ($n=200$): Llama~3B T-acc=33\%, L-acc=57\% (lie collapses $\Rightarrow $ LC); Mistral~7B T=96\%, L=12\% (both shifted $\Rightarrow $ Bi). Full distributions in Appendix~\ref {app:adv_n50}}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Instruction-Following Confound}{8}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:prompt_equalized}{{4.3}{8}{Instruction-Following Confound}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{EXP-A: Prompt-equalized control.}{8}{paragraph*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{EXP-G: Instructed-matched control.}{8}{paragraph*.17}\protected@file@percent }
+\newlabel{sec:instructed_matched}{{4.3}{8}{EXP-G: Instructed-matched control}{paragraph*.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Pipeline Redundancy Under Equalization}{9}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:pipeline_ablation}{{4.4}{9}{Pipeline Redundancy Under Equalization}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{$K=1$ suffices under instruction.}{9}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Weak construct validity.}{9}{paragraph*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Regex matches or exceeds under equalization.}{9}{paragraph*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Scale Patterns and Cross-Family Extraction}{9}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:scale_transfer_cf}{{4.5}{9}{Scale Patterns and Cross-Family Extraction}{subsection.4.5}{}}
+\newlabel{sec:qwen_scale_sweep}{{4.5}{9}{Scale Patterns and Cross-Family Extraction}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5 and Llama scale patterns.}{9}{paragraph*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-organizational RLHF replication ($n\!=\!100$ each).}{9}{paragraph*.22}\protected@file@percent }
+\newlabel{sec:rlhf_replication}{{4.5}{9}{Cross-organizational RLHF replication ($n\!=\!100$ each)}{paragraph*.22}{}}
 \citation{azaria2023internal}
-\@writefile{toc}{\contentsline {paragraph}{Llama~8B outlier.}{19}{paragraph*.45}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}White-Box Probing Baseline}{19}{subsection.4.9}\protected@file@percent }
-\newlabel{sec:whitebox_probing}{{4.9}{19}{White-Box Probing Baseline}{subsection.4.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces White-box LR probing baseline on equalized trials (EXP-P). LOO accuracy with Wilson 95\% CIs. Refusal-count column is from Table~\ref {tab:cross_family_panel}. Llama~3B uses \texttt  {Llama-3.2-3B-Instruct}; Mistral~7B uses the \texttt  {Mistral-7B-v0.1} base checkpoint (S2/V17: Instruct-checkpoint sweep requires separate extraction; the base-checkpoint sweep reuses V16 infrastructure and is reported as a preliminary per-layer panel). For both targets we sweep all layer positions $\times $ \{last-token, mean-pool\} and report the global best-layer per pooling strategy (Fig.~\ref {fig:probe_layer_curve}).}}{19}{table.caption.46}\protected@file@percent }
-\newlabel{tab:whitebox_probe}{{13}{19}{White-box LR probing baseline on equalized trials (EXP-P). LOO accuracy with Wilson 95\% CIs. Refusal-count column is from Table~\ref {tab:cross_family_panel}. Llama~3B uses \texttt {Llama-3.2-3B-Instruct}; Mistral~7B uses the \texttt {Mistral-7B-v0.1} base checkpoint (S2/V17: Instruct-checkpoint sweep requires separate extraction; the base-checkpoint sweep reuses V16 infrastructure and is reported as a preliminary per-layer panel). For both targets we sweep all layer positions $\times $ \{last-token, mean-pool\} and report the global best-layer per pooling strategy (Fig.~\ref {fig:probe_layer_curve})}{table.caption.46}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Per-layer $\times $ \{last-token, mean-pool\} LR probe LOO accuracy on equalized-transcript first responses ($n=100$ per target). \textbf  {(a)} Llama 3.2 3B Instruct: last-token peaks at layer 12 (67\%); mean-pool peaks at layer 13 (62\%); both collapse at deeper layers. \textbf  {(b)} Mistral 7B base checkpoint (S2/V17): both poolings peak at layer 4 (last-token 65\%, mean-pool 66\%) with mid-depth flat band around 55--60\% and decline at layers 24--32. Dashed horizontal line is the refusal-count rule (61\% Llama; 68\% Mistral); dotted line is chance. $^\dagger $Mistral sweep uses the base checkpoint; Instruct-checkpoint replication is future work.}}{20}{figure.caption.47}\protected@file@percent }
-\newlabel{fig:probe_layer_curve}{{3}{20}{Per-layer $\times $ \{last-token, mean-pool\} LR probe LOO accuracy on equalized-transcript first responses ($n=100$ per target). \textbf {(a)} Llama 3.2 3B Instruct: last-token peaks at layer 12 (67\%); mean-pool peaks at layer 13 (62\%); both collapse at deeper layers. \textbf {(b)} Mistral 7B base checkpoint (S2/V17): both poolings peak at layer 4 (last-token 65\%, mean-pool 66\%) with mid-depth flat band around 55--60\% and decline at layers 24--32. Dashed horizontal line is the refusal-count rule (61\% Llama; 68\% Mistral); dotted line is chance. $^\dagger $Mistral sweep uses the base checkpoint; Instruct-checkpoint replication is future work}{figure.caption.47}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{20}{section.5}\protected@file@percent }
-\newlabel{sec:discussion}{{5}{20}{Discussion}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Construct Validity: the ICC=0.114 Caveat, Owned}{20}{subsection.5.1}\protected@file@percent }
-\newlabel{sec:icc_owned}{{5.1}{20}{Construct Validity: the ICC=0.114 Caveat, Owned}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Cross-family extraction.}{10}{paragraph*.23}\protected@file@percent }
+\newlabel{sec:cross_family_equalized}{{4.5}{10}{Cross-family extraction}{paragraph*.23}{}}
+\@writefile{toc}{\contentsline {paragraph}{SAPLMA-style probing (Azaria \& Mitchell paradigm; cross-method protocol application).}{10}{paragraph*.24}\protected@file@percent }
+\newlabel{sec:saplma_application}{{4.5}{10}{SAPLMA-style probing (Azaria \& Mitchell paradigm; cross-method protocol application)}{paragraph*.24}{}}
+\@writefile{toc}{\contentsline {paragraph}{Human baseline.}{10}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Frontier-scale target 1: Claude Sonnet~4.5 equalized ($n\!=\!99$).}{10}{paragraph*.26}\protected@file@percent }
+\newlabel{sec:frontier_sonnet}{{4.5}{10}{Frontier-scale target 1: Claude Sonnet~4.5 equalized ($n\!=\!99$)}{paragraph*.26}{}}
+\@writefile{toc}{\contentsline {paragraph}{Frontier-scale target 2: Llama~4~Maverick equalized ($n\!=\!100$).}{10}{paragraph*.27}\protected@file@percent }
+\newlabel{sec:frontier_llama405b}{{4.5}{10}{Frontier-scale target 2: Llama~4~Maverick equalized ($n\!=\!100$)}{paragraph*.27}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Transfer to Autonomous Deception}{10}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:autonomous_pilot}{{4.6}{10}{Transfer to Autonomous Deception}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Matched-format evaluation (EXP-I).}{10}{paragraph*.28}\protected@file@percent }
+\newlabel{sec:autonomous_matched}{{4.6}{10}{Matched-format evaluation (EXP-I)}{paragraph*.28}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sycophancy (semi-autonomous): positive transfer.}{11}{paragraph*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Persona/false-belief (fully autonomous): scenario-design failure.}{11}{paragraph*.30}\protected@file@percent }
+\newlabel{sec:exp_i_4th_scenario}{{4.6}{11}{Persona/false-belief (fully autonomous): scenario-design failure}{paragraph*.30}{}}
+\newlabel{sec:exp_i_5th_scenario}{{4.6}{11}{Persona/false-belief (fully autonomous): scenario-design failure}{paragraph*.30}{}}
+\newlabel{sec:factorial_2x2}{{4.6}{11}{Persona/false-belief (fully autonomous): scenario-design failure}{paragraph*.30}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{11}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{11}{Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Construct Validity: Validated at $\alpha =0.606$}{11}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:icc_caveat}{{5.1}{11}{Construct Validity: Validated at $\alpha =0.606$}{subsection.5.1}{}}
+\newlabel{sec:icc_owned}{{5.1}{11}{Construct Validity: Validated at $\alpha =0.606$}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{High-confidence reliability (pre-registered).}{11}{paragraph*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{n=20 pilot ICC discrepancy.}{11}{paragraph*.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Per-feature LOO ablation.}{11}{paragraph*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Three Transfer Regimes}{11}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:transfer_regimes}{{5.2}{11}{Three Transfer Regimes}{subsection.5.2}{}}
+\newlabel{sec:blackbox_vs_whitebox}{{5.2}{11}{Three Transfer Regimes}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Regime 1: Instructed roleplay.}{11}{paragraph*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Regime 2: Semi-autonomous (sycophancy).}{11}{paragraph*.35}\protected@file@percent }
+\citation{pacchiardi2023catch}
 \citation{azaria2023internal}
-\citation{hubinger2019risks}
-\citation{hubinger2019risks}
-\citation{perez2022discovering}
-\@writefile{toc}{\contentsline {paragraph}{Machine-rater ICC proxy (R1, does not substitute for human ICC).}{21}{paragraph*.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Black-box Behavioral vs.\ White-box Probing}{21}{subsection.5.2}\protected@file@percent }
-\newlabel{sec:blackbox_vs_whitebox}{{5.2}{21}{Black-box Behavioral vs.\ White-box Probing}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Instructed Roleplay vs.\ Genuine Deception}{21}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Claude Haiku: RLHF Safety Compliance}{22}{subsection.5.4}\protected@file@percent }
-\newlabel{sec:haiku_defensiveness}{{5.4}{22}{Claude Haiku: RLHF Safety Compliance}{subsection.5.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Technical Contribution and Novelty}{23}{subsection.5.5}\protected@file@percent }
-\newlabel{sec:novelty}{{5.5}{23}{Technical Contribution and Novelty}{subsection.5.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Feature Extraction Validity}{23}{subsection.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Pipeline contribution.}{23}{paragraph*.50}\protected@file@percent }
-\citation{hubinger2024sleeper,greenblatt2024alignment,scheurer2024strategic}
-\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Human--LLM agreement and inter-rater reliability ($n=20$, blind annotation). Correction density ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95) while rank ordering is preserved.}}{24}{table.caption.49}\protected@file@percent }
-\newlabel{tab:human_llm_agreement}{{14}{24}{Human--LLM agreement and inter-rater reliability ($n=20$, blind annotation). Correction density ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95) while rank ordering is preserved}{table.caption.49}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Limitations}{24}{subsection.5.7}\protected@file@percent }
-\newlabel{sec:interrogation_role}{{5.7}{24}{Limitations}{subsection.5.7}{}}
-\newlabel{sec:deployment}{{5.7}{24}{Limitations}{subsection.5.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Future Directions}{24}{subsection.5.8}\protected@file@percent }
+\citation{azaria2023internal}
+\citation{zou2023representation}
+\@writefile{toc}{\contentsline {paragraph}{Regime 3: Fully autonomous (persona/false-belief).}{12}{paragraph*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Frontier-scale targets: rule is an open-weight ceiling.}{12}{paragraph*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Claude Haiku: RLHF Safety Compliance}{12}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:haiku_defensiveness}{{5.3}{12}{Claude Haiku: RLHF Safety Compliance}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Technical Contribution and Novelty}{12}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:novelty}{{5.4}{12}{Technical Contribution and Novelty}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Protocol generality.}{12}{paragraph*.38}\protected@file@percent }
+\newlabel{sec:protocol_generality}{{5.4}{12}{Protocol generality}{paragraph*.38}{}}
 \bibstyle{plainnat}
 \bibdata{references}
-\bibcite{anthropic2024claude}{{1}{2024}{{Anthropic}}{{}}}
-\bibcite{anthropic2025claude45}{{2}{2025}{{Anthropic}}{{}}}
-\bibcite{azaria2023internal}{{3}{2023}{{Azaria and Mitchell}}{{}}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{25}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{6}{25}{Conclusion}{section.6}{}}
-\bibcite{burns2022discovering}{{4}{2022}{{Burns et~al.}}{{Burns, Ye, Klein, and Steinhardt}}}
-\bibcite{denison2024sycophancy}{{5}{2024}{{Denison et~al.}}{{Denison, MacDiarmid, Barez, Duvenaud, Glaese, et~al.}}}
-\bibcite{ganguli2022red}{{6}{2022}{{Ganguli et~al.}}{{Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El~Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark}}}
-\bibcite{goodfellow2014explaining}{{7}{2014}{{Goodfellow et~al.}}{{Goodfellow, Shlens, and Szegedy}}}
-\bibcite{greenblatt2024alignment}{{8}{2024}{{Greenblatt et~al.}}{{Greenblatt, Denison, Wright, Roger, MacDiarmid, Marks, Treutlein, et~al.}}}
-\bibcite{hagendorff2024deception}{{9}{2024}{{Hagendorff}}{{}}}
-\bibcite{hubinger2019risks}{{10}{2019}{{Hubinger et~al.}}{{Hubinger, van Merwijk, Mikulik, Skalse, and Garrabrant}}}
-\bibcite{hubinger2024sleeper}{{11}{2024}{{Hubinger et~al.}}{{}}}
-\bibcite{jiang2023mistral}{{12}{2023}{{Jiang et~al.}}{{Jiang, Sablayrolles, Mensch, Bamford, Chaplot, Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock, Scao, Lavril, Wang, Lacroix, and Sayed}}}
-\bibcite{li2024inference}{{13}{2024}{{Li et~al.}}{{}}}
-\bibcite{meta2024llama3}{{14}{2024}{{Meta AI}}{{}}}
-\bibcite{pacchiardi2023catch}{{15}{2023}{{Pacchiardi et~al.}}{{Pacchiardi, Chan, Mindermann, Moscovitz, Garriga-Alonso, Schultheiss, Steinhardt, and Evans}}}
-\bibcite{perez2022discovering}{{16}{2022{a}}{{Perez et~al.}}{{Perez, Ringer, Luko{\v {s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, Jones, Chen, Mann, Israel, Seethor, McKinnon, Olah, Yan, Amodei, Amodei, Drain, Li, Tran-Johnson, Khundadze, Kernion, Landis, Kerr, Mueller, Hyun, Landau, Ndousse, Goldberg, Lovitt, Lucas, Sellitto, Zhang, Kingsland, Elhage, Joseph, Mercado, DasSarma, Rausch, Larson, McCandlish, Johnston, Kravec, El~Showk, Lanham, Telleen-Lawton, Brown, Henighan, Hume, Bai, Hatfield-Dodds, Clark, Bowman, Askell, Grosse, Hernandez, Ganguli, Hubinger, Schiefer, and Kaplan}}}
-\bibcite{perez2022red}{{17}{2022{b}}{{Perez et~al.}}{{}}}
-\bibcite{perez2022ignore}{{18}{2022}{{Perez and Ribeiro}}{{}}}
-\bibcite{apollo2024liar}{{19}{2024}{{Research}}{{}}}
-\bibcite{scheurer2024strategic}{{20}{2024}{{Scheurer et~al.}}{{Scheurer, Balesni, and Hobbhahn}}}
-\bibcite{sharma2023sycophancy}{{21}{2023}{{Sharma et~al.}}{{}}}
-\bibcite{qwen2025qwen25}{{22}{2025}{{Team}}{{}}}
-\bibcite{verga2024replacing}{{23}{2024}{{Verga et~al.}}{{Verga, Hofst{\"a}tter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, and Lewis}}}
-\bibcite{zou2023representation}{{24}{2023}{{Zou et~al.}}{{Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin, Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song, Fredrikson, Kolter, and Hendrycks}}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Material}{27}{appendix.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Target Model Implementation Details}{27}{subsection.A.1}\protected@file@percent }
-\newlabel{app:target_config}{{A.1}{27}{Target Model Implementation Details}{subsection.A.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.1}Truth Mode}{27}{subsubsection.A.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.2}Lie Mode}{28}{subsubsection.A.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.3}API Configuration}{28}{subsubsection.A.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Example Interrogation Transcripts}{28}{subsection.A.2}\protected@file@percent }
-\newlabel{app:transcripts}{{A.2}{28}{Example Interrogation Transcripts}{subsection.A.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Real LLM Interrogation Transcripts}{29}{subsection.A.3}\protected@file@percent }
-\newlabel{app:real_transcripts}{{A.3}{29}{Real LLM Interrogation Transcripts}{subsection.A.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{30}{subsection.A.4}\protected@file@percent }
-\newlabel{app:mock_summary}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:mock_accuracy}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:baselines}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:threshold_sweep}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:mock_features}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:mock_adaptive}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:mock_importance}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\newlabel{app:mock_confidence}{{A.4}{30}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.A.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Consolidated mock validation ($n=100$, $\tau =0.8$).}}{30}{table.caption.51}\protected@file@percent }
-\newlabel{tab:mock_combined}{{15}{30}{Consolidated mock validation ($n=100$, $\tau =0.8$)}{table.caption.51}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}Feature Correlation Analysis (EXP-F)}{30}{subsection.A.5}\protected@file@percent }
-\newlabel{app:feature_correlation}{{A.5}{30}{Feature Correlation Analysis (EXP-F)}{subsection.A.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{Key finding: correction density is not a proxy for refusal count.}{30}{paragraph*.53}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded.}}{31}{table.caption.52}\protected@file@percent }
-\newlabel{tab:feature_correlation}{{16}{31}{Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded}{table.caption.52}{}}
-\@writefile{toc}{\contentsline {paragraph}{Consistency tracks response length.}{31}{paragraph*.54}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.6}Claim Construction and Experimental Design}{31}{subsection.A.6}\protected@file@percent }
-\newlabel{app:claims}{{A.6}{31}{Claim Construction and Experimental Design}{subsection.A.6}{}}
-\newlabel{app:diverse_claims}{{A.6}{31}{Claim Construction and Experimental Design}{subsection.A.6}{}}
-\newlabel{app:claim_construction}{{A.6}{31}{Claim Construction and Experimental Design}{subsection.A.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Original evaluation claims.}{31}{paragraph*.55}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized claims (EXP-A).}{31}{paragraph*.56}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Category variance inversion.}{31}{paragraph*.58}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Claim category results (mock).}{31}{paragraph*.59}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail.}}{32}{table.caption.57}\protected@file@percent }
-\newlabel{tab:claim_pairs}{{17}{32}{Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail}{table.caption.57}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.7}Sample Sizes by Experiment}{32}{subsection.A.7}\protected@file@percent }
-\newlabel{app:sample_sizes}{{A.7}{32}{Sample Sizes by Experiment}{subsection.A.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted.}}{32}{table.caption.60}\protected@file@percent }
-\newlabel{tab:sample_sizes}{{18}{32}{Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted}{table.caption.60}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Compute Cost and Reproducibility}{32}{subsection.A.8}\protected@file@percent }
-\newlabel{app:compute_cost}{{A.8}{32}{Compute Cost and Reproducibility}{subsection.A.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {19}{\ignorespaces Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models).}}{33}{table.caption.61}\protected@file@percent }
-\newlabel{tab:compute_cost}{{19}{33}{Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models)}{table.caption.61}{}}
-\@writefile{toc}{\contentsline {paragraph}{Model identification notes.}{33}{paragraph*.62}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Reproducibility notes.}{33}{paragraph*.63}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.9}Regex Pattern Specifications}{33}{subsection.A.9}\protected@file@percent }
-\newlabel{app:regex_patterns}{{A.9}{33}{Regex Pattern Specifications}{subsection.A.9}{}}
-\@writefile{toc}{\contentsline {paragraph}{Refusal/correction count patterns:}{33}{paragraph*.64}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Hedge word count patterns:}{34}{paragraph*.65}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Confidence word count patterns:}{34}{paragraph*.66}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.10}ADAGE Pipeline Implementation Details}{34}{subsection.A.10}\protected@file@percent }
-\newlabel{app:pipeline_details}{{A.10}{34}{ADAGE Pipeline Implementation Details}{subsection.A.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces ADAGE pipeline architecture (Target Model $\to $ Interrogator $\to $ Feature Extractor $\to $ Classifier). The adaptive stopping controller is omitted as the stopping threshold $\tau $ is empirically near-vacuous (Section~\ref {sec:interrogation_role}).}}{34}{figure.caption.67}\protected@file@percent }
-\newlabel{fig:architecture}{{4}{34}{ADAGE pipeline architecture (Target Model $\to $ Interrogator $\to $ Feature Extractor $\to $ Classifier). The adaptive stopping controller is omitted as the stopping threshold $\tau $ is empirically near-vacuous (Section~\ref {sec:interrogation_role})}{figure.caption.67}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.10.1}Pipeline Components}{34}{subsubsection.A.10.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Per-Model Instructed Results}{35}{appendix.B}\protected@file@percent }
-\newlabel{app:instructed_results}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:real_llm_pilot}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:claude_haiku_n100}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:ollama_eval}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:recalibration}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:mistral_eval}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:llama70b_eval}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:failure_analysis}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\newlabel{sec:mock_validation}{{B}{35}{Per-Model Instructed Results}{appendix.B}{}}
-\@writefile{toc}{\contentsline {paragraph}{Claude Haiku~4.5 ($n=92$).}{35}{paragraph*.68}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B ($n=98$).}{35}{paragraph*.69}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Mistral~7B ($n=100$).}{35}{paragraph*.70}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B ($n=100$).}{35}{paragraph*.71}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces Cross-model comparison with mock-trained classifier ($N=4$ models). Feature-level separability is in Table~\ref {tab:feature_comparison}.}}{35}{table.caption.72}\protected@file@percent }
-\newlabel{tab:model_comparison}{{20}{35}{Cross-model comparison with mock-trained classifier ($N=4$ models). Feature-level separability is in Table~\ref {tab:feature_comparison}}{table.caption.72}{}}
-\@writefile{toc}{\contentsline {paragraph}{Claim-type asymmetry caveat.}{35}{paragraph*.74}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {21}{\ignorespaces Feature separability (Cohen's $|d|$) across settings.}}{36}{table.caption.73}\protected@file@percent }
-\newlabel{tab:feature_comparison}{{21}{36}{Feature separability (Cohen's $|d|$) across settings}{table.caption.73}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Equalized Per-Model Details}{36}{appendix.C}\protected@file@percent }
-\newlabel{app:equalized_details}{{C}{36}{Equalized Per-Model Details}{appendix.C}{}}
-\newlabel{sec:llama8b_equalized}{{C}{36}{Equalized Per-Model Details}{appendix.C}{}}
-\newlabel{sec:qwen14b_equalized}{{C}{36}{Equalized Per-Model Details}{appendix.C}{}}
-\newlabel{sec:qwen7b_equalized}{{C}{36}{Equalized Per-Model Details}{appendix.C}{}}
-\newlabel{sec:haiku_equalized}{{C}{36}{Equalized Per-Model Details}{appendix.C}{}}
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B ($n=100$).}{36}{paragraph*.75}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.1~8B ($n=100$).}{36}{paragraph*.76}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Mistral~7B ($n=100$).}{36}{paragraph*.77}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {22}{\ignorespaces Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B).}}{36}{table.caption.78}\protected@file@percent }
-\newlabel{tab:equalized_feature_d}{{22}{36}{Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B)}{table.caption.78}{}}
-\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~7B ($n=100$).}{36}{paragraph*.79}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~14B ($n=97$).}{36}{paragraph*.80}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B ($n=93$).}{36}{paragraph*.81}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Claude Haiku~4.5 ($n=99$).}{37}{paragraph*.82}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {D}EXP-G Per-Model Decompositions}{37}{appendix.D}\protected@file@percent }
-\newlabel{app:expg_details}{{D}{37}{EXP-G Per-Model Decompositions}{appendix.D}{}}
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B.}{37}{paragraph*.83}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B.}{37}{paragraph*.84}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~14B.}{37}{paragraph*.85}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Mistral~7B.}{37}{paragraph*.86}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Llama~3.1~8B.}{37}{paragraph*.87}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Knowledge pre-check stratification.}{37}{paragraph*.88}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-scale comparison.}{37}{paragraph*.90}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {23}{\ignorespaces Knowledge pre-check stratification for EXP-G. LOO accuracy and correction density $|d|$ on the PASSED subset.}}{38}{table.caption.89}\protected@file@percent }
-\newlabel{tab:knowledge_precheck_stratified}{{23}{38}{Knowledge pre-check stratification for EXP-G. LOO accuracy and correction density $|d|$ on the PASSED subset}{table.caption.89}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {E}Cross-Family Extraction Diagnostics (EXP-H)}{38}{appendix.E}\protected@file@percent }
-\newlabel{app:cross_family_details}{{E}{38}{Cross-Family Extraction Diagnostics (EXP-H)}{appendix.E}{}}
-\@writefile{toc}{\contentsline {paragraph}{Qwen monotonicity diagnostic.}{38}{paragraph*.91}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Cross-extractor feature correlations.}{38}{paragraph*.92}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {F}Validation Tests}{38}{appendix.F}\protected@file@percent }
-\newlabel{app:validation_tests}{{F}{38}{Validation Tests}{appendix.F}{}}
-\newlabel{sec:threshold_sweep}{{F}{38}{Validation Tests}{appendix.F}{}}
-\newlabel{sec:fixed_k}{{F}{38}{Validation Tests}{appendix.F}{}}
-\newlabel{sec:held_out}{{F}{38}{Validation Tests}{appendix.F}{}}
-\@writefile{toc}{\contentsline {paragraph}{Adaptive stopping efficiency.}{38}{paragraph*.93}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Fixed-$K$ ablation.}{38}{paragraph*.94}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Held-out evaluation (EXP-B1).}{38}{paragraph*.95}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Permutation test (EXP-B2).}{38}{paragraph*.96}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {G}Enhanced Zero-Shot Baselines}{39}{appendix.G}\protected@file@percent }
-\newlabel{app:zero_shot}{{G}{39}{Enhanced Zero-Shot Baselines}{appendix.G}{}}
-\newlabel{sec:zero_shot}{{G}{39}{Enhanced Zero-Shot Baselines}{appendix.G}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {24}{\ignorespaces Enhanced zero-shot variants vs.\ feature pipeline.}}{39}{table.caption.97}\protected@file@percent }
-\newlabel{tab:zero_shot_comparison}{{24}{39}{Enhanced zero-shot variants vs.\ feature pipeline}{table.caption.97}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {H}Hedging Baseline on Instructed Data (EXP-C)}{39}{appendix.H}\protected@file@percent }
-\newlabel{app:hedging_instructed}{{H}{39}{Hedging Baseline on Instructed Data (EXP-C)}{appendix.H}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {25}{\ignorespaces Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}.}}{39}{table.caption.98}\protected@file@percent }
-\newlabel{tab:hedging_features_app}{{25}{39}{Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}}{table.caption.98}{}}
-\newlabel{tab:hedging_features}{{25}{39}{Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}}{table.caption.98}{}}
-\@writefile{toc}{\contentsline {paragraph}{EXP-D: Hedging on equalized data.}{39}{paragraph*.99}\protected@file@percent }
+\bibcite{anthropic2024claude}{{1}{2025}{{Anthropic}}{{}}}
+\bibcite{azaria2023internal}{{2}{2023}{{Azaria and Mitchell}}{{}}}
+\bibcite{burns2022discovering}{{3}{2022}{{Burns et~al.}}{{Burns, Ye, Klein, and Steinhardt}}}
+\bibcite{denison2024sycophancy}{{4}{2024}{{Denison et~al.}}{{Denison, MacDiarmid, Barez, Duvenaud, Glaese, et~al.}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{13}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:limitations}{{5.5}{13}{Limitations}{subsection.5.5}{}}
+\newlabel{sec:interrogation_role}{{5.5}{13}{Limitations}{subsection.5.5}{}}
+\newlabel{sec:deployment}{{5.5}{13}{Limitations}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{13}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{13}{Conclusion}{section.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility.}{13}{paragraph*.39}\protected@file@percent }
+\bibcite{ganguli2022red}{{5}{2022}{{Ganguli et~al.}}{{Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El~Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark}}}
+\bibcite{goodfellow2014explaining}{{6}{2014}{{Goodfellow et~al.}}{{Goodfellow, Shlens, and Szegedy}}}
+\bibcite{greenblatt2024alignment}{{7}{2024}{{Greenblatt et~al.}}{{Greenblatt, Denison, Wright, Roger, MacDiarmid, Marks, Treutlein, et~al.}}}
+\bibcite{hagendorff2024deception}{{8}{2024}{{Hagendorff}}{{}}}
+\bibcite{hubinger2019risks}{{9}{2019}{{Hubinger et~al.}}{{Hubinger, van Merwijk, Mikulik, Skalse, and Garrabrant}}}
+\bibcite{hubinger2024sleeper}{{10}{2024}{{Hubinger et~al.}}{{}}}
+\bibcite{jiang2023mistral}{{11}{2023}{{Jiang et~al.}}{{Jiang, Sablayrolles, Mensch, Bamford, Chaplot, Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock, Scao, Lavril, Wang, Lacroix, and Sayed}}}
+\bibcite{li2024inference}{{12}{2024}{{Li et~al.}}{{}}}
+\bibcite{meta2024llama3}{{13}{2024}{{Meta AI}}{{}}}
+\bibcite{pacchiardi2023catch}{{14}{2023}{{Pacchiardi et~al.}}{{Pacchiardi, Chan, Mindermann, Moscovitz, Garriga-Alonso, Schultheiss, Steinhardt, and Evans}}}
+\bibcite{perez2022red}{{15}{2022}{{Perez et~al.}}{{}}}
+\bibcite{perez2022ignore}{{16}{2022}{{Perez and Ribeiro}}{{}}}
+\bibcite{scheurer2024strategic}{{17}{2024}{{Scheurer et~al.}}{{Scheurer, Balesni, and Hobbhahn}}}
+\bibcite{sharma2023sycophancy}{{18}{2023}{{Sharma et~al.}}{{}}}
+\bibcite{qwen2025qwen25}{{19}{2025}{{Team}}{{}}}
+\bibcite{verga2024replacing}{{20}{2024}{{Verga et~al.}}{{Verga, Hofst{\"a}tter, Althammer, Su, Piktus, Arkhangorodsky, Xu, White, and Lewis}}}
+\bibcite{zou2023representation}{{21}{2023}{{Zou et~al.}}{{Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin, Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song, Fredrikson, Kolter, and Hendrycks}}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Experiment summary: design, sample size, and key finding for each evaluation. Per-model $n$ varies from 93 to 100 due to API errors; Table~\ref {tab:refusal_only} shows exact counts.}}{15}{table.caption.40}\protected@file@percent }
+\newlabel{tab:experiment_summary}{{3}{15}{Experiment summary: design, sample size, and key finding for each evaluation. Per-model $n$ varies from 93 to 100 due to API errors; Table~\ref {tab:refusal_only} shows exact counts}{table.caption.40}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Experiment Summary, Headlines, and Additional Material}{15}{appendix.A}\protected@file@percent }
+\newlabel{app:supplementary_overview}{{A}{15}{Experiment Summary, Headlines, and Additional Material}{appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Experiment Summary}{15}{subsection.A.1}\protected@file@percent }
+\newlabel{app:experiment_summary}{{A.1}{15}{Experiment Summary}{subsection.A.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Primary and Diagnostic Headline Numbers}{15}{subsection.A.2}\protected@file@percent }
+\newlabel{app:headlines}{{A.2}{15}{Primary and Diagnostic Headline Numbers}{subsection.A.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces \textbf  {Primary claim-supporting numbers.} One canonical value per claim. ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). \textbf  {Validity}: L-indep = level-independent (extractor-independent, ICC-unaffected); L-dep = level-dependent (read with §\ref {sec:icc_caveat}).}}{15}{table.caption.41}\protected@file@percent }
+\newlabel{tab:headlines_primary}{{4}{15}{\textbf {Primary claim-supporting numbers.} One canonical value per claim. ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). \textbf {Validity}: L-indep = level-independent (extractor-independent, ICC-unaffected); L-dep = level-dependent (read with §\ref {sec:icc_caveat})}{table.caption.41}{}}
+\newlabel{tab:headlines}{{4}{15}{\textbf {Primary claim-supporting numbers.} One canonical value per claim. ``Extractor'' identifies the LLM producing the 5 behavioral features; ``Regex'' indicates the extractor-independent refusal-count rule (fixed $k\!\geq \!1$). \textbf {Validity}: L-indep = level-independent (extractor-independent, ICC-unaffected); L-dep = level-dependent (read with §\ref {sec:icc_caveat})}{table.caption.41}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces \textbf  {Diagnostic numbers.} Adversarial robustness and construct-validity.}}{16}{table.caption.42}\protected@file@percent }
+\newlabel{tab:headlines_diagnostics}{{5}{16}{\textbf {Diagnostic numbers.} Adversarial robustness and construct-validity}{table.caption.42}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Scale Details, Equalization Tables, and Multiple-Testing Policy}{16}{appendix.B}\protected@file@percent }
+\newlabel{app:scale_details}{{B}{16}{Scale Details, Equalization Tables, and Multiple-Testing Policy}{appendix.B}{}}
+\newlabel{app:stats_policy}{{B}{16}{Scale Details, Equalization Tables, and Multiple-Testing Policy}{appendix.B}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Prompt-equalized LOO accuracy across seven models (EXP-A; Claude Haiku extraction). Instructed range (93.9--100\%) from Appendix~\ref {app:instructed_results}.}}{16}{table.caption.43}\protected@file@percent }
+\newlabel{tab:prompt_equalized}{{6}{16}{Prompt-equalized LOO accuracy across seven models (EXP-A; Claude Haiku extraction). Instructed range (93.9--100\%) from Appendix~\ref {app:instructed_results}}{table.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Feature separability collapse: instructed (solid blue bars) vs.\ equalized (hatched orange bars) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; correction density retains the most signal.}}{16}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:feature_collapse}{{2}{16}{Feature separability collapse: instructed (solid blue bars) vs.\ equalized (hatched orange bars) Cohen's $|d|$ for each behavioral feature, by model. All features collapse substantially under equalization; correction density retains the most signal}{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Llama~4~Maverick Frontier-Scale Results}{16}{appendix.C}\protected@file@percent }
+\newlabel{app:llama405b_results}{{C}{16}{Llama~4~Maverick Frontier-Scale Results}{appendix.C}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Refusal-count-only LOO vs.\ full pipelines on equalized data (EXP-J). Pooled 7-model dataset (689 trials); fixed threshold $k=1$.}}{17}{table.caption.45}\protected@file@percent }
+\newlabel{tab:refusal_only}{{7}{17}{Refusal-count-only LOO vs.\ full pipelines on equalized data (EXP-J). Pooled 7-model dataset (689 trials); fixed threshold $k=1$}{table.caption.45}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Matched-format autonomous deception detection (EXP-I). Refusal-count LOO accuracy and effect sizes. $^\star $: $n=50$ pilot, treat as preliminary.}}{17}{table.caption.46}\protected@file@percent }
+\newlabel{tab:autonomous_matched}{{8}{17}{Matched-format autonomous deception detection (EXP-I). Refusal-count LOO accuracy and effect sizes. $^\star $: $n=50$ pilot, treat as preliminary}{table.caption.46}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}White-Box Probing Results}{17}{appendix.D}\protected@file@percent }
+\newlabel{app:whitebox}{{D}{17}{White-Box Probing Results}{appendix.D}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {E}Feature Extraction Validity}{17}{appendix.E}\protected@file@percent }
+\newlabel{app:feature_validity}{{E}{17}{Feature Extraction Validity}{appendix.E}{}}
+\citation{hubinger2024sleeper,greenblatt2024alignment,scheurer2024strategic}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Qwen within-family scale sweep. Refusal-count threshold LOO accuracy with Fisher exact tests for adjacent increments.}}{18}{table.caption.47}\protected@file@percent }
+\newlabel{tab:qwen_scale_sweep}{{9}{18}{Qwen within-family scale sweep. Refusal-count threshold LOO accuracy with Fisher exact tests for adjacent increments}{table.caption.47}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Instruction-following decomposition (EXP-G), per model.}}{18}{table.caption.48}\protected@file@percent }
+\newlabel{tab:expg_summary}{{10}{18}{Instruction-following decomposition (EXP-G), per model}{table.caption.48}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.1}Additional Limitations}{18}{subsection.E.1}\protected@file@percent }
+\newlabel{app:limitations_detail}{{E.1}{18}{Additional Limitations}{subsection.E.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F}Future Directions}{18}{appendix.F}\protected@file@percent }
+\newlabel{app:future_directions}{{F}{18}{Future Directions}{appendix.F}{}}
+\citation{greenblatt2024alignment,scheurer2024strategic,hubinger2024sleeper}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces White-box LR probing baseline on equalized trials (EXP-P). LOO accuracy with Wilson 95\% CIs. Refusal-count rule (RC$\,\geq \,1$) from Table~\ref {tab:cross_family_panel}. Qwen~14B uses 4-bit quantization.}}{19}{table.caption.49}\protected@file@percent }
+\newlabel{tab:whitebox_probe}{{11}{19}{White-box LR probing baseline on equalized trials (EXP-P). LOO accuracy with Wilson 95\% CIs. Refusal-count rule (RC$\,\geq \,1$) from Table~\ref {tab:cross_family_panel}. Qwen~14B uses 4-bit quantization}{table.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Per-layer $\times $ \{last-token, mean-pool\} LR probe LOO accuracy on Llama~3.2~3B Instruct ($n=100$). Last-token peaks at layer~12 (67\%); mean-pool at layer~13 (62\%). Dashed line: refusal-count rule (61\%).}}{19}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:probe_layer_curve}{{3}{19}{Per-layer $\times $ \{last-token, mean-pool\} LR probe LOO accuracy on Llama~3.2~3B Instruct ($n=100$). Last-token peaks at layer~12 (67\%); mean-pool at layer~13 (62\%). Dashed line: refusal-count rule (61\%)}{figure.caption.50}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.1}Target Model Implementation Details}{19}{subsection.F.1}\protected@file@percent }
+\newlabel{app:target_config}{{F.1}{19}{Target Model Implementation Details}{subsection.F.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Human--LLM agreement and inter-rater reliability ($n=20$, blind annotation). Correction density ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95) while rank ordering is preserved.}}{20}{table.caption.51}\protected@file@percent }
+\newlabel{tab:human_llm_agreement}{{12}{20}{Human--LLM agreement and inter-rater reliability ($n=20$, blind annotation). Correction density ICC is low due to scale discrepancy (Ann1 mean 1.10, Ann2 mean 3.95) while rank ordering is preserved}{table.caption.51}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Per-feature LOO ablation under cross-family (Mistral~L3) extraction ($n=639$ pooled, 7 targets). ``LOO-w/o'' = accuracy when feature dropped; ``Drop'' = contribution. Full 5-feature LOO = 67.1\%.}}{20}{table.caption.52}\protected@file@percent }
+\newlabel{tab:feature_ablation_proxy}{{13}{20}{Per-feature LOO ablation under cross-family (Mistral~L3) extraction ($n=639$ pooled, 7 targets). ``LOO-w/o'' = accuracy when feature dropped; ``Drop'' = contribution. Full 5-feature LOO = 67.1\%}{table.caption.52}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {F.1.1}Truth Mode}{20}{subsubsection.F.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {F.1.2}Lie Mode}{20}{subsubsection.F.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {F.1.3}API Configuration}{20}{subsubsection.F.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.2}Example Interrogation Transcripts}{21}{subsection.F.2}\protected@file@percent }
+\newlabel{app:transcripts}{{F.2}{21}{Example Interrogation Transcripts}{subsection.F.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.3}Real LLM Interrogation Transcripts}{21}{subsection.F.3}\protected@file@percent }
+\newlabel{app:real_transcripts}{{F.3}{21}{Real LLM Interrogation Transcripts}{subsection.F.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.4}Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{22}{subsection.F.4}\protected@file@percent }
+\newlabel{app:mock_summary}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:mock_accuracy}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:baselines}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:threshold_sweep}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:mock_features}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:mock_adaptive}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:mock_importance}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\newlabel{app:mock_confidence}{{F.4}{22}{Algorithmic Sanity Checks (Mock Transcripts; Not Predictive of Real-Model Performance)}{subsection.F.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces Consolidated mock validation ($n=100$, $\tau =0.8$).}}{23}{table.caption.53}\protected@file@percent }
+\newlabel{tab:mock_combined}{{14}{23}{Consolidated mock validation ($n=100$, $\tau =0.8$)}{table.caption.53}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.5}Feature Correlation Analysis (EXP-F)}{23}{subsection.F.5}\protected@file@percent }
+\newlabel{app:feature_correlation}{{F.5}{23}{Feature Correlation Analysis (EXP-F)}{subsection.F.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {15}{\ignorespaces Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded.}}{23}{table.caption.54}\protected@file@percent }
+\newlabel{tab:feature_correlation}{{15}{23}{Mean $|\rho |$ across all four models (Spearman correlation between regex and LLM features). Values above 0.3 are bolded}{table.caption.54}{}}
+\@writefile{toc}{\contentsline {paragraph}{Key finding: correction density is not a proxy for refusal count.}{23}{paragraph*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Consistency tracks response length.}{24}{paragraph*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.6}Claim Construction and Experimental Design}{24}{subsection.F.6}\protected@file@percent }
+\newlabel{app:claims}{{F.6}{24}{Claim Construction and Experimental Design}{subsection.F.6}{}}
+\newlabel{app:diverse_claims}{{F.6}{24}{Claim Construction and Experimental Design}{subsection.F.6}{}}
+\newlabel{app:claim_construction}{{F.6}{24}{Claim Construction and Experimental Design}{subsection.F.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Original evaluation claims.}{24}{paragraph*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Prompt-equalized claims (EXP-A).}{24}{paragraph*.58}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {16}{\ignorespaces Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail.}}{24}{table.caption.59}\protected@file@percent }
+\newlabel{tab:claim_pairs}{{16}{24}{Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail}{table.caption.59}{}}
+\@writefile{toc}{\contentsline {paragraph}{Category variance inversion.}{24}{paragraph*.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Claim category results (mock).}{24}{paragraph*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.7}Sample Sizes by Experiment}{24}{subsection.F.7}\protected@file@percent }
+\newlabel{app:sample_sizes}{{F.7}{24}{Sample Sizes by Experiment}{subsection.F.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {17}{\ignorespaces Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted.}}{25}{table.caption.62}\protected@file@percent }
+\newlabel{tab:sample_sizes}{{17}{25}{Sample sizes by experiment. All experiments use 50 matched true/false claim pairs (100 trials) unless otherwise noted}{table.caption.62}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.8}Compute Cost and Reproducibility}{25}{subsection.F.8}\protected@file@percent }
+\newlabel{app:compute_cost}{{F.8}{25}{Compute Cost and Reproducibility}{subsection.F.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Model identification notes.}{25}{paragraph*.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility notes.}{25}{paragraph*.65}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {18}{\ignorespaces Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models).}}{26}{table.caption.63}\protected@file@percent }
+\newlabel{tab:compute_cost}{{18}{26}{Estimated compute cost by experiment. ``Target'' = model being interrogated; ``Infra'' = API (Bedrock) or local (Ollama). Interrogator and extractor are always Claude Haiku~4.5 via Bedrock unless noted. Cost estimates exclude local compute (Ollama models)}{table.caption.63}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {F.9}Regex Pattern Specifications}{26}{subsection.F.9}\protected@file@percent }
+\newlabel{app:regex_patterns}{{F.9}{26}{Regex Pattern Specifications}{subsection.F.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Refusal/correction count patterns:}{26}{paragraph*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hedge word count patterns:}{26}{paragraph*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Confidence word count patterns:}{26}{paragraph*.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G}Per-Model Instructed Results}{27}{appendix.G}\protected@file@percent }
+\newlabel{app:instructed_results}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:real_llm_pilot}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:claude_haiku_n100}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:ollama_eval}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:recalibration}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:mistral_eval}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:llama70b_eval}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:failure_analysis}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\newlabel{sec:mock_validation}{{G}{27}{Per-Model Instructed Results}{appendix.G}{}}
+\@writefile{toc}{\contentsline {paragraph}{Claude Haiku~4.5 ($n=92$).}{27}{paragraph*.69}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B ($n=98$).}{27}{paragraph*.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mistral~7B ($n=100$).}{27}{paragraph*.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B ($n=100$).}{27}{paragraph*.72}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {19}{\ignorespaces Cross-model comparison with mock-trained classifier ($N=4$ models). Feature-level separability is in Table~\ref {tab:feature_comparison}.}}{27}{table.caption.73}\protected@file@percent }
+\newlabel{tab:model_comparison}{{19}{27}{Cross-model comparison with mock-trained classifier ($N=4$ models). Feature-level separability is in Table~\ref {tab:feature_comparison}}{table.caption.73}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {20}{\ignorespaces Feature separability (Cohen's $|d|$) across settings.}}{28}{table.caption.74}\protected@file@percent }
+\newlabel{tab:feature_comparison}{{20}{28}{Feature separability (Cohen's $|d|$) across settings}{table.caption.74}{}}
+\@writefile{toc}{\contentsline {paragraph}{Claim-type asymmetry caveat.}{28}{paragraph*.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {H}Equalized Per-Model Details}{28}{appendix.H}\protected@file@percent }
+\newlabel{app:equalized_details}{{H}{28}{Equalized Per-Model Details}{appendix.H}{}}
+\newlabel{sec:llama8b_equalized}{{H}{28}{Equalized Per-Model Details}{appendix.H}{}}
+\newlabel{sec:qwen14b_equalized}{{H}{28}{Equalized Per-Model Details}{appendix.H}{}}
+\newlabel{sec:qwen7b_equalized}{{H}{28}{Equalized Per-Model Details}{appendix.H}{}}
+\newlabel{sec:haiku_equalized}{{H}{28}{Equalized Per-Model Details}{appendix.H}{}}
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B ($n=100$).}{28}{paragraph*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.1~8B ($n=100$).}{28}{paragraph*.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mistral~7B ($n=100$).}{28}{paragraph*.78}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {21}{\ignorespaces Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B).}}{28}{table.caption.79}\protected@file@percent }
+\newlabel{tab:equalized_feature_d}{{21}{28}{Feature Cohen's $|d|$ in instructed vs.\ prompt-equalized conditions (Mistral~7B)}{table.caption.79}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~7B ($n=100$).}{28}{paragraph*.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~14B ($n=97$).}{29}{paragraph*.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B ($n=93$).}{29}{paragraph*.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Claude Haiku~4.5 ($n=99$).}{29}{paragraph*.83}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {I}EXP-G Per-Model Decompositions}{29}{appendix.I}\protected@file@percent }
+\newlabel{app:expg_details}{{I}{29}{EXP-G Per-Model Decompositions}{appendix.I}{}}
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.3~70B.}{29}{paragraph*.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.2~3B.}{29}{paragraph*.85}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Qwen~2.5~14B.}{29}{paragraph*.86}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mistral~7B.}{29}{paragraph*.87}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Llama~3.1~8B.}{29}{paragraph*.88}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {22}{\ignorespaces Knowledge pre-check stratification for EXP-G. LOO accuracy and correction density $|d|$ on the PASSED subset.}}{30}{table.caption.90}\protected@file@percent }
+\newlabel{tab:knowledge_precheck_stratified}{{22}{30}{Knowledge pre-check stratification for EXP-G. LOO accuracy and correction density $|d|$ on the PASSED subset}{table.caption.90}{}}
+\@writefile{toc}{\contentsline {paragraph}{Knowledge pre-check stratification.}{30}{paragraph*.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-scale comparison.}{30}{paragraph*.91}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {J}Cross-Family Extraction Diagnostics (EXP-H)}{30}{appendix.J}\protected@file@percent }
+\newlabel{app:cross_family_details}{{J}{30}{Cross-Family Extraction Diagnostics (EXP-H)}{appendix.J}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {23}{\ignorespaces Cross-family panel (EXP-H-full). LOO accuracy under three extractors. $\dagger $: same-family cell. $\ddagger $: Qwen~32B zero-marker collapse. $^\S  $: same-scale self-pair. $^\P  $: Sonnet~4.5 excluded from averages (inverted extractor pattern; see text).}}{30}{table.caption.92}\protected@file@percent }
+\newlabel{tab:cross_family_panel}{{23}{30}{Cross-family panel (EXP-H-full). LOO accuracy under three extractors. $\dagger $: same-family cell. $\ddagger $: Qwen~32B zero-marker collapse. $^\S $: same-scale self-pair. $^\P $: Sonnet~4.5 excluded from averages (inverted extractor pattern; see text)}{table.caption.92}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qwen monotonicity diagnostic.}{30}{paragraph*.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-extractor feature correlations.}{30}{paragraph*.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {K}Validation Tests}{31}{appendix.K}\protected@file@percent }
+\newlabel{app:validation_tests}{{K}{31}{Validation Tests}{appendix.K}{}}
+\newlabel{sec:threshold_sweep}{{K}{31}{Validation Tests}{appendix.K}{}}
+\newlabel{sec:fixed_k}{{K}{31}{Validation Tests}{appendix.K}{}}
+\newlabel{sec:held_out}{{K}{31}{Validation Tests}{appendix.K}{}}
+\@writefile{toc}{\contentsline {paragraph}{Adaptive stopping efficiency.}{31}{paragraph*.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fixed-$K$ ablation.}{31}{paragraph*.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Held-out evaluation (EXP-B1).}{31}{paragraph*.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Permutation test (EXP-B2).}{31}{paragraph*.98}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {L}Enhanced Zero-Shot Baselines}{31}{appendix.L}\protected@file@percent }
+\newlabel{app:zero_shot}{{L}{31}{Enhanced Zero-Shot Baselines}{appendix.L}{}}
+\newlabel{sec:zero_shot}{{L}{31}{Enhanced Zero-Shot Baselines}{appendix.L}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {24}{\ignorespaces Enhanced zero-shot variants vs.\ feature pipeline.}}{31}{table.caption.99}\protected@file@percent }
+\newlabel{tab:zero_shot_comparison}{{24}{31}{Enhanced zero-shot variants vs.\ feature pipeline}{table.caption.99}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {M}Hedging Baseline on Instructed Data (EXP-C)}{32}{appendix.M}\protected@file@percent }
+\newlabel{app:hedging_instructed}{{M}{32}{Hedging Baseline on Instructed Data (EXP-C)}{appendix.M}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {25}{\ignorespaces Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}.}}{32}{table.caption.100}\protected@file@percent }
+\newlabel{tab:hedging_features_app}{{25}{32}{Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}}{table.caption.100}{}}
+\newlabel{tab:hedging_features}{{25}{32}{Hedging baseline features (EXP-C). Full patterns in Appendix~\ref {app:regex_patterns}}{table.caption.100}{}}
+\@writefile{toc}{\contentsline {paragraph}{EXP-D: Hedging on equalized data.}{32}{paragraph*.101}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{EXP-E: Llama equalized diagnostic.}{32}{paragraph*.102}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {N}Multi-Turn Value Details}{32}{appendix.N}\protected@file@percent }
+\newlabel{app:multiturn_details}{{N}{32}{Multi-Turn Value Details}{appendix.N}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {26}{\ignorespaces Multi-turn value under equalization: $K=1$ vs.\ adaptive LOO accuracy.}}{32}{table.caption.103}\protected@file@percent }
+\newlabel{tab:multiturn_equalized}{{26}{32}{Multi-turn value under equalization: $K=1$ vs.\ adaptive LOO accuracy}{table.caption.103}{}}
 \citation{pacchiardi2023catch}
-\@writefile{toc}{\contentsline {paragraph}{EXP-E: Llama equalized diagnostic.}{40}{paragraph*.100}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {I}Multi-Turn Value Details}{40}{appendix.I}\protected@file@percent }
-\newlabel{app:multiturn_details}{{I}{40}{Multi-Turn Value Details}{appendix.I}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {26}{\ignorespaces Multi-turn value under equalization: $K=1$ vs.\ adaptive LOO accuracy.}}{40}{table.caption.101}\protected@file@percent }
-\newlabel{tab:multiturn_equalized}{{26}{40}{Multi-turn value under equalization: $K=1$ vs.\ adaptive LOO accuracy}{table.caption.101}{}}
-\@writefile{toc}{\contentsline {paragraph}{Qwen~7B $K=1$ anomaly.}{40}{paragraph*.102}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {J}Pacchiardi-Style Replication (EXP-K)}{40}{appendix.J}\protected@file@percent }
-\newlabel{app:pacchiardi}{{J}{40}{Pacchiardi-Style Replication (EXP-K)}{appendix.J}{}}
-\newlabel{sec:pacchiardi_replication}{{J}{40}{Pacchiardi-Style Replication (EXP-K)}{appendix.J}{}}
-\@writefile{toc}{\contentsline {paragraph}{Multi-model extension.}{40}{paragraph*.103}\protected@file@percent }
 \citation{pacchiardi2023catch}
-\@writefile{lot}{\contentsline {table}{\numberline {27}{\ignorespaces Multi-model EXP-K: unrelated (Pacchiardi-faithful) vs.\ related (standard ADAGE) follow-up comparison under equalized prompts ($n=100$ per condition per model). Claude Haiku~4.5 as extractor across all cells.}}{41}{table.caption.104}\protected@file@percent }
-\newlabel{tab:pacchiardi_multi}{{27}{41}{Multi-model EXP-K: unrelated (Pacchiardi-faithful) vs.\ related (standard ADAGE) follow-up comparison under equalized prompts ($n=100$ per condition per model). Claude Haiku~4.5 as extractor across all cells}{table.caption.104}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {K}Adversarial Paraphrase: Qualitative Samples}{41}{appendix.K}\protected@file@percent }
-\newlabel{app:adv_qualitative}{{K}{41}{Adversarial Paraphrase: Qualitative Samples}{appendix.K}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {28}{\ignorespaces Failure-mode coding on 10 lie-condition first responses per model under the adversarial paraphrase prompt. ``Corrected paraphrased'' = correct fact delivered without banned lexical markers; ``Corrected direct'' = correct fact delivered with banned markers (adversarial constraint partially failed); ``Failed to correct'' = agreed with false claim or evaded.}}{41}{table.caption.105}\protected@file@percent }
-\newlabel{tab:adv_qualitative_summary}{{28}{41}{Failure-mode coding on 10 lie-condition first responses per model under the adversarial paraphrase prompt. ``Corrected paraphrased'' = correct fact delivered without banned lexical markers; ``Corrected direct'' = correct fact delivered with banned markers (adversarial constraint partially failed); ``Failed to correct'' = agreed with false claim or evaded}{table.caption.105}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {L}Adversarial Compliance Check: Truth vs. Lying Refusal Distribution}{42}{appendix.L}\protected@file@percent }
-\newlabel{app:q1_refusal_dist}{{L}{42}{Adversarial Compliance Check: Truth vs. Lying Refusal Distribution}{appendix.L}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {M}Claim Category Breakdown}{42}{appendix.M}\protected@file@percent }
-\newlabel{app:diverse_claims_detail}{{M}{42}{Claim Category Breakdown}{appendix.M}{}}
-\newlabel{sec:diverse_claims}{{M}{42}{Claim Category Breakdown}{appendix.M}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {N}Sonnet 4.5 Frontier Pilot: Full Details}{42}{appendix.N}\protected@file@percent }
-\newlabel{app:sonnet_pilot}{{N}{42}{Sonnet 4.5 Frontier Pilot: Full Details}{appendix.N}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {29}{\ignorespaces Claude Sonnet~4.5 prompt-equalized evaluation under two extractors on the same 99 saved transcripts. Refusal-count is regex-only and extractor-independent (identical across rows). Llama~3.3~70B via AWS Bedrock is the non-Anthropic cross-family reference; Haiku is same-family-from-below.}}{42}{table.caption.106}\protected@file@percent }
-\newlabel{tab:sonnet_crossfamily_app}{{29}{42}{Claude Sonnet~4.5 prompt-equalized evaluation under two extractors on the same 99 saved transcripts. Refusal-count is regex-only and extractor-independent (identical across rows). Llama~3.3~70B via AWS Bedrock is the non-Anthropic cross-family reference; Haiku is same-family-from-below}{table.caption.106}{}}
-\@writefile{toc}{\contentsline {paragraph}{Power calculation.}{42}{paragraph*.107}\protected@file@percent }
-\gdef \@abspage@last{43}
+\citation{pacchiardi2023catch}
+\@writefile{toc}{\contentsline {paragraph}{Qwen~7B $K=1$ anomaly.}{33}{paragraph*.104}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {O}Pacchiardi-Style Replication (EXP-K)}{33}{appendix.O}\protected@file@percent }
+\newlabel{app:pacchiardi}{{O}{33}{Pacchiardi-Style Replication (EXP-K)}{appendix.O}{}}
+\newlabel{sec:pacchiardi_replication}{{O}{33}{Pacchiardi-Style Replication (EXP-K)}{appendix.O}{}}
+\@writefile{toc}{\contentsline {paragraph}{Multi-model extension.}{33}{paragraph*.105}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {27}{\ignorespaces Multi-model EXP-K: unrelated (Pacchiardi-faithful) vs.\ related (standard ADAGE) follow-up comparison under equalized prompts ($n=100$ per condition per model). Claude Haiku~4.5 as extractor across all cells.}}{33}{table.caption.106}\protected@file@percent }
+\newlabel{tab:pacchiardi_multi}{{27}{33}{Multi-model EXP-K: unrelated (Pacchiardi-faithful) vs.\ related (standard ADAGE) follow-up comparison under equalized prompts ($n=100$ per condition per model). Claude Haiku~4.5 as extractor across all cells}{table.caption.106}{}}
+\@writefile{toc}{\contentsline {paragraph}{Comparison to Pacchiardi et al.'s original protocol.}{33}{paragraph*.107}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {P}Adversarial Paraphrase: n=50 Per-Model Results}{34}{appendix.P}\protected@file@percent }
+\newlabel{app:adv_n50}{{P}{34}{Adversarial Paraphrase: n=50 Per-Model Results}{appendix.P}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {28}{\ignorespaces Multi-model adversarial paraphrase at $n=50$ (EXP-ADV). Rule-accuracy ($k\geq 1$) under equalized baseline vs.\ adversarial prompt, with a paired bootstrap 95\% CI (10k resamples) on $\Delta $\,=\,baseline\,$-$\,adversarial. Llama~3B and Qwen~14B CIs include zero; treat as preliminary.}}{34}{table.caption.108}\protected@file@percent }
+\newlabel{tab:adv_multimodel}{{28}{34}{Multi-model adversarial paraphrase at $n=50$ (EXP-ADV). Rule-accuracy ($k\geq 1$) under equalized baseline vs.\ adversarial prompt, with a paired bootstrap 95\% CI (10k resamples) on $\Delta $\,=\,baseline\,$-$\,adversarial. Llama~3B and Qwen~14B CIs include zero; treat as preliminary}{table.caption.108}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Q}Adversarial Paraphrase: Qualitative Samples}{34}{appendix.Q}\protected@file@percent }
+\newlabel{app:adv_qualitative}{{Q}{34}{Adversarial Paraphrase: Qualitative Samples}{appendix.Q}{}}
+\@writefile{toc}{\contentsline {paragraph}{Mistral~7B adversarial factual-accuracy second-pass ($n\!=\!200$).}{34}{paragraph*.109}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cross-family replication with Llama~3.3~70B classifier.}{34}{paragraph*.110}\protected@file@percent }
+\citation{hubinger2019risks,greenblatt2024alignment}
+\newlabel{tab:adv_qualitative_summary}{{Q}{35}{Cross-family replication with Llama~3.3~70B classifier}{paragraph*.110}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Q.1}Adversarial Compliance Check: Truth vs.\ Lying Refusal Distribution}{35}{subsection.Q.1}\protected@file@percent }
+\newlabel{app:q1_refusal_dist}{{Q.1}{35}{Adversarial Compliance Check: Truth vs.\ Lying Refusal Distribution}{subsection.Q.1}{}}
+\newlabel{app:cross_claim}{{Q.1}{35}{Adversarial Compliance Check: Truth vs.\ Lying Refusal Distribution}{subsection.Q.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {R}Sycophancy Transfer: Mechanistic Detail}{35}{appendix.R}\protected@file@percent }
+\newlabel{app:sycophancy_mechanism}{{R}{35}{Sycophancy Transfer: Mechanistic Detail}{appendix.R}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {S}Partial Transfer: Detail for Two Exclude-Chance Cells}{35}{appendix.S}\protected@file@percent }
+\newlabel{app:partial_transfer_detail}{{S}{35}{Partial Transfer: Detail for Two Exclude-Chance Cells}{appendix.S}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {T}Mistral~7B Adversarial Near-Parity: Mechanistic Hypothesis}{36}{appendix.T}\protected@file@percent }
+\newlabel{app:mistral_adv_mech}{{T}{36}{Mistral~7B Adversarial Near-Parity: Mechanistic Hypothesis}{appendix.T}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {U}Human Baseline: Full Results}{36}{appendix.U}\protected@file@percent }
+\newlabel{app:human_baseline_full}{{U}{36}{Human Baseline: Full Results}{appendix.U}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {29}{\ignorespaces Human baseline (3 annotators) vs.\ automated rule, $n=50$ equalized sub-sample. $^\dag  $From Table~\ref {tab:cross_family_panel} (7-target panel, $n{\approx }689$); not computed on the $n=50$ sub-sample.}}{36}{table.caption.111}\protected@file@percent }
+\newlabel{tab:human_baseline}{{29}{36}{Human baseline (3 annotators) vs.\ automated rule, $n=50$ equalized sub-sample. $^\dag $From Table~\ref {tab:cross_family_panel} (7-target panel, $n{\approx }689$); not computed on the $n=50$ sub-sample}{table.caption.111}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Claim Category Breakdown}{36}{appendix.V}\protected@file@percent }
+\newlabel{app:diverse_claims_detail}{{V}{36}{Claim Category Breakdown}{appendix.V}{}}
+\newlabel{sec:diverse_claims}{{V}{36}{Claim Category Breakdown}{appendix.V}{}}
+\newlabel{app:mistral_probe_panel}{{V}{36}{Claim Category Breakdown}{appendix.V}{}}
+\newlabel{tab:mistral_probe_panel}{{V}{36}{Claim Category Breakdown}{appendix.V}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {W}Qwen~2.5~14B Persona Qualitative Spot-Check}{37}{appendix.W}\protected@file@percent }
+\newlabel{app:qwen_persona_qual}{{W}{37}{Qwen~2.5~14B Persona Qualitative Spot-Check}{appendix.W}{}}
+\newlabel{app:qwen_persona_spotcheck}{{W}{37}{Qwen~2.5~14B Persona Qualitative Spot-Check}{appendix.W}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {X}ADAGE Pipeline Details}{37}{appendix.X}\protected@file@percent }
+\newlabel{app:adage_details}{{X}{37}{ADAGE Pipeline Details}{appendix.X}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Y}Causal Probe Details (4th/5th Scenario and 2$\times $2 Factorial)}{37}{appendix.Y}\protected@file@percent }
+\newlabel{app:causal_probes}{{Y}{37}{Causal Probe Details (4th/5th Scenario and 2$\times $2 Factorial)}{appendix.Y}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Y.1}Pre-Registered 4th Scenario: Knowledge-Conflict Clarity}{37}{subsection.Y.1}\protected@file@percent }
+\newlabel{app:exp_i_4th_scenario}{{Y.1}{37}{Pre-Registered 4th Scenario: Knowledge-Conflict Clarity}{subsection.Y.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {30}{\ignorespaces Pre-registered 4th scenario. Refusal-count LOO on sycophancy-aligned targets under high-clarity vs.\ low-clarity knowledge-conflict on the FALSE side (TRUE claims shared); $n=50$ per condition per model; Wilson 95\% CIs; Cohen's $d$ lying-vs-truthful. $\Delta >0$ was pre-registered as supporting clarity; the observed $\Delta $ rejects it. Pooled paired-bootstrap 95\% CI on $\Delta =-4.2$\,pp (fixed rule $k\geq 1$, $B=10{,}000$, seed 42): $[-14.9, +5.9]$, includes zero, consistent with the pre-registered null.}}{38}{table.caption.112}\protected@file@percent }
+\newlabel{tab:exp_i_4th_scenario}{{30}{38}{Pre-registered 4th scenario. Refusal-count LOO on sycophancy-aligned targets under high-clarity vs.\ low-clarity knowledge-conflict on the FALSE side (TRUE claims shared); $n=50$ per condition per model; Wilson 95\% CIs; Cohen's $d$ lying-vs-truthful. $\Delta >0$ was pre-registered as supporting clarity; the observed $\Delta $ rejects it. Pooled paired-bootstrap 95\% CI on $\Delta =-4.2$\,pp (fixed rule $k\geq 1$, $B=10{,}000$, seed 42): $[-14.9, +5.9]$, includes zero, consistent with the pre-registered null}{table.caption.112}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Y.2}Pre-Registered 5th Scenario: Disposition-Source (Pilot)}{38}{subsection.Y.2}\protected@file@percent }
+\newlabel{app:exp_i_5th_scenario}{{Y.2}{38}{Pre-Registered 5th Scenario: Disposition-Source (Pilot)}{subsection.Y.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {31}{\ignorespaces \textbf  {Pilot, $n=30$ per condition---descriptive, not confirmatory.} Pre-registered 5th scenario (disposition-source) on Qwen 2.5~14B. Pre-registered one-sided prediction (sycophancy $>$ persona, sycophancy $>$ explicit lie-defense) \emph  {fails to be confirmed}: persona $>$ sycophancy at $n=30$ (descriptive only). Our second pre-registered disconfirmation after the 4th scenario. Pipeline = 5-feature LR on the same transcripts.}}{38}{table.caption.113}\protected@file@percent }
+\newlabel{tab:exp_i_5th_scenario}{{31}{38}{\textbf {Pilot, $n=30$ per condition---descriptive, not confirmatory.} Pre-registered 5th scenario (disposition-source) on Qwen 2.5~14B. Pre-registered one-sided prediction (sycophancy $>$ persona, sycophancy $>$ explicit lie-defense) \emph {fails to be confirmed}: persona $>$ sycophancy at $n=30$ (descriptive only). Our second pre-registered disconfirmation after the 4th scenario. Pipeline = 5-feature LR on the same transcripts}{table.caption.113}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {Y.3}Pre-Registered 2$\times $2 Factorial: Clarity $\times $ Turn-Structure}{38}{subsection.Y.3}\protected@file@percent }
+\newlabel{app:factorial_2x2}{{Y.3}{38}{Pre-Registered 2$\times $2 Factorial: Clarity $\times $ Turn-Structure}{subsection.Y.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {32}{\ignorespaces Pre-registered 2$\times $2 clarity $\times $ turn-structure factorial (sycophancy condition fixed). Refusal-count LOO accuracy per cell; Wilson 95\,\% CIs. $n=50$/cell.}}{39}{table.caption.114}\protected@file@percent }
+\newlabel{tab:factorial_2x2}{{32}{39}{Pre-registered 2$\times $2 clarity $\times $ turn-structure factorial (sycophancy condition fixed). Refusal-count LOO accuracy per cell; Wilson 95\,\% CIs. $n=50$/cell}{table.caption.114}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {Z}Machine-Rater ICC Proxy (Supplementary)}{39}{appendix.Z}\protected@file@percent }
+\newlabel{app:machine_icc}{{Z}{39}{Machine-Rater ICC Proxy (Supplementary)}{appendix.Z}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {\GenericError  {               }{LaTeX Error: Counter too large}{See the LaTeX manual or LaTeX Companion for explanation.}{You've lost some text.  Try typing  <return>  to proceed.\MessageBreak If that doesn't work, type  X <return>  to quit.}}Human ICC Study: $n=100$, 3 Annotators}{40}{appendix.Alph27}\protected@file@percent }
+\newlabel{app:human_icc_n100}{{\GenericError  {               }{LaTeX Error: Counter too large}{See the LaTeX manual or LaTeX Companion for explanation.}{You've lost some text.  Try typing  <return>  to proceed.\MessageBreak If that doesn't work, type  X <return>  to quit.}}{40}{Human ICC Study: $n=100$, 3 Annotators}{appendix.Alph27}{}}
+\@writefile{toc}{\contentsline {paragraph}{Annotator quality control.}{40}{paragraph*.115}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {33}{\ignorespaces Human ICC study results ($n=100$ trials, 3 annotators). Krippendorff's $\alpha $ uses squared-distance metric (ordinal). ICC(2,1) = two-way random effects, single measures. $r_{12}$, $r_{13}$, $r_{23}$ = pairwise Pearson $r$. Pre-registered validation threshold: $\alpha \geq 0.4$ on correction-marker density.}}{40}{table.caption.116}\protected@file@percent }
+\newlabel{tab:icc_study_n100}{{33}{40}{Human ICC study results ($n=100$ trials, 3 annotators). Krippendorff's $\alpha $ uses squared-distance metric (ordinal). ICC(2,1) = two-way random effects, single measures. $r_{12}$, $r_{13}$, $r_{23}$ = pairwise Pearson $r$. Pre-registered validation threshold: $\alpha \geq 0.4$ on correction-marker density}{table.caption.116}{}}
+\gdef \@abspage@last{40}

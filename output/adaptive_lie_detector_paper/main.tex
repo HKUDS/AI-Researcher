@@ -1,5 +1,16 @@
-\documentclass[10pt,letterpaper]{article}
-\usepackage{neurips_2024}
+\documentclass{article}
+\usepackage{neurips_2026}
+
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+
+\hypersetup{hidelinks, colorlinks=false}
+\usepackage{mathtools}          % provides \coloneqq and extends amsmath
+\usepackage{subcaption}       % subfigures
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds}
+
 \usepackage{natbib}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -16,7 +27,11 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric,arrows.meta,positioning}
+
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,patterns}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
 \lstset{
   basicstyle=\small\ttfamily,
   breaklines=true,
@@ -24,7 +39,7 @@
   backgroundcolor=\color{gray!10},
 }
 
-\title{Evaluating the Limits of Behavioral Detection of Instructed Deception and Knowledge-Conflict Correction in Large Language Models}
+\title{Correction-Marker Signals Are Not Sufficient for Deception Detection in Instructed-Roleplay Evaluations: A Three-Control Study of English Open-Weight LLMs (3B--70B)}
 
 \author{
   Anonymous Author(s) \\

@@ -1,0 +1,88 @@
+% summary_results.tex — Three-panel summary figure for V27
+% Panel 1: LOO accuracy collapse across controls (3 bars per model)
+% Panel 2: Autonomous transfer (sycophancy vs persona/FB)
+% Uses pgfplots; no external data file required
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group name=summary,
+        group size=2 by 1,
+        xlabels at=edge bottom,
+        ylabels at=edge left,
+        horizontal sep=1.8cm,
+    },
+    height=5.5cm,
+    ymin=40, ymax=105,
+    ymajorgrids=true,
+    grid style={dotted,gray!40},
+    ylabel style={font=\small},
+    ticklabel style={font=\scriptsize},
+    legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south, legend columns=3},
+]
+
+%--- Panel 1: Three-control accuracy collapse ---
+\nextgroupplot[
+    title={\small (a) Three-control collapse (7 equalized targets)},
+    width=7.5cm,
+    xtick={1,2,3,4,5,6,7},
+    xticklabels={Ll-3B, Ll-8B, Mi-7B, Qw-7B, Qw-14B, Ll-70B, Haiku},
+    xticklabel style={font=\scriptsize, rotate=30, anchor=east},
+    ylabel={LOO accuracy (\%)},
+    ybar,
+    bar width=3pt,
+    legend to name=summarylegend,
+    extra y ticks={50},
+    extra y tick labels={\scriptsize chance},
+    extra y tick style={grid=major, grid style={dashed,red!50}},
+]
+% Instructed LOO (Haiku extractor, recalibrated)
+\addplot[fill=black!70, draw=black!70] coordinates {
+    (1,93.9) (2,96.9) (3,99.0) (4,100.0) (5,98.0) (6,97.0) (7,97.8)
+};
+\addlegendentry{Instructed}
+
+% Equalized rule (pooled LOO, k=1)
+\addplot[fill=blue!55, draw=blue!55] coordinates {
+    (1,64.0) (2,80.0) (3,75.0) (4,86.0) (5,87.6) (6,87.1) (7,76.0)
+};
+\addlegendentry{Equalized rule}
+
+% Cross-family pipeline (Mistral L3)
+\addplot[fill=orange!65, draw=orange!65] coordinates {
+    (1,52.0) (2,64.0) (3,62.0) (4,65.0) (5,69.1) (6,68.8) (7,71.7)
+};
+\addlegendentry{Cross-family pipeline}
+
+%--- Panel 2: Sycophancy transfer only (persona/FB excluded: scenario-design failure) ---
+\nextgroupplot[
+    title={\small (b) Sycophancy transfer (rule LOO)},
+    width=6.5cm,
+    xtick={1,2,3,4,5},
+    xticklabels={Syco 3B, Syco 14B, SP-only 3B, SP-only 14B, Syco 70B$^\dag$},
+    xticklabel style={font=\scriptsize, rotate=35, anchor=east},
+    ybar,
+    bar width=6pt,
+    extra y ticks={50},
+    extra y tick labels={\scriptsize chance},
+    extra y tick style={grid=major, grid style={dashed,red!50}},
+]
+% Sycophancy (positive transfer): blue
+\addplot[fill=blue!55, draw=blue!55] coordinates {
+    (1,68.5) (2,83.0) (5,72.0)
+};
+% System-prompt-only control (disposition-driven, no epistemic pressure): lighter blue
+\addplot[fill=blue!25, draw=blue!55] coordinates {
+    (3,63.1) (4,69.5)
+};
+
+\end{groupplot}
+
+\node at (summary c1r1.south) [anchor=north, yshift=-12pt] {\ref{summarylegend}};
+
+\end{tikzpicture}
+\caption{Summary results. \textbf{(a)} Three-control accuracy collapse: instructed LOO (black) → equalized rule $k=1$ (blue) → cross-family pipeline Mistral~L3 (orange), per model. Joint application collapses accuracy 30--41\,pp. \textbf{(b)} Sycophancy transfer: dark blue = sycophancy LOO ($n\!=\!200$); light blue = system-prompt-only control (no epistemic pressure, $n\!=\!200$). Persona/false-belief cells are \emph{excluded}: spot-checks reveal scenario-design artifact (models abandoning false personas), so these cells provide no evidence about detector capability. $^\dag$Sycophancy 70B ($n\!=\!50$, preliminary, not in headline summaries). SP-only = system-prompt-only control. All results equalized; models $\leq$70B.}
+\label{fig:summary_results}
+\end{figure*}

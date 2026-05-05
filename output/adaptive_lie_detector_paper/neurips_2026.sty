@@ -1,0 +1,75 @@
+% neurips_2024.sty - NeurIPS 2024 style file (submission format)
+% Based on the official NeurIPS 2024 LaTeX template
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{neurips_2024}[2024/01/01 NeurIPS 2024 submission style]
+
+\ProcessOptions\relax
+
+% Page layout
+\usepackage[verbose=true,letterpaper]{geometry}
+\AtBeginDocument{
+  \newgeometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+  }
+}
+
+% Fonts
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Misc
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{nicefrac}
+
+% Section formatting
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{1em}{}
+
+% Caption formatting
+\usepackage{caption}
+\captionsetup{font=small}
+
+% Header/footer
+\usepackage{fancyhdr}
+\pagestyle{empty}
+
+% Paragraph spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Title formatting
+\renewcommand{\maketitle}{%
+  \begin{center}
+    {\Large\bfseries\@title\par}
+    \vskip 1em
+    {\normalsize\@author\par}
+    \vskip 0.5em
+    {\small\@date\par}
+  \end{center}
+  \vskip 1.5em
+}
+
+% Abstract environment
+\renewenvironment{abstract}{%
+  \centerline{\large\bfseries Abstract}
+  \vspace{0.5ex}
+  \begin{quote}\small
+}{%
+  \end{quote}
+  \vskip 1ex
+}
