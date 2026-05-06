@@ -47,7 +47,7 @@
     \item {\bf Experimental result reproducibility}
     \item[] Question: Does the paper fully disclose all the information needed to reproduce the main experimental results of the paper to the extent that it affects the main claims and/or conclusions of the paper (regardless of whether the code and data are provided or not)?
     \item[] Answer: \answerYes{}
-    \item[] Justification: All model IDs, prompt templates, hyperparameters, and evaluation protocols are specified in Appendix~\ref{app:adage_details} and \ref{app:compute_cost}. Complete experiment scripts, claim sets, and analysis code are provided as supplemental material.
+    \item[] Justification: All model IDs, prompt templates, hyperparameters, and evaluation protocols are specified in Appendix~\ref{app:adage_details} and \ref{app:compute_cost}. Code and data will be released upon acceptance (withheld during review for anonymization); the paper provides sufficient detail to reproduce results independently.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
@@ -66,8 +66,8 @@
 
 \item {\bf Open access to data and code}
     \item[] Question: Does the paper provide open access to the data and code, with sufficient instructions to faithfully reproduce the main experimental results, as described in supplemental material?
-    \item[] Answer: \answerYes{}
-    \item[] Justification: All experiment scripts, claim sets, raw transcripts, annotator CSVs, and analysis code are released as supplemental material. Appendix~\ref{app:compute_cost} provides reproducibility notes including exact commands and environment requirements.
+    \item[] Answer: \answerNo{}
+    \item[] Justification: Code and datasets are not included as supplemental material due to anonymization concerns during review. We commit to releasing all experiment scripts, claim sets, raw transcripts, annotator CSVs, and analysis code upon acceptance. The paper provides sufficient methodological detail (Appendix~\ref{app:adage_details}, \ref{app:compute_cost}) to reproduce results independently.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that paper does not include experiments requiring code.
@@ -178,7 +178,7 @@
 \item {\bf New assets}
     \item[] Question: Are new assets introduced in the paper well documented and is the documentation provided alongside the assets?
     \item[] Answer: \answerYes{}
-    \item[] Justification: The supplemental code includes experiment scripts, claim sets (100 claims with ground-truth labels), raw interrogation transcripts, human annotator CSVs, and analysis notebooks. Documentation is provided in the code repository. The evaluation protocol is fully specified in Appendix~\ref{app:adage_details}.
+    \item[] Justification: New assets (experiment scripts, claim sets, raw transcripts, annotator CSVs) are documented in the paper and will be released with full documentation upon acceptance. The evaluation protocol is fully specified in Appendix~\ref{app:adage_details}; asset descriptions are provided in sufficient detail for independent reproduction.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not release new assets.
@@ -190,7 +190,7 @@
 \item {\bf Crowdsourcing and research with human subjects}
     \item[] Question: For crowdsourcing experiments and research with human subjects, does the paper include the full text of instructions given to participants and screenshots, if applicable, as well as details about compensation (if any)?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Appendix~\ref{app:human_icc_n100} describes the Prolific annotation study ($n=100$ transcripts, 3 annotators). Annotator quality-control procedures (attention checks, pass criteria) are detailed. Task instructions and rating scales are specified. Raw per-rater CSVs are released in supplementary material.
+    \item[] Justification: Appendix~\ref{app:human_icc_n100} describes the Prolific annotation study ($n=100$ transcripts, 3 annotators). Annotator quality-control procedures (attention checks, pass criteria) are detailed. Task instructions and rating scales are specified. Raw per-rater CSVs will be released upon acceptance (withheld during review for anonymization).
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not involve crowdsourcing nor research with human subjects.
