@@ -8,12 +8,12 @@
 \paragraph{High-confidence reliability (pre-registered).}
 On the $n\!=\!52$ high-confidence subset, \textbf{ICC(2,1)\,$=\!0.71$} (selection biases this upward). The full $n\!=\!100$ study (Appendix~\ref{app:human_icc_n100}) yields $\alpha\!=\!0.606$ (the primary validation unit).
 
-\paragraph{n=20 pilot ICC discrepancy.} The initial $n\!=\!20$/2-annotator pilot yielded ICC$\!=\!0.114$, far below the full study's $\alpha\!=\!0.606$. This reflects a \textbf{scale-range discrepancy}, not construct invalidity: Annotator~1 used a mean of 1.10 on the 0--10 correction-count scale, while Annotator~2 used a mean of 3.95. Absolute-agreement ICC is highly sensitive to scale-range heterogeneity; rank-order correlation was preserved (Spearman $\rho\!=\!0.619$). The $n\!=\!100$ study with three annotators and standardized calibration instructions (``use the full scale; 0 = no corrections, 5+ = heavy correction language'') recovered $\alpha\!=\!0.606$, clearing the pre-registered threshold ($\alpha\!\geq\!0.4$). The pilot failure was a measurement artifact, not a substantive replication failure.
+\paragraph{n=20 pilot ICC discrepancy.} The initial $n\!=\!20$/2-annotator pilot yielded ICC$\!=\!0.114$ (scale-range artifact; rank-order preserved, Spearman $\rho\!=\!0.619$). The $n\!=\!100$/3-annotator study recovered $\alpha\!=\!0.606$, clearing the pre-registered threshold ($\alpha\!\geq\!0.4$).
 
-Correction-marker density is the \emph{only} validated feature. \textbf{Key implication:} correction-marker-only achieves \textbf{54.5\%}; full pipeline 64.7\%---\textbf{40\% of above-chance signal from ICC-failing features}.
+Correction-marker density is the \emph{only} validated feature. \textbf{Key implication:} correction-marker-only achieves \textbf{54.5\%} (Haiku-extracted); full pipeline 64.7\% (\textbf{40\% of above-chance signal from ICC-failing features}).
 
 \paragraph{Per-feature LOO ablation.}
-Removing correction-marker density drops LOO from 67.1\% to 57.0\% ($-$10.2\,pp); the four ICC-failing features contribute $\leq$3.2\,pp (Appendix~\ref{app:feature_validity}). \textbf{L-indep claims} (80.1\% rule, 30--41\,pp collapse, Haiku localization) are unaffected.
+Removing correction-marker density drops LOO from 67.1\% to 57.0\% ($-$10.2\,pp); the four ICC-failing features contribute $\leq$3.2\,pp individually (Appendix~\ref{app:feature_validity}). \textbf{Cross-family construct-valid bound:} under Mistral~L3 extraction, the four ICC-failing features alone achieve 57.0\% (Table~\ref{tab:feature_ablation_proxy}); correction-marker density accounts for the remaining $+$10.2\,pp uplift to 67.1\%. The construct-valid cross-family signal is therefore $\sim$10\,pp above chance, substantially below the 64.7\% headline. \textbf{L-indep claims} (80.1\% rule, 30--41\,pp collapse) are unaffected.
 
 \subsection{Three Transfer Regimes}
 \label{sec:transfer_regimes}
@@ -21,35 +21,39 @@ Removing correction-marker density drops LOO from 67.1\% to 57.0\% ($-$10.2\,pp)
 
 \paragraph{Regime 1: Instructed roleplay.} The explicit instruction dominates: equalization collapses LOO from 93.9--100\% to 52--69\% (30--41\,pp). The residual is surface-lexical (80.1\% rule).
 
-\paragraph{Regime 2: Semi-autonomous (sycophancy).} Positive transfer (68.5--83\% at 3B/14B, $n\!=\!200$; 72\% at 70B, $n\!=\!50$ preliminary). System-prompt-only control (neutral topic questions, no user-asserted false claims; Llama~3B 63.1\%, Qwen~14B 69.5\%, $n\!=\!200$) confirms disposition-driven detection persists without epistemic pressure. RLHF agreeableness suppresses correction language on truthful trials, producing the same correction-absent pattern as instructed liars.
+\paragraph{Regime 2: Semi-autonomous (sycophancy).} Largely dispositional ({\S}\ref{sec:autonomous_pilot}): marginal epistemic-pressure contribution is $+$5--14\,pp over the system-prompt-only baseline.
 
-\paragraph{Regime 3: Fully autonomous (persona/false-belief).} \textbf{Scenario-design failure prevents detector assessment.} Spot-checks reveal a design artifact: models abandon false personas on TRUE trials (6/10 Qwen~14B persona trials show persona-break-with-correction), so the scenario does not reliably elicit autonomous deception. Under these conditions, null results speak to scenario validity, not detector capability---neither a positive nor negative conclusion about the detector in this regime is licensed. Uniform RC$\,=\,0$ is consistent with no discriminative structure, but also with a task that does not elicit the target behavior. Both pre-registered causal predictions failed to be confirmed.
+\paragraph{Regime 3: Fully autonomous (persona/false-belief).} Null results; scenario-design artifact as leading candidate explanation ({\S}\ref{sec:exp_i_4th_scenario}). This finding rests on $n\!=\!10$ spot-checked trials from a single model (Qwen~14B); extension to Llama~3B and Mistral~7B is the highest-priority replication gap (limitation~(f)).
 
-\paragraph{Frontier-scale targets: rule is an open-weight ceiling.}
-Two frontier-scale ($\geq$100B) targets extend the scale sweep. \textbf{Sonnet~4.5} ($n\!=\!99$, closed-weight): rule 49.0\% (near chance), Haiku pipeline 83.0\%, Mistral~L3 82.8\%. \textbf{Llama~4~Maverick} ($n\!=\!100$, frontier open-weight MoE): rule \textbf{[L4M\_RULE]}\%, pipeline \textbf{[L4M\_PIPE]}\% (§\ref{sec:frontier_llama405b}). Together these characterize the frontier-scale regime across both open- and closed-weight architectures.
-
-Haiku-as-extractor on Sonnet achieves \textbf{50.5\%} while Mistral~L3 achieves 82.8\%---the \emph{inverse} of Haiku's $+$9--10\,pp self-boost on open-weight targets, consistent with checkpoint-specific extraction biases. \textbf{This interpretation rests on a single closed-weight frontier target (Sonnet~4.5, $n\!=\!99$) and should be treated as hypothesis-generating, not established localization} (Llama~4~Maverick provides an open-weight frontier comparison).
-
-\subsection{Claude Haiku: RLHF Safety Compliance}
+\paragraph{Frontier-scale targets.}
 \label{sec:haiku_defensiveness}
+Two preliminary targets in Appendix~\ref{app:frontier_preliminary} ($n\!=\!2$, confounded).
 
-Haiku~4.5's 97.8\% instructed LOO reflects RLHF safety compliance (100\% of lying trials contain refusal language). Under neutral prompts, Haiku corrects matter-of-factly (82.8\% LOO, $|d|=1.5$ vs.\ $4.9$ under instruction); Sonnet~4.5-on-Haiku (65.7\%) falls below both non-Claude extractors, localizing the $+$10\,pp uplift to the Haiku checkpoint.
-
-\subsection{Technical Contribution and Novelty}
+\subsection{Summary of Contributions}
 \label{sec:novelty}
 
-The \textbf{three-control protocol} is the primary methodological contribution: a reusable framework for evaluating behavioral detection claims by isolating instruction-following (equalization), same-family bias (cross-family controls), and surface-lexical ceilings (regex baselines). The protocol is \textbf{paradigm-agnostic} and applicable to any black-box behavioral detector. Applied to Pacchiardi et al.~\citeyear{pacchiardi2023catch}: their 67--73\% is reproducible but attributable to equalization (30--41\,pp), same-family bias ($+$9--10\,pp, Haiku-specific), and surface-lexical patterns.
+The primary contribution is a \textbf{methodological audit}: we provide an independent evaluation suite that, under tighter controls, yields construct-valid accuracy of 54.5--64.7\%, substantially below Pacchiardi et al.'s reported 67--73\% (their Table~1). The three controls identify instruction-following (30--41\,pp), extractor-quality differences ($+$7--10\,pp), and surface-lexical patterns as contributors to inflated accuracy in the general paradigm; whether these fully explain the specific gap to Pacchiardi et al.\ remains untested absent a direct replication of their protocol.
 
 \paragraph{Protocol generality.}
 \label{sec:protocol_generality}
-The three-control protocol is \textbf{paradigm-agnostic}: it applies to any detector that extracts features from an LLM's behavior or internals. We demonstrate this empirically for the \textbf{SAPLMA paradigm}~\cite{azaria2023internal} (last-layer LR probes, §\ref{sec:saplma_application}): on three equalized targets, probes fall within $\pm$6\,pp of the refusal-count surface-lexical ceiling, replicating the core finding---surface-lexical baselines match or bound richer detectors---in an \emph{external} activation-probing method. The three controls apply end-to-end in that paradigm: (1) equalized neutral prompts for both conditions; (2) cross-family structure in the probe evaluation; (3) the refusal-count rule provides the surface-lexical ceiling.
+Applied to SAPLMA-style LR probes~\cite{azaria2023internal} ($n\!=\!3$ targets; §\ref{sec:saplma_application}), probes fall within $\pm$6\,pp of the surface-lexical ceiling, replicating the core finding in an activation-probing paradigm.
 
-For other activation-probing methods, the translation is as follows. \textbf{Azaria \& Mitchell's full protocol}~\cite{azaria2023internal} additionally generates true/false statements via asymmetric prompts (`generate truthful statements' vs.\ `generate false statements'). Applying control (1) would equalize those prompts to `generate statements about X' to test whether the generation instruction itself drives probing accuracy. (2) Their method uses the same LLM to generate and probe; cross-family would use one model family to generate and another to probe. (3) A bag-of-words classifier on the generated statement text would bound probing from above. Representation engineering~\cite{zou2023representation} would apply analogously: equalize intervention intensity across conditions, vary the intervened model family, compare to linear probes.
+\paragraph{Classifier generalization.}
+\label{sec:loo_across_models}
+Leave-one-model-out yields 64.2\%, within $+$3.0\,pp of pooled LOO (Appendix~\ref{app:loo_across_models}).
+
+\paragraph{Reflexive implication.} The regimes where detection is validated are precisely where controls reveal artifactual or dispositional signal: instructed-roleplay accuracy is dominated by instruction-following (30--41\,pp collapse), and semi-autonomous sycophancy is largely dispositional (system-prompt-only baselines account for the majority of signal). The deployment-relevant autonomous regime, where genuine strategic deception would most matter, is precisely where this paper has null results. This creates an uncomfortable asymmetry: high detection accuracy is achievable only in settings where the ``deception'' is an artifact of evaluation design.
+
+\paragraph{Paradigm boundaries.} Two untested conditions bound interpretation:
+
+\textbf{(i) Base-model test.} If refusal markers are RLHF-induced rather than reflecting knowledge-conflict processing, the paradigm detects post-training response styles, not deception per se. Suggestive evidence: SAPLMA-style probes on the base Mistral-7B-v0.1 (no instruction tuning) yield no layer exceeding the 68\% refusal-count ceiling (Appendix~\ref{app:mistral_probe_panel}), consistent with the signal being a post-training artifact. A systematic base-model sweep across families would be required to confirm this.
+
+\textbf{(ii) False-positive rate on benign conversations.} The 80.1\% rule accuracy is measured on a balanced truth/lie evaluation set. In deployment, the base rate of deceptive outputs is unknown and likely low. The false-positive rate on ordinary benign conversations (where no knowledge conflict exists) is unmeasured; if substantial, it would render the 80.1\% figure misleading for deployment utility. This is the highest-priority measurement gap for any practical application of these methods.
 
 \subsection{Limitations}
 \label{sec:limitations}
 
-\textbf{(a)} Mock results establish correctness only. \textbf{(b)} Frontier-scale (100B+) models untested; results scope to $\leq$70B. \textbf{(c)} Cross-organizational replication (Gemma~2~27B, Mistral~7B) localizes Qwen~32B collapse to the Qwen family; zero-marker collapse is not a general RLHF effect. \textbf{(f)} Cross-family extraction should be standard. \textbf{(h)} Patterns are English-only. \textbf{(i)} Autonomous-transfer asymmetry lacks validated causal account. Additional limitations: Appendix~\ref{app:limitations_detail}.
+\textbf{(a)} Mock results establish correctness only. \textbf{(b)} Frontier-scale (100B+) models tested at two datapoints only; results scope to $\leq$70B open-weight. \textbf{(c)} Cross-organizational replication (Gemma~2~27B, Mistral~7B) localizes Qwen~32B collapse to the Qwen family; zero-marker collapse is not a general RLHF effect. \textbf{(d)} Autonomous-transfer asymmetry lacks validated causal account. \textbf{(e)} The binding regime for deployment (frontier-scale, autonomous, multilingual) is where this paper has least to say; whether the three controls produce similar collapses at frontier scale is an open empirical question. \textbf{(f)} Persona/false-belief spot-check ($n\!=\!10$) performed on Qwen~14B only; generalization to Llama~3B and Mistral~7B is assumed but unverified. \textbf{(g)} All targets are instruction-tuned; whether the signal exists on base models is untested. Additional limitations: Appendix~\ref{app:limitations_detail}.
 
 \label{sec:interrogation_role}
 \label{sec:deployment}

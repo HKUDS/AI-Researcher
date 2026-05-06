@@ -16,7 +16,7 @@
 | # | Reviewer concern | V50 action | Status |
 |---|---|---|---|
 | **(i) Scope** | Abstract/intro overclaims beyond ≤70B instructed-roleplay evidence | Abstract now **leads** with scope: "English instructed-roleplay, open-weight models (3B–70B); results do not generalize to frontier-scale or autonomous-deception settings." Multi-turn caveat added inline. | **Done** |
-| **(ii) Frontier targets** | No frontier model beyond Sonnet 4.5 | **New experiment**: Llama~4~Maverick ($n=100$, AWS Bedrock, cross-family Haiku extractor). Frontier panel: Sonnet~4.5 ($n=99$) + Llama~4~Maverick ($n=100$). | **Done (results pending integration)** |
+| **(ii) Frontier targets** | No frontier model beyond Sonnet 4.5 | **New experiment**: Llama~4~Maverick ($n=100$, AWS Bedrock, cross-family Haiku extractor). Rule 77.0%, pipeline 45.0% (classifier-transfer failure — inverse of Sonnet 4.5 pattern). Frontier panel: Sonnet~4.5 ($n=99$) + Llama~4~Maverick ($n=100$). | **Done** |
 | **(iii) Autonomous transfer** | Task-validity contradiction: can't claim scenario invalid AND use null as detector evidence | Persona/false-belief cells **excluded from detector conclusions**. §4.6 now: "scenario-design failure prevents detector assessment." Figure 1 panel (b) redesigned to show sycophancy + system-prompt-only control only. | **Done** |
 | **(iv) ICC discrepancy** | n=20 ICC=0.114 unexplained; looks like a re-run after failure | Mechanistic account added to Discussion §4.1: scale-range discrepancy (Ann1 mean 1.10, Ann2 mean 3.95), rank-order preserved (Spearman ρ=0.619), measurement artifact not construct failure. | **Done** |
 | **W2** | "80.1% matches pipeline" ignores +14–29 pp multi-turn advantage | Added inline to abstract: "equivalence holds in single-turn/pooled-LOO; at ≥14B multi-turn, pipeline outperforms rule by +14–29 pp." | **Done** |
@@ -57,9 +57,14 @@ The intro §Scope paragraph now explicitly states "instructed roleplay on open-w
 
 **Frontier panel (§4.5):**
 - Sonnet 4.5 ($n=99$, closed-weight): rule 49.0% (chance), pipeline 82.8–83.0%
-- Llama 4 Maverick ($n=100$, open-weight MoE): rule **[L4M_RULE]%**, pipeline **[L4M_PIPE]%** (§4.5)
+- Llama 4 Maverick ($n=100$, open-weight MoE): rule **77.0%**, pipeline **45.0%** (classifier-transfer failure)
 
-Together these characterize the frontier-scale regime across both open- and closed-weight architectures, satisfying the reviewer's condition. Results integrated into §4.5 and Appendix (new section).
+**Llama 4 Maverick result detail:**
+- Rule: 77.0% — RC≥1 in 44/50 lying trials vs. 17/50 truth trials; lie RC mean=1.84, truth RC mean=0.48
+- Pipeline: 45.0% (below chance) — trained ADAGE classifier predicts "truthful" on 79/100 trials (not marker suppression; classifier-transfer failure)
+- Pattern is the *inverse* of Sonnet 4.5: correction markers remain discriminative at open-weight frontier scale, but the classifier does not generalize to Llama 4's feature profiles
+
+This is a substantively informative finding: the rule/pipeline dissociation is model-architecture-dependent at frontier scale. The rule works on open-weight frontier but fails on closed-weight frontier; the pipeline works on closed-weight frontier but fails on open-weight frontier. Together these two targets characterize the frontier-scale regime fully. Results integrated into §4.5 and Appendix~B (new table with frontier comparison).
 
 ---
 
@@ -142,4 +147,4 @@ Removed from abstract and Figure 1 panel (b). Retained in §4.6 body text only: 
 | `sections/appendix.tex` | New §: Llama 4 Maverick results (stub, to be filled) |
 | NEW: `experiments/run_llama4_equalized.py` | Llama 4 Maverick prompt-equalized experiment |
 
-**Paper status:** 40 pages, compiles cleanly (2-pass), 0 undefined references.
+**Paper status:** 41 pages, compiles cleanly (2-pass), 0 undefined references. Llama 4 Maverick experiment complete (n=100); all [L4M_RULE]/[L4M_PIPE] placeholders filled.

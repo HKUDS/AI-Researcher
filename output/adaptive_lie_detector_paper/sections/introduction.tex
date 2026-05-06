@@ -1,39 +1,18 @@
 \section{Introduction}
 
-Behavioral deception detection in LLMs almost always reports accuracies in a single setting---\emph{instructed roleplay}---which, as this paper shows, is dominated by instruction-following artifacts rather than genuine behavioral signal.
-
-\paragraph{How to read this paper.} The cross-family pipeline estimate (64.7\%, §\ref{sec:scale_transfer_cf}) is the primary accuracy number; 80.1\% is the no-calibration-data rule variant (§\ref{sec:hedging_baseline}). \emph{Level-dependent} (\textbf{L-dep}) claims depend on the construct-validity of LLM-extracted features (§\ref{sec:icc_caveat}). \emph{Level-independent} (\textbf{L-indep}) claims---80.1\% rule, 30--41\,pp collapse, Haiku-checkpoint localization, autonomous-transfer failure---are the paper's primary claims and are unaffected by feature-validity concerns.
-
-\begin{table}[ht]
-\scriptsize\centering
-\caption{Which headline accuracy to cite. Cite: \textbf{54.5\%} for construct-validated accuracy; \textbf{80.1\%} for surface-lexical ceiling; \textbf{64.7\%} for upper bound.}
-\label{tab:headline_decision}
-\begin{tabular}{p{2.8cm}p{1.3cm}lp{3cm}}
-\toprule
-\textbf{Claim} & \textbf{Number} & \textbf{Type} & \textbf{When to cite} \\
-\midrule
-Construct-valid pipeline & 54.5\% & L-indep & Detection accuracy (fair controls) \\
-Surface-lexical ceiling & 80.1\% & L-indep & Baseline to exceed \\
-Full pipeline (cross-family) & 64.7\% & L-dep & Upper bound (4/5 fail ICC) \\
-Equalization collapse & 30--41\,pp & L-indep & Instruction-following \\
-Same-family bias & 9--10\,pp & L-indep & Haiku-specific inflation \\
-Autonomous transfer & 68.5--83\% & L-indep & Sycophancy only \\
-\bottomrule
-\end{tabular}
-\end{table}
+Behavioral deception detection in LLMs almost always reports accuracies in a single setting, \emph{instructed roleplay}, which, as this paper shows, is dominated by instruction-following artifacts rather than genuine behavioral signal.
 
 \subsection{Motivation and Contributions}
 \label{sec:motivation}
 
-This paper introduces a \textbf{three-control evaluation protocol} for behavioral deception-detection claims: (1)~\textbf{prompt equalization}---identical neutral prompts; (2)~\textbf{cross-family extraction}---feature extractors from a different model family; (3)~\textbf{surface-level baselines}---regex classifiers. The protocol isolates instruction-following, same-family bias, and surface-lexical ceilings, and is \textbf{applicable to any black-box behavioral detector}. Applied to Pacchiardi et al.~\citeyear{pacchiardi2023catch}: 30--41\,pp equalization collapse; 9--10\,pp same-family inflation (Haiku-checkpoint-specific); 80.1\% label-free rule matching the 5-feature pipeline on 6 of 7 targets. We evaluate seven LLMs (Llama~3.2~3B, Llama~3.1~8B, Mistral~7B, Qwen~2.5~7B/14B, Llama~3.3~70B, Claude Haiku~4.5); all $\leq$70B parameters. The empirical findings are:
+This paper performs a \textbf{methodological audit and critical replication} (from-scratch reimplementation; original code/data not obtained) of behavioral LLM deception-detection benchmarks, deriving three evaluation controls from this audit: (1)~\textbf{prompt equalization} (identical neutral prompts); (2)~\textbf{cross-family extraction} (feature extractors from a different model family); (3)~\textbf{surface-level baselines} (regex classifiers). Applied to the general behavioral-deception paradigm (exemplified by Pacchiardi et al.~\citeyear{pacchiardi2023catch}): 30--41\,pp equalization collapse; 7--10\,pp extractor-quality gap (Haiku outperforms Mistral~L3 and Llama~70B on 6 of 7 targets); 80.1\% label-free rule matching the 5-feature pipeline on 6 of 7 targets. The three-control protocol is a \emph{lesson derived from} this critical replication, not a primary contribution independent of it. We evaluate seven LLMs (Llama~3.2~3B, Llama~3.1~8B, Mistral~7B, Qwen~2.5~7B/14B, Llama~3.3~70B, Claude Haiku~4.5); all $\leq$70B parameters. The empirical findings are:
 \begin{enumerate}
-    \item \textbf{A one-line label-free rule matches a 5-feature LLM pipeline.} Refusal count $\geq 1$ achieves \textbf{80.1\%} pooled-LOO across seven equalized models (no calibration data). The 5-feature pipeline drops from 74.3\% (Haiku) to \textbf{64.7\%} under cross-family extraction (Mistral~L3; Llama~70B within 3\,pp); the \textbf{construct-validated (correction-marker only) pipeline achieves 54.5\%}---40\% of the full pipeline's above-chance signal comes from ICC-failing features (§\ref{sec:icc_caveat}).
+    \item \textbf{Rule/pipeline equivalence in single-turn; pipeline value concentrated at $\geq$14B multi-turn.} In single-turn / pooled-LOO evaluation, refusal count $\geq 1$ achieves \textbf{80.1\%} (no calibration data), matching the 5-feature pipeline on 6 of 7 equalized models; construct-validated pipeline \textbf{54.5\%}; full cross-family \textbf{64.7\%}. At $\geq$14B multi-turn, the pipeline outperforms the rule by $+$14--29\,pp (Appendix~\ref{app:multiturn_details}); this is where the pipeline's practical value lies.
     \item \textbf{Instruction-following artifacts dominate reported accuracies.} Prompt equalization drops LOO accuracy from 93.9--100\% to 52--69\% (30--41\,pp). An instructed-matched control attributes $+$7.5--15\,pp to instruction-following on $\geq$14B models; up to $+$31\,pp on smaller models, confounded with knowledge transfer (§\ref{sec:prompt_equalized}).
     \item \textbf{Within-family scale effects are family-specific.} Llama: flat-then-jump (8B$\to$70B, $p\!=\!0.004$). Qwen~2.5: peak at 14B then collapse at 32B ($n\!=\!200$ pooled across two independent runs; §\ref{sec:scale_transfer_cf}).
-    \item \textbf{Five self-family controls localize the 9--10\,pp uplift to the Claude Haiku checkpoint.} Llama-on-Llama ($\times$2), Qwen-on-Qwen, Mistral-on-Mistral, and Llama~8B-on-8B all show no analogous self-boost (§\ref{sec:scale_transfer_cf}).
-    \item \textbf{Fully-autonomous transfer is null-or-uninterpretable.} Four of six $n\!=\!200$ persona/false-belief cells include chance; neither exclude-chance cell survives Bonferroni ($\alpha/6$); two pre-registered causal predictions failed to be confirmed. Sycophancy is the one positive case: 68.5--83\% at 3B/14B ($n\!=\!200$; §\ref{sec:scale_transfer_cf}).
+    \item \textbf{Fully-autonomous transfer is null-or-uninterpretable.} Four of six $n\!=\!200$ persona/false-belief cells include chance; neither exclude-chance cell survives Bonferroni ($\alpha/6$); two pre-registered causal predictions failed to be confirmed. Semi-autonomous sycophancy shows signal (68.5--83\% at 3B/14B, $n\!=\!200$), but system-prompt-only controls (63.1--69.5\%) reveal the bulk is dispositional (§\ref{sec:autonomous_matched}).
 \end{enumerate}
 
 
-\paragraph{Scope.} All patterns are English-only; none has been validated on non-English input. The rule and pipeline read the lexical surface: adversarial paraphrase degrades the rule on 2 of 3 targets; full-regex-disclosed variants suppress the lying channel at two scales (§\ref{sec:adversarial_paraphrase}). We study \textbf{instructed roleplay on open-weight models (3B--70B)}---not autonomous strategic deception~\cite{hubinger2019risks, scheurer2024strategic, greenblatt2024alignment}. Frontier-scale evaluation ($\geq$100B) covers two targets: Sonnet~4.5 ($n\!=\!99$, §\ref{sec:frontier_sonnet}) and Llama~3.1~405B ($n\!=\!100$, §\ref{sec:frontier_llama405b}). The signal transfers to semi-autonomous sycophancy (68.5--83\% at 3B/14B, $n\!=\!200$; §\ref{sec:autonomous_matched}). Fully-autonomous persona/false-belief scenarios produced a scenario-design artifact (models abandoning false personas), preventing detector assessment in this regime.
+\paragraph{Scope.} All patterns are English-only; none has been validated on non-English input. The rule and pipeline read the lexical surface: adversarial paraphrase degrades the rule on 2 of 3 targets; full-regex-disclosed variants suppress the lying channel at two scales (§\ref{sec:adversarial_paraphrase}). We study \textbf{instructed roleplay on open-weight models (3B--70B)}, not autonomous strategic deception~\cite{hubinger2019risks, scheurer2024strategic, greenblatt2024alignment}. Two preliminary frontier observations are in Appendix~\ref{app:frontier_preliminary} (not interpretable; $n\!=\!2$, confounded). The signal transfers to semi-autonomous sycophancy (68.5--83\% at 3B/14B, $n\!=\!200$; §\ref{sec:autonomous_matched}). Fully-autonomous persona/false-belief scenarios produced a scenario-design artifact (models abandoning false personas), preventing detector assessment in this regime. We situate these contributions relative to prior work on behavioral probing, representation engineering, red-teaming, and autonomous deception in Appendix~\ref{app:related_work}.
 

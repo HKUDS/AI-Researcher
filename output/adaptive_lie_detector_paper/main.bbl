@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -45,6 +45,11 @@ Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav
 \newblock Red teaming language models to reduce harms: Methods, scaling
   behaviors, and lessons learned.
 \newblock \emph{arXiv preprint arXiv:2209.07858}, 2022.
+
+\bibitem[{Gemma Team}(2024)]{team2024gemma2}
+{Gemma Team}.
+\newblock Gemma 2: Improving open language models at a practical size.
+\newblock \emph{arXiv preprint arXiv:2408.00118}, 2024.
 
 \bibitem[Goodfellow et~al.(2014)Goodfellow, Shlens, and
   Szegedy]{goodfellow2014explaining}
@@ -146,12 +151,12 @@ Pat Verga, Sebastian Hofst{\"a}tter, Sophia Althammer, Yixuan Su, Aleksandra
 \newblock \emph{arXiv preprint arXiv:2404.18796}, 2024.
 
 \bibitem[Zou et~al.(2023)Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin,
-  Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyber, Song,
+  Mazeika, Dombrowski, Goel, Li, Byun, Wang, Mallen, Basart, Koyejo, Song,
   Fredrikson, Kolter, and Hendrycks]{zou2023representation}
 Andy Zou, Long Phan, Sarah Chen, James Campbell, Phillip Guo, Richard Ren,
   Alexander Pan, Xuwang Yin, Mantas Mazeika, Ann-Kathrin Dombrowski, Shashwat
   Goel, Nathaniel Li, Michael~J. Byun, Zifan Wang, Alex Mallen, Steven Basart,
-  Sanmi Koyber, Dawn Song, Matt Fredrikson, J.~Zico Kolter, and Dan Hendrycks.
+  Sanmi Koyejo, Dawn Song, Matt Fredrikson, J.~Zico Kolter, and Dan Hendrycks.
 \newblock Representation engineering: A top-down approach to ai transparency.
 \newblock \emph{arXiv preprint arXiv:2310.01405}, 2023.
 

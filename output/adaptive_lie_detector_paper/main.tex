@@ -1,15 +1,52 @@
 \documentclass{article}
-\usepackage{neurips_2026}
+% the "default" option is equal to the "main" option, which is used for the Main Track with double-blind reviewing.
+% 1. "main" option is used for the Main Track
+% \usepackage{neurips_2026}
+\usepackage[main]{neurips_2026}
+% 2. "position" option is used for the Position Paper Track
+%  \usepackage[position]{neurips_2026}
+% 3. "eandd" option is used for the Evaluations & Datasets Track
+ % \usepackage[eandd]{neurips_2026}
+ % if you want to opt-in for a de-anomymized submission (not recommended, but OK):
+ %\usepackage[eandd, nonanonymous]{neurips_2026}
+% 4. "creativeai" option is used for the Creative AI Track
+%  \usepackage[creativeai]{neurips_2026}
+% 5. "sglblindworkshop" option is used for the Workshop with single-blind reviewing
+ % \usepackage[sglblindworkshop]{neurips_2026}
+% 6. "dblblindworkshop" option is used for the Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop]{neurips_2026}
+
+% After being accepted, the authors should add "final" behind the track to compile a camera-ready version.
+% 1. Main Track
+ % \usepackage[main, final]{neurips_2026}
+% 2. Position Paper Track
+%  \usepackage[position, final]{neurips_2026}
+% 3. Evaluations & Datasets Track
+ % \usepackage[eandd, final]{neurips_2026}
+% 4. Creative AI Track
+%  \usepackage[creativeai, final]{neurips_2026}
+% 5. Workshop with single-blind reviewing
+%  \usepackage[sglblindworkshop, final]{neurips_2026}
+% 6. Workshop with double-blind reviewing
+%  \usepackage[dblblindworkshop, final]{neurips_2026}
+% Note. For the workshop paper template, both \title{} and \workshoptitle{} are required, with the former indicating the paper title shown in the title and the latter indicating the workshop title displayed in the footnote.
+% For workshops (5., 6.), the authors should add the name of the workshop, "\workshoptitle" command is used to set the workshop title.
+% \workshoptitle{WORKSHOP TITLE}
+
+% "preprint" option is used for arXiv or other preprint submissions
+ % \usepackage[preprint]{neurips_2026}
+
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{neurips_2026}
+
 
 \usepackage{amsfonts}       % blackboard math symbols
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 
-\hypersetup{hidelinks, colorlinks=false}
 \usepackage{mathtools}          % provides \coloneqq and extends amsmath
 \usepackage{subcaption}       % subfigures
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds}
 
 \usepackage{natbib}
 \usepackage[utf8]{inputenc}
@@ -26,6 +63,7 @@
 \usepackage{verbatim}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{alphalph}
 \usepackage{tikz}
 
 \usetikzlibrary{shapes.geometric,arrows.meta,positioning,patterns}
@@ -39,11 +77,41 @@
   backgroundcolor=\color{gray!10},
 }
 
+% NeurIPS checklist macros
+\newcommand{\answerYes}[1][]{\textcolor{blue}{[Yes] #1}}
+\newcommand{\answerNo}[1][]{\textcolor{orange}{[No] #1}}
+\newcommand{\answerNA}[1][]{\textcolor{gray}{[N/A] #1}}
+\newcommand{\answerTODO}[1][]{\textcolor{red}{[TODO] #1}}
+\newcommand{\justificationTODO}[1][]{\textcolor{red}{[Justification TODO] #1}}
+
 \title{Correction-Marker Signals Are Not Sufficient for Deception Detection in Instructed-Roleplay Evaluations: A Three-Control Study of English Open-Weight LLMs (3B--70B)}
 
-\author{
-  Anonymous Author(s) \\
-  NeurIPS 2026 Submission
+\author{%
+  Anupam ~Mediratta \\
+  % Principal Researcher\\
+  Orbis AI \\
+  \texttt{mediratta@gmail.com} \\
+  % examples of more authors
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \AND
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  % \And
+  % Coauthor \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
 }
 
 \begin{document}
@@ -52,7 +120,6 @@
 
 \input{sections/abstract}
 \input{sections/introduction}
-\input{sections/related_work}
 \input{sections/methodology}
 \input{sections/experiments}
 \input{sections/discussion}
@@ -62,6 +129,8 @@
 \bibliography{references}
 
 \appendix
+\renewcommand\thesection{\AlphAlph{\value{section}}}
 \input{sections/appendix}
-
+\newpage
+\input{checklist.tex}
 \end{document}

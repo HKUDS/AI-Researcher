@@ -61,7 +61,7 @@
     title={\small (b) Sycophancy transfer (rule LOO)},
     width=6.5cm,
     xtick={1,2,3,4,5},
-    xticklabels={Syco 3B, Syco 14B, SP-only 3B, SP-only 14B, Syco 70B$^\dag$},
+    xticklabels={Syco 3B, Syco 14B, SP-only 3B, SP-only 14B, 70B$^\dag$ ($n{=}50$)},
     xticklabel style={font=\scriptsize, rotate=35, anchor=east},
     ybar,
     bar width=6pt,
@@ -83,6 +83,6 @@
 \node at (summary c1r1.south) [anchor=north, yshift=-12pt] {\ref{summarylegend}};
 
 \end{tikzpicture}
-\caption{Summary results. \textbf{(a)} Three-control accuracy collapse: instructed LOO (black) → equalized rule $k=1$ (blue) → cross-family pipeline Mistral~L3 (orange), per model. Joint application collapses accuracy 30--41\,pp. \textbf{(b)} Sycophancy transfer: dark blue = sycophancy LOO ($n\!=\!200$); light blue = system-prompt-only control (no epistemic pressure, $n\!=\!200$). Persona/false-belief cells are \emph{excluded}: spot-checks reveal scenario-design artifact (models abandoning false personas), so these cells provide no evidence about detector capability. $^\dag$Sycophancy 70B ($n\!=\!50$, preliminary, not in headline summaries). SP-only = system-prompt-only control. All results equalized; models $\leq$70B.}
+\caption{Summary results. \textbf{(a)} Three-control accuracy collapse: instructed LOO (black) → equalized rule $k=1$ (blue) → cross-family pipeline Mistral~L3 (orange), per model. Joint application collapses accuracy 30--41\,pp. \textbf{(b)} Sycophancy transfer: dark blue = sycophancy LOO ($n\!=\!200$); light blue = system-prompt-only control (no epistemic pressure, $n\!=\!200$). Persona/false-belief cells yield \emph{null results}: spot-checks reveal scenario-design artifact (models abandoning false personas) as leading candidate explanation. $^\dag$Sycophancy 70B ($n\!=\!50$, preliminary; included for directional context only, not in headline summaries). SP-only = system-prompt-only control. All results equalized; models $\leq$70B.}
 \label{fig:summary_results}
 \end{figure*}
