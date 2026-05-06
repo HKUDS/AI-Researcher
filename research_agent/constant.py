@@ -36,9 +36,9 @@ LOG_PATH = global_state.LOG_PATH
 EVAL_MODE = str_to_bool(os.getenv('EVAL_MODE', False))
 BASE_IMAGES = os.getenv('BASE_IMAGES', "tjbtech1/paperapp:latest")
 
-COMPLETION_MODEL = os.getenv('COMPLETION_MODEL', "gpt-4o-2024-08-06") # gpt-4o-2024-08-06
+COMPLETION_MODEL = os.getenv('COMPLETION_MODEL', "gemini/gemini-2.5-pro-preview-05-20") # 기존 - gpt-4o-2024-08-06
 EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', "text-embedding-3-small")
-CHEEP_MODEL = os.getenv('CHEEP_MODEL', "gpt-4o-mini-2024-07-18")
+CHEEP_MODEL = os.getenv('CHEEP_MODEL', "gemini/gemini-2.5-flash") # openrouter수정시 위 아래 기존으로 바꿀 것 - gpt-4o-mini-2024-07-18
 # BASE_URL = os.getenv('BASE_URL', None)
 
 # GPUS = os.getenv('GPUS', "all")

@@ -1,0 +1,860 @@
+
+==================================================
+Filename: 0_main.tex
+==================================================
+\documentclass[sigconf]{acmart}
+\usepackage{booktabs} % For formal tables
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{subfigure} % Written by Steven Douglas Cochran
+\usepackage{array}
+\usepackage{breqn}
+\usepackage{{inputenc}}
+\usepackage{balance}
+\usepackage{multirow,tabularx}
+\usepackage{longtable}
+\usepackage{booktabs,longtable}
+\usepackage{hhline}
+\usepackage[flushleft]{threeparttable}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{thmtools}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false,linkcolor=blue,urlcolor=blue,citecolor=red}
+\epstopdfsetup{update}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand{\Lapl}{\mathbf{\mathop{\mathcal{L}}}}
+\newcommand{\Trans}[1]{{#1}^{\top}}
+\newcommand{\Trace}[1]{tr\left({#1}\right)}
+\newcommand{\Bracs}[1]{\left({#1}\right)}
+\newcommand{\Mat}[1]{\mathbf{#1}}
+\newcommand{\MatS}[3]{\mathbf{#1}^{#2}_{#3}}
+\newcommand{\Space}[1]{\mathbb{#1}}
+\newcommand{\Set}[1]{\mathcal{#1}}
+\newcommand{\vectornorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\bpi}{\boldsymbol{\pi}}
+\newcommand{\BlockMat}[2]{\left[\begin{matrix}#1\\#2\end{matrix}\right]}
+\newcommand{\BlockMatSquare}[4]{\left[\begin{matrix}#1 & #2\\#3 & #4\end{matrix}\right]}
+
+\newcommand{\ie}{\emph{i.e., }}
+\newcommand{\eg}{\emph{e.g., }}
+\newcommand{\etal}{\emph{et al.}}
+\newcommand{\st}{\emph{s.t. }}
+\newcommand{\etc}{\emph{etc.}}
+\newcommand{\wrt}{\emph{w.r.t. }}
+\newcommand{\cf}{\emph{cf. }}
+\newcommand{\aka}{\emph{aka. }}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+
+\hyphenpenalty=10000
+\tolerance=5000
+
+
+% defining the \BibTeX command - from Oren Patashnik's original BibTeX documentation.
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\copyrightyear{2020} \acmYear{2020} \setcopyright{acmlicensed}\acmConference[SIGIR '20]{Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval}{July 25--30, 2020}{Virtual Event, China} \acmBooktitle{Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR '20), July 25--30, 2020, Virtual Event, China} \acmPrice{15.00} \acmDOI{10.1145/3397271.3401063} \acmISBN{978-1-4503-8016-4/20/07}
+
+\begin{document}
+\fancyhead{}
+
+\title{LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation}
+%\title{Lightening Graph Convolution Network for Recommendation}
+
+\author{Xiangnan He}
+\affiliation{
+\institution{University of Science and Technology of China}
+}\email{xiangnanhe@gmail.com}
+
+\author{Kuan Deng}
+\affiliation{
+\institution{University of Science and Technology of China}
+}\email{dengkuan@mail.ustc.edu.cn}
+
+
+
+\author{Xiang Wang}
+\affiliation{
+\institution{National University of Singapore}
+}\email{xiangwang@u.nus.edu}
+%\renewcommand{\shortauthors}{Xiang \etal}
+
+\author{Yan Li}
+\affiliation{
+\institution{Beijing Kuaishou Technology \\Co., Ltd.}
+}\email{liyan@kuaishou.com}
+
+\author{Yongdong Zhang}
+\affiliation{
+\institution{University of Science and Technology of China}
+}\email{zhyd73@ustc.edu.cn}
+
+\author{Meng Wang}
+\authornote{Meng Wang is the corresponding author.}
+\affiliation{
+\institution{Hefei University of Technology}
+}\email{eric.mengwang@gmail.com
+}
+
+
+
+\setcounter{page}{1}
+\pagenumbering{Roman}
+
+\begin{abstract}
+Graph Convolution Network (GCN) has become new state-of-the-art for collaborative filtering. Nevertheless, the reasons of its effectiveness for recommendation are not well understood. 
+Existing work that adapts GCN to recommendation lacks thorough ablation analyses on GCN, which is originally designed for graph classification tasks and equipped with many neural network operations. 
+However, we empirically find that the two most common designs in GCNs --- feature transformation and nonlinear activation --- contribute little to the performance of collaborative filtering. Even worse, including them adds to the difficulty of training and degrades recommendation performance. 
+
+In this work, we aim to simplify the design of GCN to make it more concise and appropriate for recommendation. We propose a new model named LightGCN, including only the most essential component in GCN --- neighborhood aggregation --- for collaborative filtering. Specifically, LightGCN learns user and item embeddings by linearly propagating them on the user-item interaction graph, and uses the weighted sum of the embeddings learned at all layers as the final embedding. 
+Such simple, linear, and neat model is much easier to implement and train, exhibiting substantial improvements (about 16.0\% relative improvement on average) over Neural Graph Collaborative Filtering (NGCF) --- a state-of-the-art GCN-based recommender model --- under exactly the same experimental setting. Further analyses are provided towards the rationality of the simple LightGCN from both analytical and empirical perspectives. Our implementations are available in both TensorFlow\footnote{\url{https://github.com/kuandeng/LightGCN}} and PyTorch\footnote{\url{https://github.com/gusye1234/pytorch-light-gcn}}. 
+%Further experiments reveal that ...
+%Codes will be released upon acceptance. 
+
+%We conduct empirical comparison with Neural Graph Collaborative Filtering (NGCF) --- a state-of-the-art GCN-based recommender model --- under the same experimental setting. 
+%While this simple linear model exhibits better accuracy than existing nonlinear GCN-based recommenders, the setting of the weight of each layer affects its effectiveness much. To avoid manually tuning the setting on a new dataset, we further propose to learn them based on the validation set, automating the usage of the simplified GCN model. 
+%Extensive experiments on three real-world datasets demonstrate the effectiveness of our simple and neat . 
+\end{abstract}
+%
+% The code below should be generated by the tool at
+% http://dl.acm.org/ccs.cfm
+% Please copy and paste the code instead of the example below.
+%
+\begin{CCSXML}
+	<ccs2012>
+	<concept>
+	<concept_id>10002951.10003317.10003347.10003350</concept_id>
+	<concept_desc>Information systems~Recommender systems</concept_desc> <concept_significance>500</concept_significance>
+	</concept>
+	</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Information systems~Recommender systems}
+\vspace{-5pt}
+\keywords{Collaborative Filtering, Recommendation, Embedding Propagation, Graph Neural Network}
+\maketitle
+
+
+\input{1_introduction}
+\input{2_preliminary}
+\input{3_method_new}
+\input{4_experiment}
+\input{5_related}
+\input{6_conclusion}
+
+
+\bibliographystyle{ACM-Reference-Format}
+\balance
+
+\bibliography{ms}
+\balance
+\scriptsize
+
+\end{document}
+
+
+
+==================================================
+Filename: 1_introduction.tex
+==================================================
+\section{Introduction}
+%P1: Background, importance of recommendation and CF
+To alleviate information overload on the web, recommender system has been widely deployed to perform personalized information filtering~\cite{PinSage,YoutubeRS, PeterRec}.
+The core of recommender system is to predict whether a user will interact with an item, e.g., click, rate, purchase, among other forms of interactions. As such, collaborative filtering (CF), which focuses on exploiting the past user-item interactions to achieve the prediction, remains to be a fundamental task towards effective personalized recommendation~\cite{NCF,VACF,NGCF,CMN}. 
+
+%P2: Brief related work, matrix factorization -> neural nets. Introduce key idea of GCN and highlight it has been new SOTA. 
+The most common paradigm for CF is to learn latent features (a.k.a. embedding) to represent a user and an item, and perform prediction based on the embedding vectors~\cite{NCF,DBLP:conf/www/ChengDZK18}.
+Matrix factorization is an early such model, which directly projects the single ID of a user to her embedding~\cite{MF}.  Later on, several research find that augmenting user ID with the her interaction history as the input can improve the quality of embedding. For example, SVD++~\cite{SVD++} demonstrates the benefits of user interaction history in predicting user numerical ratings, and Neural Attentive Item Similarity (NAIS)~\cite{NAIS} differentiates the importance of items in the interaction history and shows improvements in predicting item ranking. 
+In view of user-item interaction graph, these improvements can be seen as coming from using the subgraph structure of a user --- more specifically, her one-hop neighbors --- to improve the embedding learning. 
+
+%P3: Argue some GCN designs are unnecessary for CF. Check SGCN paper how to argue it. The input to CF task is simple and less informative -- only ID to learn user/item embedding => may not useful to perform nonlinear feature transformation.
+To deepen the use of subgraph structure with high-hop neighbors, Wang et al.~\cite{NGCF} recently proposes NGCF and achieves state-of-the-art performance for CF. It takes inspiration from the Graph Convolution Network (GCN)~\cite{GCN,GraphSAGE}, following the same propagation rule to refine embeddings: feature transformation, neighborhood aggregation, and nonlinear activation. Although NGCF has shown promising results, we argue that its designs are rather heavy and burdensome --- many operations are directly inherited from GCN without justification. As a result, they are not necessarily useful for the CF task. To be specific, GCN is originally proposed for node classification on attributed graph, where each node has rich attributes as input features; whereas in user-item interaction graph for CF, each node (user or item) is only described by a one-hot ID, which has no concrete semantics besides being an identifier. In such a case, given the ID embedding as the input, performing multiple layers of nonlinear feature transformation --- which is the key to the success of modern neural networks~\cite{ResNet} --- will bring no benefits, but negatively increases the difficulty for model training. 
+
+%P4: Introduce our work
+To validate our thoughts, we perform extensive ablation studies on NGCF. With rigorous controlled experiments (on the same data splits and evaluation protocol), we draw the conclusion that the two operations inherited from GCN --- feature transformation and nonlinear activation --- has no contribution on NGCF's effectiveness. Even more surprising, removing them leads to significant accuracy improvements. This reflects the issues of adding operations that are useless for the target task in graph neural network, which not only brings no benefits, but rather degrades model effectiveness. Motivated by these empirical findings, we present a new model named LightGCN, including the most essential component of GCN --- neighborhood aggregation --- for collaborative filtering. Specifically, after associating each user (item) with an ID embedding, we propagate the embeddings on the user-item interaction graph to refine them. We then combine the embeddings learned at different propagation layers with a weighted sum to obtain the final embedding for prediction. The whole model is simple and elegant, which not only is easier to train, but also achieves better empirical performance than NGCF and other state-of-the-art methods like Mult-VAE~\cite{VACF}. 
+
+%P5: Summary of contributions.
+To summarize, this work makes the following main contributions:
+\begin{itemize}%[leftmargin=*]
+    \item We empirically show that two common designs in GCN, feature transformation and nonlinear activation, have no positive effect on the effectiveness of collaborative filtering. 
+    \item We propose LightGCN, which largely simplifies the model design by including only the most essential components in GCN for recommendation.
+    \item We empirically compare LightGCN with NGCF by following the same setting and demonstrate substantial improvements. In-depth analyses are provided towards the rationality of LightGCN from both technical and empirical perspectives. 
+    %XN: to revise
+    %Further analyses show the advantages of LightGCN by being simple --- easier to train, less sensitive to hyper-parameters, and computationally more efficient. 
+\end{itemize}
+
+%SPACE
+%The remainder of the paper is organized as follows. In Section~\ref{sec:preliminaries}, we provide empirical evidence on the unnecessarily heavy design of NGCF as the preliminaries. We then present our proposed LightGCN method and technically analyze its properties in Section~\ref{sec:method}. We conduct experiments to validate LightGCN in Section~\ref{sec:experiments}. Finally, we review related work in Section~\ref{sec:related} and conclude the paper in Section~\ref{sec:conclusion}. 
+
+
+==================================================
+Filename: 2_preliminary.tex
+==================================================
+\section{Preliminaries}\label{sec:preliminaries}
+
+We first introduce NGCF~\cite{NGCF}, a representative and state-of-the-art GCN model for recommendation. We then perform ablation studies on NGCF to judge the usefulness of each operation in NGCF. The novel contribution of this section is to show that the two common designs in GCNs, feature transformation and nonlinear activation, have no positive effect on collaborative filtering. 
+
+\subsection{NGCF Brief}\label{ss:ngcf}
+In the initial step, each user and item is associated with an ID embedding. Let $\textbf{e}_u^{(0)}$ denote the ID embedding of user $u$ and $\textbf{e}_i^{(0)}$ denote the ID embedding of item $i$. Then NGCF leverages the user-item interaction graph to propagate embeddings as:
+\begin{equation}\label{eq:NGCF}
+\begin{aligned}
+    \textbf{e}_{u}^{(k+1)} &= \sigma \Big(\textbf{W}_1 \textbf{e}_u^{(k)} + \sum_{i\in \mathcal{N}_u} \frac{1}{\sqrt{|\Set{N}_{u}||\Set{N}_{i}|}}(\Mat{W}_{1}\Mat{e}_{i}^{(k)} + \Mat{W}_{2}(\Mat{e}_{i}^{(k)}\odot\Mat{e}_{u}^{(k)}))\Big), \\
+    \textbf{e}_{i}^{(k+1)} &= \sigma \Big(\textbf{W}_1 \textbf{e}_i^{(k)} + \sum_{u\in \mathcal{N}_i} \frac{1}{\sqrt{|\Set{N}_{u}||\Set{N}_{i}|}}(\Mat{W}_{1}\Mat{e}_{u}^{(k)} + \Mat{W}_{2}(\Mat{e}_{u}^{(k)}\odot\Mat{e}_{i}^{(k)}))\Big),
+\end{aligned}
+\end{equation}
+where $\textbf{e}_{u}^{(k)}$ and $\textbf{e}_{i}^{(k)}$ respectively denote the refined embedding of user $u$ and item $i$ after $k$ layers propagation, $\sigma$ is the nonlinear activation function,
+%SPACE
+%to endorse NGCF nonlinearity (set as LeakyReLU~\cite{LeakyRelu} in the original paper), 
+$\Set{N}_{u}$ denotes the set of items that are interacted by user $u$, $\Set{N}_{i}$ denotes the set of users that interact with item $i$, and $\textbf{W}_1$ and $\textbf{W}_2$ are trainable weight matrix to perform feature transformation in each layer. 
+%SPACE
+%The symmetric normalization $\frac{1}{\sqrt{|\Set{N}_{u}||\Set{N}_{i}|}}$ is to handle the varying number of neighbors of different users (items), and is beneficial for numerical stability. 
+%The multi-layer NGCF just stacks multiple propagation layers which can capture high-order proximity relations in the user-item graph. 
+By propagating $L$ layers, NGCF obtains
+%Given the predefined number of layers $L$, NGCF performs $L$ layers of embedding propagation and obtains 
+$L+1$ embeddings to describe a user ($\textbf{e}_u^{(0)}, \textbf{e}_u^{(1)}, ..., \textbf{e}_u^{(L)}$) and an item ($\textbf{e}_i^{(0)}, \textbf{e}_i^{(1)}, ..., \textbf{e}_i^{(L)}$). It then concatenates these $L+1$ embeddings to obtain the final user embedding and item embedding, using inner product to generate the prediction score. 
+%SPACE
+%As can be seen, this propagation layer aggregates the former-layer embeddings of the connected neighbors in user-item graph. Such neighborhood aggregation function is also called as \textit{graph convolution} in GCN terminologies. 
+
+NGCF largely follows the standard GCN~\cite{GCN}, including the use of nonlinear activation function $\sigma(\cdot)$ and feature transformation matrices $\textbf{W}_1$ and $\textbf{W}_2$. However, we argue that the two operations are not as useful for collaborative filtering. In  semi-supervised node classification, each node has rich semantic features as input, such as the title and abstract words of a paper. Thus performing multiple layers of nonlinear transformation is beneficial to feature learning. Nevertheless, in collaborative filtering, each node of user-item interaction graph only has an ID as input which has no concrete semantics. In this case, performing multiple nonlinear transformations will not contribute to learn better features; even worse, it may add the difficulties to train well. In the next subsection, we provide empirical evidence on this argument. 
+
+\begin{table}[t]
+\caption{Performance of NGCF and its three variants.% that remove nonlinear activation (NGCF-n), feature transformation (NGCF-f) and both (NGCF-fn), respectively. 
+}
+\vspace{-10px}
+\label{tab:pre}
+%\resizebox{0.48\textwidth}{!}{
+\begin{tabular}{l|c c|c c}
+\hline
+ & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+ & \textbf{recall} & \textbf{ndcg} &  \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+%NGCF (paper) &  0.1547 & 0.2237 & 0.0438 & 0.0926 & 0.0344 & 0.0630 \\
+%NGCF (re-run) & 0.1568 & 0.2274 & 0.0559 & 0.1037 & 0.0339 & 0.0626 \\
+NGCF &  0.1547 & 0.1307 & 0.0330 & 0.0254 \\ \hline 
+NGCF-f    & 0.1686 & 0.1439 & 0.0368 & 0.0283 \\ 
+NGCF-n & 0.1536 & 0.1295 & 0.0336 & 0.0258 \\  
+NGCF-fn   & 0.1742 & 0.1476 & 0.0399 & 0.0303 \\ \hline
+%NGCF_fni  & $\Mat{0.1733}$ & $\Mat{0.2435}$ & $\Mat{0.0616}$ & $\Mat{0.1120}$ & $\Mat{0.0378}$ & $\Mat{0.0684}$ \\ 
+\end{tabular}%}
+%\scriptsize{Note that the scores of NGCF on Gowalla and Amazon-Book are directly copied from the original paper~\cite{NGCF} since the data, data splits, and evaluation protocol are exactly the same. As the released Yelp2018 dataset by \cite{NGCF} is different from the one used in the paper, we re-run NGCF on Yelp2018.}
+%\\\scriptsize{The scores of NGCF are copied from the Table 3 of \cite{NGCF}, since the data, data splits, and evaluation protocol are exactly the same.}
+\end{table}
+%Do three ablation studies to show the unnecessary designs in NGCF: 1) feature transformation, 2) non-linearity, and 3) the interaction between e_i and e_u. 
+
+\begin{figure*}[t]
+	\centering
+	\subfigure[Training loss on Gowalla]{\includegraphics[width=0.235\textwidth]{gowalla_tr_loss.pdf}}
+	\subfigure[Testing recall on Gowalla]{\includegraphics[width=0.235\textwidth]{gowalla_recall.pdf}}
+	\subfigure[Training loss on Amazon-Book]{\includegraphics[width=0.235\textwidth]{amazon-book_tr_loss.pdf}}
+	\subfigure[Testing recall on Amazon-Book]{\includegraphics[width=0.235\textwidth]{amazon-book_recall.pdf}}
+	\vspace{-15pt}
+	\caption{Training curves (training loss and testing recall) of NGCF and its three simplified variants.} \vspace{-10pt}
+	\label{fig:train-epochs}
+\end{figure*}
+
+\subsection{Empirical Explorations on NGCF} \label{ss:ngcf_study}
+We conduct ablation studies on NGCF to explore the effect of nonlinear activation and feature transformation. We use the codes released by the authors of NGCF\footnote{\url{https://github.com/xiangwang1223/neural_graph_collaborative_filtering}}, running experiments on the same data splits and evaluation protocol to keep the comparison as fair as possible. 
+%SPACE
+%\footnote{Note that the Yelp2018 dataset released by the authors is different from the one used in the original NGCF paper, since the authors claim that there are some issues in their experimented Yelp2018 data. They share us the revised version of the data, so we re-run NGCF on the revised Yelp2018 data. For other two datasets, we directly copy the scores reported in the NGCF paper to Table~\ref{tab:pre}.}. 
+Since the core of GCN is to refine embeddings by propagation, we are more interested in the embedding quality under the same embedding size. Thus, we change the way of obtaining final embedding from concatenation (i.e., $\Mat{e}^{*}_{u}= \Mat{e}^{(0)}_{u}\Vert\cdots\Vert\Mat{e}^{(L)}_{u}$) to sum (i.e., $\Mat{e}^{*}_{u}= \Mat{e}^{(0)}_{u} + \cdots + \Mat{e}^{(L)}_{u}$).
+%; and the same change applies to the final item embedding. 
+Note that this change has little effect on NGCF's performance, but makes the following ablation studies more indicative of the embedding quality refined by GCN. 
+
+We implement three simplified variants of NGCF:
+\begin{itemize}[leftmargin=*]
+\item NGCF-f, which removes the feature transformation matrices $\textbf{W}_1$ and $\textbf{W}_2$.
+\item NGCF-n, which removes the non-linear activation function $\sigma$.
+\item NGCF-fn, which removes both the feature transformation matrices and non-linear activation function. 
+\end{itemize}
+
+For the three variants, we keep all hyper-parameters (e.g., learning rate, regularization coefficient, dropout ratio, etc.)  same as the optimal settings of NGCF. 
+We report the results of the 2-layer setting on the Gowalla and Amazon-Book datasets in Table \ref{tab:pre}. 
+As can be seen, removing feature transformation (i.e., NGCF-f) leads to consistent improvements over NGCF on all three datasets. In contrast, removing nonlinear activation does not affect the accuracy that much. However, if we remove nonlinear activation on the basis of removing feature transformation (i.e., NGCF-fn), the performance is improved significantly. From these observations, we conclude the findings that: 
+
+(1) Adding feature transformation imposes negative effect on NGCF, since removing it in both models of NGCF and NGCF-n improves the performance significantly; 
+
+(2) Adding nonlinear activation affects slightly when feature transformation is included, but it imposes negative effect when feature transformation is disabled. %This is evidenced from that NGCF performs slightly better than NGCF-n, but NGCF-fn performs much better than NGCF-f. 
+
+(3) As a whole, feature transformation and nonlinear activation impose rather negative effect on NGCF, since by removing them simultaneously, NGCF-fn demonstrates large improvements over NGCF (9.57\% relative improvement on recall). 
+
+To gain more insights into the scores obtained in Table \ref{tab:pre} and understand why NGCF deteriorates with the two operations, we plot the curves of model status recorded by training loss and testing recall in Figure \ref{fig:train-epochs}. 
+As can be seen, NGCF-fn achieves a much lower training loss than NGCF, NGCF-f, and NGCF-n along the whole training process. Aligning with the curves of testing recall, we find that such lower training loss successfully transfers to better recommendation accuracy.
+The comparison between NGCF and NGCF-f shows the similar trend, except that the improvement margin is smaller. 
+
+From these evidences, we can draw the conclusion that the deterioration of NGCF stems from the training difficulty, rather than overfitting. 
+Theoretically speaking, NGCF has higher representation power than NGCF-f, since setting the weight matrix $\textbf{W}_1$ and $\textbf{W}_2$ to identity matrix $\textbf{I}$ can fully recover the NGCF-f model. However, in practice, NGCF demonstrates higher training loss and worse generalization performance than NGCF-f. 
+And the incorporation of nonlinear activation further aggravates the discrepancy between representation power and generalization performance. To round out this section, we claim that when designing model for recommendation, it is important to perform rigorous ablation studies to be clear about the impact of each operation. Otherwise, including less useful operations will complicate the model unnecessarily, increase the training difficulty, and even degrade model effectiveness. 
+
+
+==================================================
+Filename: 3_method_new.tex
+==================================================
+\section{Method}\label{sec:method}
+The former section demonstrates that NGCF is a heavy and burdensome GCN model for  collaborative filtering.
+Driven by these findings, we set the goal of developing a light yet effective model by including the most essential ingredients of GCN for recommendation. 
+The advantages of being simple are several-fold --- more interpretable, practically easy to train and maintain, technically easy to analyze the model behavior and revise it towards more effective directions, and so on. 
+
+In this section, we first present our designed \textit{Light Graph Convolution Network} (LightGCN) model, as illustrated in Figure~\ref{fig:LightGCN}.
+We then provide an in-depth analysis of LightGCN to show the rationality behind its simple design. 
+Lastly, we describe how to do model training for recommendation. 
+
+\subsection{LightGCN}
+%SPACE
+%Since GCN is an extension of multi-layer neural networks on graph data, what distinguishes GCN from other neural networks is the handling of the graph structure.  
+The basic idea of GCN is to learning representation for nodes by smoothing features over the graph~\cite{GCN,SGCN}. 
+To achieve this, it performs graph convolution iteratively, i.e., aggregating the features of neighbors as the new representation of a target node. 
+Such neighborhood aggregation can be abstracted as:
+\begin{equation}
+    \textbf{e}_{u}^{(k+1)} = \text{AGG} ( \textbf{e}_{u}^{(k)},  \{ \textbf{e}_i^{(k)} : i \in \mathcal{N}_u \}).
+\end{equation}
+%where $u$ denotes the target node to obtain new representation for, $\textbf{e}_{u}^{(k)}$ denotes $u$'s representation at the $k$-th layer, $\mathcal{N}_u$ denotes the neighbors of node $u$ which is evidenced from the graph structure, and 
+The AGG is an aggregation function --- the core of graph convolution --- that considers the $k$-th layer's representation of the target node and its neighbor nodes. Many work have specified the AGG, such as the weighted sum aggregator in GIN~\cite{GIN}, LSTM aggregator in GraphSAGE~\cite{GraphSAGE}, and bilinear interaction aggregator in BGNN~\cite{BGNN} etc. However, most of the work ties feature transformation or nonlinear activation with the AGG function. Although they perform well on node or graph classification tasks that have semantic input features, they could be burdensome for collaborative filtering (see preliminary results in Section~\ref{ss:ngcf_study}).
+
+\begin{figure}[t]
+	%\hspace*{-0.1cm}
+	\centering
+	\small	
+	\includegraphics[width=0.48\textwidth]{LightGCN.pdf}\vspace{-5pt}
+	\caption{An illustration of LightGCN model architecture. 
+	%The example is to obtain representation for user $u_1$ and $i_4$ and predict their interaction. $u_1$ is connected with items $i_1, i_2, i_3$, and item $i_4$ is connected with users $u_2, u_3$. 
+	In LGC, only the normalized sum of neighbor embeddings is performed towards next layer; other operations like self-connection, feature transformation, and nonlinear activation are all removed, which largely simplifies GCNs. In Layer Combination, we sum over the embeddings at each layer to obtain the final representations.}\vspace{-10pt}
+	\label{fig:LightGCN}
+\end{figure}
+
+\subsubsection{Light Graph Convolution (LGC)}
+In LightGCN, we adopt the simple weighted sum aggregator and abandon the use of feature transformation and nonlinear activation. The graph convolution operation (a.k.a., propagation rule~\cite{NGCF}) in LightGCN is defined as:
+\begin{equation}\label{eq:LGC}
+\begin{aligned}
+    \textbf{e}_{u}^{(k+1)} &= \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_i|}} \textbf{e}_i^{(k)},  \\
+    \textbf{e}_{i}^{(k+1)} &= \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i|}\sqrt{|\mathcal{N}_u|}} \textbf{e}_u^{(k)}.
+\end{aligned}
+\end{equation}
+%Since LightGCN is operated on user-item interaction graph which is a bipartite structure, we separate the definition for users and items. In the equation, $u$ denotes a user node and $|\mathcal{N}_u|$ denotes the number of items that $u$ has interacted with, $i$ denotes an item node and $|\mathcal{N}_i|$ denotes the number of users that have interacted with $i$. 
+The symmetric normalization term $\frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_i|}}$ follows the design of standard GCN~\cite{GCN}, which can avoid the scale of embeddings increasing with graph convolution operations; other choices can also be applied here, such as the $L_1$ norm, while empirically we find this symmetric normalization has good performance (see experiment results in Section~\ref{ss:ablation-symmetric}). 
+
+It is worth noting that in LGC, we aggregate only the connected neighbors and do not integrate the target node itself (i.e., self-connection). This is different from most existing graph convolution operations~\cite{NGCF,GCN,GAT,GraphSAGE, BGNN} that typically aggregate extended neighbors and need to handle the self-connection specially. 
+The layer combination operation, to be introduced in the next subsection, essentially captures the same effect as self-connections. Thus, there is no need in LGC to include self-connections. 
+
+\subsubsection{Layer Combination and Model Prediction} In LightGCN, the only trainable model parameters are the embeddings at the 0-th layer, i.e., $\textbf{e}_{u}^{(0)}$ for all users and  $\textbf{e}_{i}^{(0)}$ for all items. When they are given, the embeddings at higher layers can be computed via LGC defined in Equation~(\ref{eq:LGC}). 
+After $K$ layers LGC, we further combine the embeddings obtained at each layer to form the final representation of a user (an item):
+\begin{equation}
+\begin{aligned}
+    \textbf{e}_{u} = \sum_{k=0}^K \alpha_k \textbf{e}_u^{(k)}; \quad \textbf{e}_{i} = \sum_{k=0}^K \alpha_k \textbf{e}_i^{(k)},
+    %\\ & s.t. \quad \alpha_k \geq 0,\quad \text{and} \quad \sum_{k=0}^K \alpha_k = 1,
+\end{aligned}
+\end{equation}
+where $\alpha_k \geq 0$ denotes the importance of the $k$-th layer embedding in constituting the final embedding. 
+It can be treated as a hyper-parameter to be tuned manually, or as a model parameter (e.g., output of an attention network~\cite{ACF}) to be optimized automatically. In our experiments, we find that setting $\alpha_k$ uniformly as $1 / (K+1)$ leads to good performance in general. Thus we do not design special component to optimize $\alpha_k$, to avoid complicating LightGCN unnecessarily and to keep its simplicity.  
+The reasons that we perform layer combination to get final representations are three-fold. (1) With the increasing of the number of layers, the embeddings will be over-smoothed~\cite{DeepInsights}. Thus simply using the last layer is problematic. (2) The embeddings at different layers capture different semantics. E.g., the first layer enforces smoothness on users and items that have interactions, the second layer smooths users (items) that have overlap on interacted items (users), and higher-layers capture higher-order proximity~\cite{NGCF}. Thus combining them will make the representation more comprehensive. (3) Combining embeddings at different layers with weighted sum captures the effect of graph convolution with self-connections, an important trick in GCNs (proof sees Section~\ref{ss:relation-sgcn}).
+
+The model prediction is defined as the inner product of user and item final representations: 
+\begin{equation}
+    \hat{y}_{ui} = \textbf{e}_u ^T \textbf{e}_i,
+\end{equation}
+which is used as the ranking score for recommendation generation. 
+
+\subsubsection{Matrix Form} We provide the matrix form of LightGCN to facilitate implementation and discussion with existing models. Let the user-item interaction matrix be $\textbf{R} \in \mathbb{R}^{M\times N}$ where $M$ and $N$ denote the number of users and items, respectively, and each entry $R_{ui}$ is 1 if $u$ has interacted with item $i$ otherwise 0. We then obtain the adjacency matrix of the user-item graph as 
+\begin{equation}
+    \textbf{A}=
+    \left(\begin{matrix}
+    \textbf{0} & \textbf{R}\\
+    \textbf{R}^{T} & \textbf{0}\\
+    \end{matrix} \right),
+\end{equation}
+Let the $0$-th layer embedding matrix be $\textbf{E}^{(0)} \in \mathbb{R}^{ (M+N) \times T} $, where $T$ is the embedding size.  
+Then we can obtain the matrix equivalent form of LGC as:
+\begin{equation}
+    \textbf{E}^{(k+1)} = (\textbf{D}^{-\frac{1}{2}} \textbf{A} \textbf{D}^{-\frac{1}{2}}) \textbf{E}^{(k)},
+\end{equation}
+where $\textbf{D}$ is a $(M+N)\times (M+N)$ diagonal matrix, in which each entry $D_{ii}$ denotes the number of nonzero entries in the $i$-th row vector of the  adjacency matrix $\textbf{A}$ (also named as degree matrix). Lastly, we get the final embedding matrix used for model prediction as:
+\begin{equation}\label{eq:E_LGCN}
+\begin{aligned}
+    \textbf{E} &= \alpha_0 \textbf{E}^{(0)} + \alpha_1 \textbf{E}^{(1)} + \alpha_2 \textbf{E}^{(2)} + ... + \alpha_K \textbf{E}^{(K)} \\
+    &= \alpha_0 \textbf{E}^{(0)} + \alpha_1 \Tilde{\textbf{A}}\textbf{E}^{(0)} + \alpha_2 \Tilde{\textbf{A}}^2\textbf{E}^{(0)} + ... + \alpha_K \Tilde{\textbf{A}}^K\textbf{E}^{(0)},
+\end{aligned}
+\end{equation}
+where $\Tilde{\textbf{A}} = \textbf{D}^{-\frac{1}{2}} \textbf{A} \textbf{D}^{-\frac{1}{2}}$ is the symmetrically normalized matrix.
+
+\subsection{Model Analysis}
+We conduct model analysis to demonstrate the rationality behind the simple design of LightGCN. 
+First we discuss the connection with the Simplified GCN (SGCN)~\cite{SGCN}, which is a recent linear GCN model that integrates self-connection into graph convolution; this analysis shows that by doing layer combination, LightGCN subsumes the effect of self-connection thus there is no need for LightGCN to add self-connection in adjacency matrix. 
+Then we discuss the relation with the Approximate Personalized Propagation of Neural Predictions (APPNP)~\cite{ICLR19-APPNP}, which is recent GCN variant that addresses oversmoothing by inspiring from Personalized PageRank~\cite{haveliwala2002topic}; this analysis shows the underlying equivalence between LightGCN and APPNP, thus our LightGCN enjoys the sames benefits in propagating long-range with controllable oversmoothing. 
+%while our LightGCN is more concise and neat. 
+Lastly we analyze the second-layer LGC to show how it smooths a user with her second-order neighbors, providing more insights into the working mechanism of LightGCN.  
+
+\subsubsection{Relation with SGCN}\label{ss:relation-sgcn} In \cite{SGCN}, the authors argue the unnecessary complexity of GCN for node classfication and propose SGCN, which simplifies GCN by removing nonlinearities and collapsing the weight matrices to one weight matrix. The graph convolution in SGCN is defined as\footnote{The weight matrix in SGCN can be absorbed into the 0-th layer embedding parameters, thus it is omitted in the analysis.}:
+\begin{equation}
+    \textbf{E}^{(k+1)} = (\textbf{D}+\textbf{I})^{-\frac{1}{2}} (\textbf{A}+\textbf{I}) (\textbf{D}+\textbf{I})^{-\frac{1}{2}} \textbf{E}^{(k)},
+\end{equation}
+where $\textbf{I}\in \mathbb{R}^{(M+N)\times (M+N)}$ is an identity matrix, which is added on $\textbf{A}$ to include self-connections. 
+In the following analysis, we omit the $(\textbf{D}+\textbf{I})^{-\frac{1}{2}}$ terms for simplicity, since they only re-scale embeddings. In SGCN, the embeddings obtained at the last layer are used for downstream prediction task, which can be expressed as:
+\begin{equation}\label{eq:SGCN}
+\begin{aligned}
+    \textbf{E}^{(K)} &= (\textbf{A}+\textbf{I}) \textbf{E}^{(K-1)} = (\textbf{A}+\textbf{I})^K \textbf{E}^{(0)} \\
+    &= \binom{K}{0}\textbf{E}^{(0)} + \binom{K}{1} \textbf{A} \textbf{E}^{(0)} + \binom{K}{2} \textbf{A}^2 \textbf{E}^{(0)} + ... + \binom{K}{K} \textbf{A}^K \textbf{E}^{(0)}.
+\end{aligned}
+\end{equation}
+The above derivation shows that, inserting self-connection into $\textbf{A}$ and propagating embeddings on it, is essentially equivalent to a weighted sum of the embeddings propagated at each LGC layer. 
+
+\subsubsection{Relation with APPNP}\label{ss:APPNP} In a recent work \cite{ICLR19-APPNP}, the authors
+connect GCN with Personalized PageRank~\cite{haveliwala2002topic}, inspiring from which they propose a GCN variant named APPNP that can propagate long range without the risk of oversmoothing. 
+Inspired by the teleport design in Personalized PageRank, APPNP complements each propagation layer with the starting features (i.e., the 0-th layer embeddings), which can balance the need of preserving locality (i.e., staying close to the root node to alleviate oversmoothing) and leveraging the information from a large neighborhood. The propagation layer in APPNP is defined as:
+\begin{equation}
+    \textbf{E}^{(k+1)} = \beta \textbf{E}^{(0)} + (1-\beta) \Tilde{\textbf{A}} \textbf{E}^{(k)},
+\end{equation}
+where $\beta$ is the teleport probability to control the retaining of starting features in the propagation, and $\Tilde{\textbf{A}}$ denotes the normalized adjacency matrix. In APPNP, the last layer is used for final prediction, i.e., 
+\begin{equation}
+\begin{aligned}
+    \textbf{E}^{(K)} &= \beta \textbf{E}^{(0)} + (1-\beta) \Tilde{\textbf{A}} \textbf{E}^{(K-1)}, \\
+    &= \beta \textbf{E}^{(0)} + \beta (1-\beta) \Tilde{\textbf{A}} \textbf{E}^{(0)} + (1-\beta)^2 \Tilde{\textbf{A}}^2 \textbf{E}^{(K-2)} \\
+    &= \beta \textbf{E}^{(0)} + \beta (1-\beta) \Tilde{\textbf{A}} \textbf{E}^{(0)} + \beta(1-\beta)^2 \Tilde{\textbf{A}}^2 \textbf{E}^{(0)} + ... + (1-\beta)^K \Tilde{\textbf{A}}^K \textbf{E}^{(0)}.
+\end{aligned}
+\end{equation}
+Aligning with Equation~(\ref{eq:E_LGCN}), we can see that by setting $\alpha_k$ accordingly, LightGCN can fully recover the prediction embedding used by APPNP. 
+As such, LightGCN shares the strength of APPNP in combating oversmoothing --- by setting the $\alpha$ properly, we allow using a large $K$ for long-range modeling with controllable oversmoothing. 
+
+Another minor difference is that APPNP adds self-connection into the adjacency matrix. However, as we have shown before, this is redundant due to the weighted sum of different layers. 
+
+\subsubsection{Second-Order Embedding Smoothness} \label{ss:second-order}
+Owing to the linearity and simplicity of LightGCN, we can draw more insights into how does it smooth embeddings. Here we analyze a 2-layer LightGCN to demonstrate its rationality. Taking the user side as an example, intuitively, the second layer smooths users that have overlap on the interacted items. More concretely, we have:
+\begin{equation}
+\begin{aligned}
+    \textbf{e}_{u}^{(2)} &= \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_i|}} \textbf{e}_i^{(1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{|\mathcal{N}_i|} \sum_{v\in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_v|} } \textbf{e}_{v}^{(0)}. \\ 
+\end{aligned}
+\end{equation}
+We can see that, if another user $v$ has co-interacted with the target user $u$, the smoothness strength of $v$ on $u$ is measured by the coefficient (otherwise 0):
+\begin{equation}\label{eq:c_vu}
+    c_{v -> u} = \frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_v|}} \sum_{i \in \mathcal{N}_u \cap \mathcal{N}_v} \frac{1}{|\mathcal{N}_i|}. 
+\end{equation}
+This coefficient is rather interpretable: the influence of a second-order neighbor $v$ on $u$ is determined by 1) the number of co-interacted items, the more the larger; 2) the popularity of the co-interacted items, the less popularity (i.e., more indicative of user personalized preference) the larger; and 3) the activity of $v$, the less active the larger. 
+Such interpretability well caters for the assumption of CF in measuring user similarity~\cite{CSE,Wang:2006} and evidences the reasonability of LightGCN. 
+Due to the symmetric formulation of LightGCN, we can get similar analysis on the item side. 
+
+\subsection{Model Training}
+The trainable parameters of LightGCN are only the embeddings of the 0-th layer, i.e.,  $\Theta=\{\textbf{E}^{(0)}\}$; in other words, the model complexity is same as the standard matrix factorization (MF).
+We employ the \textit{Bayesian Personalized Ranking} (BPR) loss~\cite{BPRMF}, which is a pairwise loss that encourages the prediction of an observed entry to be higher than its unobserved counterparts:
+\begin{equation}
+ L_{BPR} = - \sum_{u=1}^{M} \sum_{i \in \mathcal{N}_u} \sum_{j \notin \mathcal{N}_u} \ln \sigma (\hat{y}_{ui} - \hat{y}_{uj} ) + \lambda ||\textbf{E}^{(0)}||^2
+\end{equation}
+where $\lambda$ controls the $L_2$ regularization strength. We employ the Adam~\cite{Adam} optimizer and use it in a mini-batch manner.
+%: first, we randomly sample $X$ observed entries where $X$ is the mini-batch size; then for each observed entry $(u,i)$ we pair it with an unobserved item $j$ that is uniformly sampled from $\mathcal{N}_u$. 
+We are aware of other advanced negative sampling strategies which might improve the LightGCN training, such as the hard negative sampling~\cite{rendle2014improving} and adversarial sampling~\cite{Ding2019IJCAI}. We leave this extension in the future since it is not the focus of this work. 
+
+Note that we do not introduce dropout mechanisms, which are commonly used in GCNs and NGCF. The reason is that we do not have feature transformation weight matrices in LightGCN, thus enforcing $L_2$ regularization on the embedding layer is sufficient to prevent overfitting. 
+This showcases LightGCN's advantages of being simple --- it is easier to train and tune than NGCF which additionally requires to tune two dropout ratios (node dropout and message dropout) and normalize the embedding of each layer to unit length. 
+
+Moreover, it is technically viable to also learn the layer combination coefficients $\{\alpha_k\}_{k=0}^K$, or parameterize them with an attention network. However, we find that learning $\alpha$ on training data does not lead improvement. This is probably because the training data does not contain sufficient signal to learn good $\alpha$ that can generalize to unknown data. We have also tried to learn $\alpha$ from validation data, as inspired by \cite{lambdaOpt} that learns hyper-parameters on validation data. The performance is slightly improved (less than $1\%$). We leave the exploration of optimal settings of $\alpha$ (e.g., personalizing it for different users and items) as future work. 
+
+
+==================================================
+Filename: 4_experiment.tex
+==================================================
+\section{Experiments}\label{sec:experiments}
+%This section reports experiments that evaluate the performance of LightGCN and study its properties. 
+We first describe experimental settings, and then conduct detailed comparison with NGCF~\cite{NGCF}, the method that is most relevant with LightGCN but more complicated (Section~\ref{ss:exp-ngcf}). We next compare with other state-of-the-art methods in Section \ref{ss:exp-SOTA}. To justify the designs in LightGCN and reveal the reasons of its effectiveness, we perform ablation studies and embedding analyses in Section \ref{ss:exp-ablation}. The hyper-parameter study is finally presented in Section \ref{ss:exp-hyper}. 
+
+\begin{table}[t]
+\caption{Statistics of the experimented data.}
+\vspace{-10px}
+\label{tab:dataset}
+%\resizebox{0.42\textwidth}{!}{
+\begin{tabular}{l|r|r|r|r}
+\hline
+\multicolumn{1}{c|}{\textbf{Dataset}} & \multicolumn{1}{c|}{\textbf{User \#}} & \multicolumn{1}{c|}{\textbf{Item \#}} & \multicolumn{1}{c|}{\textbf{Interaction \#}} & \multicolumn{1}{c}{\textbf{Density}} \\ \hline\hline
+% Yelp2015 & $22,501$ & $14,280$ & $630,135$ & $0.00196$ \\ \hline
+Gowalla & $29,858$ & $40,981$ & $1,027,370$ & $0.00084$ \\ \hline
+Yelp2018 & $31,668$ & $38,048$ & $1,561,406$ & $0.00130$ \\ \hline
+Amazon-Book & $52,643$ & $91,599$ & $2,984,108$ & $0.00062$ \\ \hline
+% MovieLens-Latest & $1,66,311$ & $16,449$ & $24,704,762$ & $0.00903$ \\ \hline
+\end{tabular}
+%}
+\vspace{-15px}
+\end{table}
+
+\subsection{Experimental Settings}\label{ss:setting}
+To reduce the experiment workload and keep the comparison fair, we closely follow the settings of the NGCF work~\cite{NGCF}. We request the experimented datasets (including train/test splits) from the authors, for which the statistics are shown in Table~\ref{tab:dataset}. 
+The Gowalla and Amazon-Book are exactly the same as the NGCF paper used, so we directly use the results in the NGCF paper. The only exception is the Yelp2018 data, which is a revised version. According to the authors, the previous version did not filter out cold-start items in the testing set, and they shared us the revised version only. Thus we re-run NGCF on the Yelp2018 data.
+%SPACE
+%All three datasets satisfy the 10-core setting, i.e., each user and item has at least 10 interactions. 
+%SPACE
+%The testing set is consisted of $20\%$ interactions randomly selected from each user's interaction history, and the remaining data is the training set. 
+The evaluation metrics are recall@20 and ndcg@20 computed by the all-ranking protocol --- all items that are not interacted by a user are the candidates. 
+%SPACE
+%More details of experimental settings refer to the NGCF paper~\cite{NGCF}.
+
+\begin{table*}[t]
+\caption{Performance comparison between NGCF and LightGCN at different layers.}
+\vspace{-10px}
+\label{tab:overall}
+\resizebox{0.9\textwidth}{!}{
+\begin{tabular}{c|c|l | l|l | l| l | l}
+\hline
+ \multicolumn{2}{c|}{\textbf{Dataset}}
+ & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c|}{\textbf{Yelp2018}} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+ \textbf{Layer \#} & \textbf{Method} 
+ & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+\multirow{2}{*}{\textbf{1 Layer}} & NGCF &  
+0.1556 & 0.1315 & 0.0543 & 0.0442 & 0.0313 & 0.0241
+ \\ 
+&LightGCN & 0.1755(+12.79\%) & 0.1492(+13.46\%) & 0.0631(+16.20\%) & 0.0515(+16.51\%) & 0.0384(+22.68\%) & 0.0298(+23.65\%) \\ \hline
+\multirow{2}{*}{\textbf{2 Layers}} & NGCF &  
+0.1547 & 0.1307 & 0.0566 & 0.0465 & 0.0330 &	0.0254 \\
+&LightGCN & 0.1777(+14.84\%) & 0.1524(+16.60\%) & 0.0622(+9.89\%) & 0.0504(+8.38\%) & 0.0411(+24.54\%) & 0.0315(+24.02\%) \\  \hline
+\multirow{2}{*}{\textbf{3 Layers}} & NGCF &  
+0.1569 & 0.1327 & 0.0579 & 0.0477 & 0.0337 & 0.0261 \\ 
+&LightGCN & 0.1823(+16.19\%) & 0.1555(+17.18\%) & 0.0639(+10.38\%) & 0.0525(+10.06\%) & 0.0410(+21.66\%) & 0.0318(+21.84\%) \\ \hline
+\multirow{2}{*}{\textbf{4 Layers}} & NGCF &  
+0.1570 & 0.1327 & 0.0566 & 0.0461 & 0.0344 & 0.0263\\
+&LightGCN & 0.1830(+16.56\%) & 0.1550(+16.80\%) & 0.0649(+14.58\%) & 0.0530(+15.02\%) & 0.0406(+17.92\%) & 0.0313(+18.92\%) \\ \hline
+%NGCF_fni  & $\Mat{0.1733}$ & $\Mat{0.2435}$ & $\Mat{0.0616}$ & $\Mat{0.1120}$ & $\Mat{0.0378}$ & $\Mat{0.0684}$ \\ 
+\end{tabular}}\vspace{+2pt}
+\\\small{*The scores of NGCF on Gowalla and Amazon-Book are directly copied from Table 3 of the NGCF paper (\url{https://arxiv.org/abs/1905.08108})} \vspace{-5pt}
+\end{table*}
+
+  
+\subsubsection{Compared Methods} The main competing method is NGCF, which has shown to outperform several methods including GCN-based models GC-MC~\cite{GC-MC} and PinSage~\cite{PinSage}, neural network-based models NeuMF~\cite{NCF} and CMN~\cite{CMN}, and factorization-based models MF~\cite{BPRMF} and HOP-Rec~\cite{HOP-rec}.
+As the comparison is done on the same datasets under the same evaluation protocol, we do not further compare with these methods. In addition to NGCF, we further compare with two relevant and competitive CF methods:
+\begin{itemize}[leftmargin=*]
+\item Mult-VAE~\cite{VACF}. This is an item-based CF method based on the variational autoencoder (VAE). 
+%SPACE
+%It defines a generative process for user interaction data, 
+It assumes the data is generated from a multinomial distribution and using variational inference for parameter estimation. 
+We run the codes released by the authors\footnote{\url{https://github.com/dawenl/vae_cf}}, tuning the dropout ratio in $[0, 0.2, 0.5]$, and the $\beta$ in $[0.2,0.4,0.6,0.8]$. The model architecture is the suggested one in the paper: $600\rightarrow 200 \rightarrow 600$. 
+%and use the reported hyper-parameters that are used by the authors on all experiment data. 
+%We find the default architecture setting of $[600\to 200\to 600]$ has poor performance on our data. Since our data is smaller than their experiment data, we further try smaller models of the architecture $[300\to 100\to 300]$ and $[150\to 50\to 150]$.  
+\item GRMF~\cite{rao2015collaborative}. This method smooths matrix factorization by adding the graph Laplacian regularizer.
+%SPACE
+%on user-user graph and item-item graph. As it assumes the availability of the two graphs, which however are not available in our CF data, we alter the Laplacian regularizer on user-item graph. 
+For fair comparison on item recommendation, we change the rating prediction loss to BPR loss. The objective function of GRMF is:
+\begin{equation}
+\begin{aligned}
+    L &= - \sum_{u=1}^{M} \sum_{i \in \mathcal{N}_u} \Big(\sum_{j \notin \mathcal{N}_u} \ln \sigma (\textbf{e}_u^T \textbf{e}_i - \textbf{e}_u^T \textbf{e}_j ) + \lambda_{g} ||\textbf{e}_u - \textbf{e}_i||^2 \Big)+ \lambda ||\textbf{E}||^2,
+\end{aligned}
+\end{equation}
+where $\lambda_g$ is searched in the range of $[1e^{-5}, 1e^{-4}, ..., 1e^{-1}]$. 
+Moreover, we compare with a variant that adds normalization to graph Laplacian: $\lambda_{g} ||\frac{\textbf{e}_u}{\sqrt{|\mathcal{N}_u|}} - \frac{\textbf{e}_i}{\sqrt{|\mathcal{N}_i|}}||^2$, which is termed as GRMF-norm. 
+Other hyper-parameter settings are same as LightGCN. 
+The two GRMF methods benchmark the performance of smoothing embeddings via Laplacian regularizer, while our LightGCN achieves embedding smoothing in the predictive model. 
+\end{itemize}
+
+\subsubsection{Hyper-parameter Settings} 
+Same as NGCF, the embedding size is fixed to 64 for all models and the embedding parameters are initialized with the Xavier method~\cite{Xarvier}. We optimize LightGCN with Adam~\cite{Adam} and use the default learning rate of 0.001 and default mini-batch size of 1024 (on Amazon-Book, we increase the mini-batch size to 2048 for speed). The $L_2$ regularization coefficient $\lambda$ is searched in the range of $\{1e^{-6}, 1e^{-5}, ... , 1e^{-2}\}$, and in most cases the optimal value is $1e^{-4}$. 
+The layer combination coefficient $\alpha_k$ is uniformly set to $\frac{1}{1+K}$ where $K$ is the number of layers. We test $K$ in the range of 1 to 4, and satisfactory performance can be achieved when $K$ equals to 3. 
+The early stopping and validation strategies are the same as NGCF. Typically, 1000 epochs are sufficient for LightGCN to converge. Our implementations are available in both TensorFlow\footnote{\url{https://github.com/kuandeng/LightGCN}} and PyTorch\footnote{\url{https://github.com/gusye1234/pytorch-light-gcn}}. 
+
+
+\begin{figure*}[t]
+	\centering
+	\subfigure{\includegraphics[width=0.24\textwidth]{Gowalla_training_loss.pdf}} 
+	\subfigure{\includegraphics[width=0.24\textwidth]{Gowalla_recall_20.pdf}} 
+	\subfigure{\includegraphics[width=0.24\textwidth]{Amazon-Book_training_loss.pdf}}
+	\subfigure{\includegraphics[width=0.24\textwidth]{Amazon-Book_recall_20.pdf}}
+	\vspace{-15pt}
+	\caption{Training curves of LightGCN and NGCF, which are evaluated by training loss and testing recall per 20 epochs on Gowalla and Amazon-Book (results on Yelp2018 show exactly the same trend which are omitted for space).} \vspace{-10pt}
+	\label{fig:curve}
+\end{figure*}
+
+\subsection{Performance Comparison with NGCF}\label{ss:exp-ngcf}
+We perform detailed comparison with NGCF, recording the performance at different layers (1 to 4) in Table \ref{tab:overall}, which also shows the percentage of relative improvement on each metric. 
+We further plot the training curves of training loss and testing recall in Figure~\ref{fig:curve} to reveal the advantages of LightGCN and to be clear of the training process. 
+The main observations are as follows:
+\begin{itemize}[leftmargin=*]
+    \item In all cases, LightGCN outperforms NGCF by a large margin. For example, on Gowalla the highest recall reported in the NGCF paper is 0.1570, while our LightGCN can reach 0.1830 under the 4-layer setting, which is $16.56\%$ higher. On average, the recall improvement on the three datasets is $16.52\%$ and the ndcg improvement is $16.87\%$, which are rather significant.
+    \item Aligning Table \ref{tab:overall} with Table \ref{tab:pre} in Section~\ref{sec:preliminaries}, we can see that LightGCN performs better than NGCF-fn, the variant of NGCF that removes feature transformation and nonlinear activation. As NGCF-fn still contains more operations than LightGCN (e.g., self-connection, the interaction between user embedding and item embedding in graph convolution, and dropout), this suggests that these operations might also be useless for NGCF-fn. 
+    \item Increasing the number of layers can improve the performance, but the benefits diminish. The general observation is that increasing the layer number from 0 (i.e., the matrix factorization model, results see \cite{NGCF}) to 1 leads to the largest performance gain, and using a layer number of 3 leads to satisfactory performance in most cases. This observation is consistent with NGCF's finding.
+    %, revealing that smoothing a node's embedding by its second-order neighbors is probably sufficient for collaborative filtering.  
+    \item Along the training process, LightGCN consistently obtains lower training loss, which indicates that LightGCN fits the training data better than NGCF. Moreover, the lower training loss successfully transfers to better testing accuracy, indicating the strong generalization power of LightGCN. In contrast, the higher training loss and lower testing accuracy of NGCF reflect the practical difficulty to train such a heavy model it well. Note that in the figures we show the training process under the optimal hyper-parameter setting for both methods. Although increasing the learning rate of NGCF can decrease its training loss (even lower than that of LightGCN), the testing recall could not be improved, as lowering training loss in this way only finds trivial solution for NGCF. 
+\end{itemize}
+
+%Second, the performance gains obtained by increasing the number of layers are not very large and consistent for LightGCN. On Gowalla, it shows the trend that  increasing the layer number improves the performance gradually and the highest score is obtained by using 4 layers. However, this trend does not generalize to Yelp2018 an Amazon-Book. 
+ %is published recently and has compared with several competing methods including
+ %GCN-based models GC-MC~\cite{} and PinSage (GCN-based), neural network-based models NeuMF and CMN, 
+
+\subsection{Performance Comparison with State-of-the-Arts}\label{ss:exp-SOTA}
+Table \ref{tab:overall} shows the performance comparison with competing methods. We show the best score we can obtain for each method. We can see that LightGCN consistently outperforms other methods on all three datasets, demonstrating its high effectiveness with simple yet reasonable designs. Note that LightGCN can be further improved by tuning the $\alpha_k$ (see Figure \ref{fig:layer-combination} for an evidence), while here we only use a uniform setting of $\frac{1}{K+1}$ to avoid over-tuning it. Among the baselines, Mult-VAE exhibits the strongest performance, which is better than GRMF and NGCF. 
+The performance of GRMF is on a par with NGCF, being better than MF, which admits the utility of enforcing embedding smoothness with Laplacian regularizer. 
+By adding normalization into the Laplacian regularizer, GRMF-norm betters than GRMF on Gowalla, while brings no benefits on Yelp2018 and Amazon-Book. 
+
+
+
+\begin{table}[h]
+\caption{The comparison of overall performance among LightGCN and competing methods.}\vspace{-8pt}
+\label{tab:overall}
+\resizebox{0.48\textwidth}{!}{
+\begin{tabular}{l|c c|c c|c c}
+\hline
+\textbf{Dataset} & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c|}{\textbf{Yelp2018}} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+\textbf{Method} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+NGCF & 0.1570 & 0.1327 & 0.0579 & 0.0477 & 0.0344 & 0.0263 \\ \hline
+Mult-VAE   & 0.1641	& 0.1335 & 0.0584 & 0.0450 &  0.0407 & 0.0315\\ \hline
+GRMF & 0.1477 & 0.1205 & 0.0571 & 0.0462 & 0.0354 &
+0.0270\\ 
+GRMF-norm & 0.1557 & 0.1261 & 0.0561 & 0.0454
+ & 0.0352 & 0.0269\\\hline
+LightGCN & \textbf{0.1830} & \textbf{0.1554} & \textbf{0.0649} & \textbf{0.0530} & \textbf{0.0411} & \textbf{0.0315} \\\hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Ablation and Effectiveness Analyses}\label{ss:exp-ablation}
+We perform ablation studies on LightGCN by showing how layer combination and symmetric sqrt normalization affect its performance. To justify the rationality of LightGCN as analyzed in Section \ref{ss:second-order}, we further investigate the effect of embedding smoothness --- the key reason of LightGCN's effectiveness. 
+
+%As $L_2$ regularization coefficient $\lambda$ is the most important hyper-parameter that affects LightGCN's performance, we further perform hyper-parameter study on it. 
+
+
+\begin{figure*}[t]
+	\centering
+	\subfigure{\includegraphics[width=0.24\textwidth]{recall_Gowalla_single.pdf}} 
+	\subfigure{\includegraphics[width=0.24\textwidth]{ndcg_Gowalla_single.pdf}} 
+	\subfigure{\includegraphics[width=0.24\textwidth]{recall_Amazon-book_single.pdf}}
+	\subfigure{\includegraphics[width=0.24\textwidth]{ndcg_Amazon-book_single.pdf}}
+	\vspace{-15pt}
+	\caption{Results of LightGCN and the variant that does not use layer combination (i.e., LightGCN-single) at different layers on Gowalla and Amazon-Book (results on Yelp2018 shows the same trend with Amazon-Book which are omitted for space).} \vspace{-5pt}
+	\label{fig:layer-combination}
+\end{figure*}
+
+\subsubsection{Impact of Layer Combination} Figure \ref{fig:layer-combination} shows the results of LightGCN and its variant LightGCN-single that does not use layer combination (i.e., $\textbf{E}^{(K)}$ is used for final prediction for a $K$-layer LightGCN). We omit the results on Yelp2018 due to space limitation, which show similar trend with Amazon-Book. We have three main observations:
+\begin{itemize}[leftmargin=*]
+\item Focusing on LightGCN-single, we find that its performance first improves and then drops when the layer number increases from 1 to 4. The peak point is on layer 2 in most cases, while after that it drops quickly to the worst point of layer 4. This indicates that smoothing a node's embedding with its first-order and second-order neighbors is very useful for CF, but will suffer from over-smoothing issues when higher-order neighbors are used. 
+\item Focusing on LightGCN, we find that its performance gradually improves with the increasing of layers. Even using 4 layers, LightGCN's performance is not degraded. This justifies the effectiveness of layer combination for addressing over-smoothing, as we have technically analyzed in Section~\ref{ss:APPNP} (relation with APPNP). 
+\item Comparing the two methods, we find that LightGCN consistently outperforms LightGCN-single on Gowalla, but not on Amazon-Book and Yelp2018 (where the 2-layer LightGCN-single performs the best). Regarding this phenomenon, two points need to be noted before we draw conclusion: 1) LightGCN-single is special case of LightGCN that sets $\alpha_K$ to 1 and other $\alpha_k$ to 0; 2) we do not tune the $\alpha_k$ and simply set it as $\frac{1}{K+1}$ uniformly for LightGCN. As such, we can see the potential of further enhancing the performance of LightGCN by tuning $\alpha_k$. 
+\end{itemize}
+
+
+\begin{table}
+\caption{Performance of the 3-layer LightGCN with different choices of normalization schemes in graph convolution.}\vspace{-8pt}
+\label{tab:norm-3}
+\resizebox{0.48\textwidth}{!}{
+\begin{tabular}{l|c c|c c|c c}
+\hline
+\textbf{Dataset} & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c|}{\textbf{Yelp2018}} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+\textbf{Method} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+LightGCN-$L_1$-L &  0.1724 & 0.1414
+ & 0.0630 & 0.0511 & \textbf{0.0419} & \textbf{0.0320}\\ 
+LightGCN-$L_1$-R & 0.1578 & 0.1348
+ & 0.0587 & 0.0477 & 0.0334 & 0.0259\\ 
+LightGCN-$L_1$ &0.159 & 0.1319
+   &0.0573 & 0.0465 & 0.0361 & 0.0275\\ \hline
+LightGCN-L    & 0.1589 & 0.1317 & 0.0619 & 0.0509
+ & 0.0383 &	0.0299 \\ 
+LightGCN-R   & 0.1420 & 0.1156 & 0.0521 & 0.0401
+ & 0.0252 &	0.0196
+ \\ \hline\hline
+LightGCN & \textbf{0.1830} & \textbf{0.1554} & \textbf{0.0649} & \textbf{0.0530} & 0.0411 & 0.0315 \\ \hline 
+\end{tabular}
+}
+\small{Method notation: -L means only the left-side norm is used, -R means only the right-side norm is used, and -$L_1$ means the $L_1$ norm is used.}
+\end{table}
+\subsubsection{Impact of Symmetric Sqrt Normalization}\label{ss:ablation-symmetric}
+In LightGCN, we employ symmetric sqrt normalization $\frac{1}{\sqrt{|\mathcal{N}_u|}\sqrt{|\mathcal{N}_i|}}$ on each neighbor embedding when performing neighborhood aggregation (cf. Equation~(\ref{eq:LGC})). To study its rationality, we explore different choices here. We test the use of normalization only at the left side (i.e., the target node's coefficient) and the right side (i.e., the neighbor node's coefficient). 
+We also test $L_1$ normalization, i.e.,  removing the square root. 
+Note that if removing normalization, the training becomes numerically unstable and suffers from not-a-value (NAN) issues, so we do not show this setting. 
+%We justify the design of symmetric normalization in light graph convolution. 
+Table \ref{tab:norm-3} shows the results of the 3-layer LightGCN. %For example, LightGCN-$L_1$-L means the variant that only uses the left-side $L_1$ normalization, and LightGCN-$L_1$ means the variant that uses $L_1$ normalization at both sides. 
+We have the following observations:
+\begin{itemize}[leftmargin=*]
+    \item The best setting in general is using sqrt normalization at both sides (i.e., the current design of LightGCN). Removing either side will drop the performance largely.
+    \item The second best setting is using $L_1$ normalization at the left side only (i.e., LightGCN-$L_1$-L). This is equivalent to normalize the adjacency matrix as a stochastic matrix by the in-degree. 
+    \item Normalizing symmetrically on two sides is helpful for the sqrt normalization, but will degrade the performance of $L_1$ normalization. 
+\end{itemize}
+
+\subsubsection{Analysis of Embedding Smoothness} 
+As we have analyzed in Section~\ref{ss:second-order}, a 2-layer LightGCN smooths a user's embedding based on the users that have overlap on her interacted items, and the smoothing strength between two users $c_{v\to u}$ is measured in Equation~(\ref{eq:c_vu}). We speculate that such smoothing of embeddings is the key reason of LightGCN's effectiveness. To verify this, we first define the smoothness of user embeddings as:
+\begin{equation}
+    S_U = \sum_{u=1}^M \sum_{v=1}^M c_{v\to u} (\frac{\textbf{e}_{u}}{||\textbf{e}_{u}||^2} - \frac{\textbf{e}_{v}}{||\textbf{e}_{v}||^2})^2, 
+\end{equation}
+where the $L_2$ norm on embeddings is used to eliminate the impact of the embedding's scale. Similarly we can obtained the definition for item embeddings. 
+Table~\ref{tab:Smoothness} shows the smoothness of two models, matrix factorization (i.e., using the $\textbf{E}^{(0)}$ for model prediction) and the 2-layer LightGCN-single (i.e., using the $\textbf{E}^{(2)}$ for prediction). 
+Note that the 2-layer LightGCN-single outperforms MF in recommendation accuracy by a large margin. As can be seen, the smoothness loss of LightGCN-single is much lower than that of MF. This indicates that by conducting light graph convolution, the embeddings become smoother and more suitable for recommendation. 
+
+
+\begin{table}[t]
+\caption{Smoothness loss of the embeddings learned by LightGCN and MF (the lower the smoother).}\vspace{-8pt}
+\label{tab:Smoothness}
+%\resizebox{0.42\textwidth}{!}{
+\begin{tabular}{l|c|c|c}
+\hline
+\textbf{Dataset} & \multicolumn{1}{c|}{\textbf{Gowalla}} & \multicolumn{1}{c|}{\textbf{Yelp2018}} & \multicolumn{1}{c}{\textbf{Amazon-book}}\\ \hline
+&\multicolumn{3}{c}{\textbf{Smoothness of User Embeddings}}\\ \hline
+% Yelp2015 & $22,501$ & $14,280$ & $630,135$ & $0.00196$ \\ \hline
+MF & 15449.3 & 16258.2 & 38034.2  \\ \hline
+LightGCN-single & 12872.7 & 10091.7 & 32191.1 \\ \hline
+%LightGCN-2 & 17380.77 & 13446.72 & 40180.383 \\ \hline
+&\multicolumn{3}{c}{\textbf{Smoothness of Item Embeddings}}\\ \hline
+% Yelp2015 & $22,501$ & $14,280$ & $630,135$ & $0.00196$ \\ \hline
+MF & 12106.7 & 16632.1 & 28307.9  \\ \hline
+LightGCN-single & 5829.0 & 6459.8 & 16866.0 \\ \hline
+%LightGCN-2 & 12772.654 & 11129.691 & 28614.87 \\ \hline
+\end{tabular}
+\vspace{-5pt}
+\end{table}
+
+%\begin{table}
+%\caption{Performance of LightGCN (2 layers) with different choices of normalization schemes in graph convolution. The best scores among the variants are highlighted.}\vspace{-8pt}
+%\label{tab:norm-2}
+%\resizebox{0.48\textwidth}{!}{
+%\begin{tabular}{l|c c|c c|c c}
+%\hline
+% & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c|}{\textbf{Yelp2018}} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+% & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+%LightGCN-$L_1$-L &      0.1681 & 0.2202 & 0.0579 & 0.1048 & \texdtbf{0.0410} & 0.0711 \\ 
+%LightGCN-$L_1$-R & 0.1534 & 0.2272 & 0.0567 & 0.1060 & 0.0333 & 0.0637 \\ 
+%LightGCN-$L_1$ & 0.1608 & 0.2203 & 0.0602 & 0.1088 & 0.0361 & 0.0647   \\ \hline
+%LightGCN-L    & 0.1607 & 0.2307 & 0.0593 & 0.1119 & 0.0431 & 0.0788 \\ 
+%LightGCN-R  & 0.1486 & 0.2221 & 0.0558 & 1060 & 0.0312 & 0.0608  \\ \hline\hline
+%LightGCN & 0.1786 & 0.2487 & 0.0618 & 0.1120 & 0.0413 & 0.0729 \\ \hline 
+%\end{tabular}
+%}
+%\end{table}
+
+\subsection{Hyper-parameter Studies}\label{ss:exp-hyper}
+When applying LightGCN to a new dataset, besides the standard hyper-parameter learning rate, the most important hyper-parameter to tune is the $L_2$ regularization coefficient $\lambda$. 
+Here we investigate the performance change of LightGCN w.r.t. $\lambda$. 
+
+As shown in Figure \ref{fig:reg},
+LightGCN is relatively insensitive to $\lambda$ --- even when $\lambda$ sets to 0, LightGCN is better than NGCF, which additionally uses dropout to prevent overfitting\footnote{Note that Gowalla shows the same trend with Amazon-Book, so its curves are not shown to better highlight the trend of Yelp2018 and Amazon-Book.}. 
+This shows that LightGCN is less prone to overfitting --- since the only trainable parameters in LightGCN are ID embeddings of the 0-th layer, the whole model is easy to train and to regularize. The optimal value for Yelp2018, Amazon-Book, and Gowalla is $1e^{-3}$, $1e^{-4}$, and  $1e^{-4}$, respectively. When $\lambda$ is larger than $1e^{-3}$, the performance drops quickly, which indicates that too strong regularization will negatively affect model normal training and is not encouraged. 
+
+\begin{figure}[t]
+	\centering
+	\subfigure{\includegraphics[width=0.23\textwidth]{recall_20_reg.pdf}} 
+	\subfigure{\includegraphics[width=0.23\textwidth]{ndcg_20_reg.pdf}} 
+	\vspace{-15pt}
+	\caption{Performance of 2-layer LightGCN w.r.t. different regularization coefficient $\lambda$ on Yelp and Amazon-Book.} \vspace{-10pt}
+	\label{fig:reg}
+\end{figure}
+
+%Removed: the results at different embedding sizes. 
+%\begin{table*}[t]
+%\caption{Performance comparison between MF and LightGCN at different embedding size.}
+%\vspace{-10px}
+%\label{tab:overall}
+%\begin{tabular}{c|c|l | l|l | l| l | l}
+%\hline
+% \multicolumn{2}{c|}{\textbf{Dataset}} & \multicolumn{2}{c|}{\textbf{Gowalla}} & \multicolumn{2}{c|}{\textbf{Yelp2018}*} & \multicolumn{2}{c}{\textbf{Amazon-Book}} \\ \hline
+% \textbf{Dim \#} & \textbf{Method}  & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} & \textbf{recall} & \textbf{ndcg} \\ \hline\hline
+%\multirow{2}{*}{\textbf{Dim 16}} & MF &  0.1263 & 0.2004 & 0.0459 & 0.0886 & 0.0245 & 0.0504 \\ 
+%&LightGCN & 0.1559 & 0.2337 & 0.0551 & 0.1030 & 0.0306 & 0.0596 \\ \hline
+%\multirow{2}{*}{\textbf{Dim 32}} & MF &  0.1415 & 0.2064 & 0.0504 & 0.0950 & 0.0303 & 0.0569 \\ 
+%&LightGCN & 0.1705 & 0.2456 & 0.0598 & 0.1092 & 0.0359 & 0.0666 \\  \hline
+%\multirow{2}{*}{\textbf{Dim 64}} & MF &   0.1547 & 0.2237 & 0.0549 & 0.1023 & 0.0344 & 0.0630 \\ 
+%&LightGCN & 0.1809 & 0.2513 & 0.0648 & 0.1163 & 0.0415 & 0.0740 \\ \hline
+%\multirow{2}{*}{\textbf{Dim 128}} & MF&  %0.1597 & 0.2100 & 0.0573 & 0.1055 & 0.0402 & 0.0715 \\ 
+%&LightGCN & 0.1867 & 0.2544 & 0.0676 & 0.1200 & 0.0474 & 0.0814 \\ \hline
+%\end{tabular}\vspace{+2pt}
+%\small{*The scores of NGCF on Gowalla and Amazon-Book are directly copied from the Table 3 of \cite{NGCF}; the scores of NGCF on Yelp2018 are re-run by us.} \vspace{-5pt}
+%\end{table*}
+
+
+==================================================
+Filename: 5_related.tex
+==================================================
+\section{Related Work}\label{sec:related}
+% Our work is related two research lines --- collaborative filtering (CF) and graph neural networks (GNNs).
+
+\subsection{Collaborative Filtering}
+% \subsection{Collaborative Filtering}
+Collaborative Filtering (CF) is a prevalent technique in modern recommender systems~\cite{YoutubeRS,PinSage}.
+%, assuming that similar users would exhibit similar preference on items.
+One common paradigm of CF model is to parameterize users and items as embeddings, and learn the embedding parameters by reconstructing historical user-item interactions.
+%Here we focus on the most fundamental and universal scenario where the historical interactions are available for recommendation.
+%A direct approach is to leverage the ID information to characterize a user and an item~\cite{MF,BPRMF,NCF}.
+For example, earlier CF models like matrix factorization (MF)~\cite{MF,BPRMF} project the ID of a user (or an item) into an embedding vector. The recent neural recommender models like NCF~\cite{NCF} and LRML~\cite{tay2018latent} use the same embedding component, while enhance the interaction modeling with neural networks. 
+%Similarly, recent neural recommender models like as NCF~\cite{NCF} and LRML~\cite{tay2018latent} transform one-hot encoding of a user (or item) to an embedding vector. Having obtained user and item embeddings, linear functions or neural networks~\cite{NCF,DeepMF,tay2018latent} are built upon as the predictive models.
+
+% parameteriz via the embeddingse the preexisting features of users and items into embeddings, and then perform predictions based on the embeddings.
+% We roughly categorize existing CF works into three groups, based on the data source used to generate embeddings --- individual ID information, one-hop neighbors, and high-hop neighbors.
+
+% A line of research~\cite{MF,BPRMF,NCF} leverages only ID information to characterize a user and an item.
+% Specifically, earlier factorization model, such as matrix factorization (MF)~\cite{MF} and its variants, and recent neural recommender models, such as NCF~\cite{NCF} and ONCF~\cite{ONCF}, transform each ID of a user (or item) to an embedding vector, and then build linear functions and neural networks upon the embeddings as the predictive models, respectively.
+
+Beyond merely using ID information, another type of CF methods considers historical items as the pre-existing features of a user, towards better user representations.
+%Intuitively, personal interaction history (\ie items consumed before) provides support evidence on a user's preference.
+%Early works like FISM~\cite{FISM} and SLIM~\cite{SLIM} use the average or weighted sum of historical items' ID embeddings as a user representation.
+%Later on, SVD++~\cite{SVD++} aggregates such representation with the ID embedding of each user as her final representation,
+For example,  FISM~\cite{FISM} and SVD++~\cite{SVD++} use the weighted average of the ID embeddings of historical items as the target user's embedding. 
+%SPACE
+%Owing to the enhanced user representation, SVD++ has achieved great success in the Netflix rating prediction challenge.
+Recently, researchers realize that historical items have different contributions to shape personal interest.
+Towards this end, attention mechanisms are introduced to capture the varying contributions, such as ACF~\cite{ACF} and NAIS~\cite{NAIS}, to automatically learn the importance of each historical item. 
+%and enrich user representations.
+%SPACE
+%Such manners, essentially, build connections between items and cast the interaction modeling on user-item pairs to that on item-item pairs.
+When revisiting historical interactions as a user-item bipartite graph, the performance improvements can be attributed to the encoding of local neighborhood --- one-hop neighbors --- that improves the embedding learning.
+
+\subsection{Graph Methods for Recommendation}
+% A line of research~\cite{TrustWalker,BiRank,HOP-rec,DBLP:conf/www/ZhouZYSTZG08,RippleNet} exploits higher-order connectivity information between users and items to infer user preferences.
+% For instance, TrustWalker~\cite{TrustWalker} performs random walks to directly propagate the preference score.
+% Nevertheless, none of them leverage it in the embedding space.
+Another relevant research line is exploiting the user-item graph structure for recommendation.
+Prior efforts like ItemRank~\cite{ItemRank}, %and BiRank~\cite{BiRank}
+use the label propagation mechanism to directly propagate user preference scores over the graph, \ie encouraging connected nodes to have similar labels.
+%SPACE
+%Recently, GRMF~\cite{rao2015collaborative} and HOP-Rec~\cite{HOP-rec} respectively smooth node embeddings between one-hop and high-hop neighbors by devising additional loss terms. 
+%They encode the graph structure in the level of objective function, different from SVD++ that encodes the neighborhood information into the predictive model formulation. 
+% Beyond using ong representaID informationtion ability, , another type of CF methods considers historical items to profile a user, towards enriching user representations.
+% Early works like FISM~\cite{FISM} and SLIM~\cite{SLIM} construct a user representation via the average or weighted sum of the ID embeddings of historical items.
+% Later on, SVD++~\cite{SVDFeatures} integrates such representation with the user's ID embedding as her final representation, and has achieved great success in the rating prediction task.
+% However, items in the interaction history have different contributions to shape a user's preference, whose weights should be learned adaptively.
+% Towards this end, recent works, such as ACF~\cite{ACF}, NAIS~\cite{NAIS}, and DeepICF~\cite{DeepICF}, introduce attention mechanism to specify varying importance of historical items, instead of the simple average or weighted sum operation, so as to achieve better embeddings.
+% When revisiting historical interactions as a user-item bipartite graph, we attribute these improvements to encoding a user's ego network, \ie her one-hop neighbors, into the embedding learning.
+Recently emerged graph neural networks (GNNs) shine a light on modeling graph structure, especially high-hop neighbors, to guide the embedding learning~\cite{GCN,GraphSAGE}.
+%To be specific, GNN is originally proposed for node classification on attributed graph, where each node is described by rich input features (\eg attributes, contents).
+%The basic idea of GNN is to encode graph structure, as well as input features, into a better representation of each node.
+Early studies define graph convolution on the spectral domain, such as Laplacian eigen-decomposition~\cite{DBLP:journals/corr/BrunaZSL13} and Chebyshev polynomials~\cite{FirstGCN}, which are computationally expensive.
+Later on, GraphSage~\cite{GraphSAGE} and GCN~\cite{GCN} re-define graph convolution in the spatial domain, i.e., aggregating the embeddings of neighbors to refine the target node's embedding. Owing to its interpretability and efficiency, it quickly becomes a prevalent formulation of GNNs and is being widely used~\cite{DeepInf,Feng2019TOIS,zhao2019cross}.
+%Following on this work, a number of researches have introduced various designs, extensions, and approximations in graph convolution layers. Generally speaking, a common paradigm can be roughly abstracted as three stages: 1) feature transformation, which applies a neural network with nonlinear activation functions to the input feature of each neighboring node; 2) aggregation, which employs a pooling operation to combine all feature information from local neighborhood of a node; and 3) representation update, which leverages another neural network to combine the aggregated neighborhood representation with its current representation.
+Motivated by the strength of graph convolution, recent efforts like NGCF~\cite{NGCF}, GC-MC~\cite{GC-MC}, and PinSage~\cite{PinSage} adapt GCN to the user-item interaction graph, capturing CF signals in high-hop neighbors for recommendation.
+%To be more specific, a user's (or an item's) embedding is updated by the foregoing embedding propagation paradigm. By recursively performing such propagations, the information from high-hop neighbors is encoded into the representation of each user (or item). Due to the strong representation ability, they achieve the state-of-the-art performance for recommendation~\cite{NGCF}.
+
+It is worth mentioning that several recent efforts provide deep insights into GNNs~\cite{DeepInsights,ICLR19-APPNP,SGCN}, which inspire us developing LightGCN. Particularly, Wu et al.~\cite{SGCN} argues the unnecessary complexity of GCN, developing a simplified GCN (SGCN) model by removing nonlinearities and collapsing multiple weight matrices into one. 
+One main difference is that LightGCN and SGCN are developed for different tasks, thus the rationality of model simplification is different. Specifically, SGCN is for node classification, performing simplification for model interpretability and efficiency. In contrast, LightGCN is on collaborative filtering (CF), where each node has an ID feature only. Thus, we do simplification for a stronger reason: nonlinearity and weight matrices are useless for CF, and even hurt model training. For node classification accuracy, SGCN is on par with (sometimes weaker than) GCN. While for CF accuracy, LightGCN outperforms GCN by a large margin (over 15\% improvement over NGCF). 
+Lastly, another work conducted in the same time~\cite{LR-GCCF} also finds that the nonlinearity is unnecessary in NGCF and develops linear GCN model for CF. In contrast, our LightGCN makes one step further --- we remove all redundant parameters and retain only the ID embeddings, making the model as simple as MF. 
+
+%Through this way, SGCN improves the efficiency of GCN largely without sacrificing accuracy, and even outperforms GCN on some tasks. Inspired by SGCN, we thoroughly investigate the utility of neural operations in NGCF for recommendation. Although the downstream task is different (recommendation vs. node classification), our findings are consistent with the findings in SGCN~\cite{SGCN}, motivating us to develop the simple yet effective LightGCN method. 
+
+% To deepen the use of user-item structure, more recent works incorporate high-hop neighbors of users and items to better guide the embedding learning.
+% Towards this end, NGCF~\cite{NGCF}, GC-MC~\cite{GC-MC}, and SpectralCF~\cite{SpectralCF} get inspiration from graph neural networks (GNNs)~\cite{GCN,GAT,GraphSAGE}, directly employing the embedding propagation (\aka message passing) mechanism on the user-item graph to refine embeddings.
+% To be more specific, a user's (or an item's) embedding is updated by aggregating information from her (or its) one-hop neighbors, where the information being propagated is obtained by employing feature transformation with nonlinear activation function on the embedding of each neighbor.
+% By recursively performing such propagations, the information from high-hop neighbors is encoded into the representation of each user (or item).
+
+
+% \subsection{Graph Neural Network}
+% GNN is proposed to generate representation for graph structured data, having achieved the state-of-the-art performance in many graph learning tasks, such as node classification and graph classification.
+% In particular, in a graph, each node is described by its input features and related nodes; the basic idea of GNN is to encode such structural information of graph into the representation of each node.
+% Towards this end, earlier studies~\cite{DBLP:journals/corr/BrunaZSL13,FirstGCN} define expensive convolution layers on graph, such as Laplacian eigen-decomposition~\cite{DBLP:journals/corr/BrunaZSL13} and Chebyshev polynomials~\cite{FirstGCN}, in the spectral domain.
+% Later on, GCN~\cite{GCN} simplifies graph convolution operations and achieves great success.
+% Following on this work, a number of researches have introduced various designs, extensions, and approximations in graph convolution layers.
+% Generally speaking, a common paradigm can be roughly abstracted as three stages: 1) feature transformation, which applies a neural network with nonlinear activation functions to the input feature of each neighboring node; 2) aggregation, which employs a pooling operation to combine all feature information from local neighborhood of a node; and 3) representation update, which leverages another neural network to combine the aggregated neighborhood representation with its current representation.
+
+
+
+
+==================================================
+Filename: 6_conclusion.tex
+==================================================
+\section{Conclusion and Future Work} \label{sec:conclusion}
+In this work, we argued the unnecessarily complicated design of GCNs for collaborative filtering, and performed empirical studies to justify this argument. 
+%Driven by this finding, we set the goal of simplifying GCN to make it more appropriate and effective for the recommendation task. 
+We proposed LightGCN which consists of two essential components --- light graph convolution and layer combination. 
+In light graph convolution, we 
+%include only the weighted sum aggregator that refines a node's embedding with the embeddings of its connected neighbors, 
+discard feature transformation and nonlinear activation --- two standard operations in GCNs but inevitably increase the training difficulty. In layer combination, we construct a node's final embedding as the weighted sum of its embeddings on all layers, which is proved to subsume the effect of self-connections and is helpful to control oversmoothing. 
+We conduct experiments to demonstrate the strengths of LightGCN in being simple: easier to be trained, better generalization ability, and more effective. 
+
+We believe the insights of LightGCN are inspirational to future developments of recommender models. With the prevalence of linked graph data in real applications, graph-based models are becoming increasingly important in recommendation;
+by explicitly exploiting the relations among entities in the predictive model, they are advantageous to traditional supervised learning scheme like factorization machines~\cite{FM,NFM} that model the relations implicitly. 
+For example, a recent trend is to exploit auxiliary information such as item knowledge graph~\cite{KGAT}, social network~\cite{GCNSocial} and multimedia content~\cite{MMGCN} for recommendation, where GCNs have set up the new state-of-the-art. 
+However, these models may also suffer from the similar issues of NGCF since the user-item interaction graph is also modeled by same neural operations that may be unnecessary. We plan to explore the idea of LightGCN in these models. Another future direction is to personalize the layer combination weights $\alpha_k$, so as to enable adaptive-order smoothing for different users (e.g., sparse users may require more signal from higher-order neighbors while active users require less). Lastly, we will explore further the strengths of LightGCN's simplicity, studying whether fast solution exists for non-sampling regression loss~\cite{he2019fast} and streaming it for online industrial scenarios. 
+
+\noindent\textbf{Acknowledgement}. The authors thank Bin Wu, Jianbai Ye, and Yingxin Wu for contributing to the implementation and improvement of LightGCN. This work is supported by the National Natural Science Foundation of China (61972372, U19A2079, 61725203).
+

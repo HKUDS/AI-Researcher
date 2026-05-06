@@ -12,11 +12,11 @@ def get_args():
     # required=True → 필수 인자
     parser.add_argument("--papers", nargs="+", required=True, help="Paper titles (10-15 papers)")
     
-    parser.add_argument("--model", type=str, default="gpt-4o-2024-08-06")
+    parser.add_argument("--model", type=str, default="gemini/gemini-2.5-pro-preview-05-20")
 
     # GitHub 검색 시 이 날짜 이후 생성된 레포지토리만 검색
     # 너무 오래된 구현은 제외하기 위해
-    parser.add_argument("--date_limit", type=str, default="2025-01-01", help="Date limit for GitHub search (YYYY-MM-DD)")
+    parser.add_argument("--date_limit", type=str, default="2010-01-01", help="Date limit for GitHub search (YYYY-MM-DD)")
     
     parser.add_argument("--workplace_name", type=str, default="workplace")
     

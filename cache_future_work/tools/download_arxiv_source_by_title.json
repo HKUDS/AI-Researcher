@@ -2,12 +2,12 @@
     "name": "download_arxiv_source_by_title",
     "args": {
         "paper_list": [
-            "Attention Is All You Need",
-            "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
-            "LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation"
+            "Positional Attention: Expressivity and Learnability of Algorithmic Computation",
+            "Graph-Assisted Stitching for Offline Hierarchical Reinforcement Learning",
+            "LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation."
         ],
         "local_root": "/workspace/AI-Researcher/workplace_future_work",
         "workplace_name": "workplace"
     },
-    "result": "Cannot find the paper 'Attention Is All You Need' in arxiv\nCannot find the paper 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding' in arxiv\nCannot find the paper 'LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation' in arxiv"
+    "result": "Download paper 'Positional Attention: Expressivity and Learnability of Algorithmic Computation' successfully\nThe paper is downloaded to path: /workplace/papers/positional_attention:_expressivity_and_learnability_of_algorithmic_computation.tex\nDownload paper 'Graph-Assisted Stitching for Offline Hierarchical Reinforcement Learning' successfully\nThe paper is downloaded to path: /workplace/papers/graph-assisted_stitching_for_offline_hierarchical_reinforcement_learning.tex\nDownload paper 'LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation.' successfully\nThe paper is downloaded to path: /workplace/papers/lightgcn:_simplifying_and_powering_graph_convolution_network_for_recommendation..tex"
 }
