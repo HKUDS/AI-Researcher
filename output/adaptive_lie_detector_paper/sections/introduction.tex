@@ -15,6 +15,3 @@ This paper performs a \textbf{methodological audit and critical replication} (fr
 
 
 \paragraph{Scope.} All patterns are English-only; none has been validated on non-English input. The rule and pipeline read the lexical surface: adversarial paraphrase degrades the rule on 2 of 3 targets; full-regex-disclosed variants suppress the lying channel at two scales (§\ref{sec:adversarial_paraphrase}). We study \textbf{instructed roleplay on open-weight models (3B--70B)}, not autonomous strategic deception~\cite{hubinger2019risks, scheurer2024strategic, greenblatt2024alignment}. Two preliminary frontier observations are in Appendix~\ref{app:frontier_preliminary} (not interpretable; $n\!=\!2$, confounded). The signal transfers to semi-autonomous sycophancy (68.5--83\% at 3B/14B, $n\!=\!200$; §\ref{sec:autonomous_matched}). Fully-autonomous persona/false-belief scenarios produced a scenario-design artifact (models abandoning false personas), preventing detector assessment in this regime. We situate these contributions relative to prior work on behavioral probing, representation engineering, red-teaming, and autonomous deception in Appendix~\ref{app:related_work}.
-
-We couldn't release code and datasets due to anonymisation concerns but commit to releasing them upon acceptance.
-

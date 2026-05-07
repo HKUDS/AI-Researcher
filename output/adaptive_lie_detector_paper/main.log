@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  6 MAY 2026 16:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  6 MAY 2026 19:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1295,6 +1295,10 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [4{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
 [5]
 
 [6]) (./sections/discussion.tex
@@ -1312,17 +1316,19 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 
-[7]) (./sections/conclusion.tex
+[7]
 
-[8]) (./main.bbl
+[8]) (./sections/conclusion.tex) (./main.bbl
 
-[9])
+[9]
 
-[10] (./sections/appendix.tex (./sections/related_work.tex
+[10])
 
-[11])
+[11] (./sections/appendix.tex (./sections/related_work.tex
 
-[12]
+[12])
+
+[13]
 Underfull \hbox (badness 10000) in paragraph at lines 16--17
  []\T1/ptm/b/n/10 (+20) Llama 4 Mav-er-ick equal-ized ($\OML/cmm/m/it/10 n  \OT
 1/cmr/m/n/10 =  100$\T1/ptm/b/n/10 (+20) ).[] \T1/ptm/m/n/10 (+20) Llama 4 Mav-
@@ -1339,8 +1345,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[13]
-<figures/feature_collapse.pdf, id=627, 859.63786pt x 261.91829pt>
+[14]
+<figures/feature_collapse.pdf, id=632, 859.63786pt x 261.91829pt>
 File: figures/feature_collapse.pdf Graphic file (type pdf)
 <use figures/feature_collapse.pdf>
 Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 117.
@@ -1363,7 +1369,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[14 <./figures/feature_collapse.pdf>]
+[15 <./figures/feature_collapse.pdf>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1372,7 +1378,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[15]
+[16]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1390,14 +1396,14 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[16 <./figures/probe_layer_curve_panel.pdf>]
+[17 <./figures/probe_layer_curve_panel.pdf>]
 Underfull \vbox (badness 2626) has occurred while \output is active []
 
 
 
-[17]
-
 [18]
+
+[19]
 Underfull \hbox (badness 10000) in paragraph at lines 413--414
 \T1/ptm/m/n/10 (+20) Claude Haiku 4.5 is ac-cessed via AWS Bedrock us-ing the
  []
@@ -1410,56 +1416,56 @@ Underfull \hbox (badness 4673) in paragraph at lines 413--414
 
 
 
-[19]
-
 [20]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 
 [21]
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
 [22]
+
+[23]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[23]
-
 [24]
+
+[25]
 Overfull \hbox (2.55188pt too wide) in paragraph at lines 769--780
  [][] 
  []
 
 
 
-[25]
-
 [26]
+
+[27]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-
-[27]
 
 [28]
 
 [29]
 
+[30]
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-
-[30]
 
 [31]
 
 [32]
 
 [33]
+
+[34]
 Underfull \hbox (badness 10000) in paragraph at lines 1137--1138
 \T1/ptm/m/n/10 (+20) A 10-trial qual-i-ta-tive spot-check (5 TRUE $\OT1/cmr/m/n
 /10 +$ \T1/ptm/m/n/10 (+20) 5 FALSE, seed=42) was
@@ -1488,7 +1494,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[34]
+[35]
 Underfull \hbox (badness 1043) in paragraph at lines 1178--1179
 \T1/ptm/m/n/10 (+20) tem prompt), per-sona (``Dr. Alex Mor-gan, MIT physics ed-
 u-ca-tor'', reused ver-ba-tim from
@@ -1520,7 +1526,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 
-[35]
+[36]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1233.
@@ -1534,11 +1540,9 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
 
-[36]
+[37]
 
-[37] (./checklist.tex
-
-[38]
+[38] (./checklist.tex
 
 [39]
 
@@ -1548,9 +1552,11 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [42]
 
-[43])
+[43]
 
-[44] (./main.aux)
+[44])
+
+[45] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1563,87 +1569,39 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 77634F4CE30242E50FB582B7A8B425C7;15804.
  ) 
 Here is how much of TeX's memory you used:
- 40901 strings out of 473190
- 910877 string characters out of 5715801
+ 40895 strings out of 473190
+ 910766 string characters out of 5715801
  1464809 words of memory out of 5000000
- 62758 multiletter control sequences out of 15000+600000
- 632037 words of font info for 369 fonts, out of 8000000 for 9000
+ 62759 multiletter control sequences out of 15000+600000
+ 632262 words of font info for 371 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,19n,87p,6549b,2403s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{table.caption.127} has been referenced but does not
- exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.117} has been referenced but does not
- exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.70} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.67} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.59} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.56} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.100} has been referenced but does not
- exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.49} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.caption.48} has been referenced but does not
- exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.8} has been referenced but does not e
-xist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.caption.5} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{table.caption.44} has been referenced but does not 
-exist, replaced by a fixed one
-
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
-exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texl
-ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
-ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive
-/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/202
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2025/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/202
-5/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2025/
-texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/te
-xmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dis
-t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
-pe1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/t
-imes/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri
-8a.pfb>
-Output written on main.pdf (44 pages, 525998 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
+usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
+/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texli
+ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive
+/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
+025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/202
+5/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive
+/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2
+025/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/202
+5/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/
+texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-d
+ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/
+type1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on main.pdf (45 pages, 527314 bytes).
 PDF statistics:
- 1282 PDF objects out of 1440 (max. 8388607)
- 1053 compressed objects within 11 object streams
- 304 named destinations out of 1000 (max. 500000)
+ 1273 PDF objects out of 1440 (max. 8388607)
+ 1043 compressed objects within 11 object streams
+ 294 named destinations out of 1000 (max. 500000)
  73799 words of extra memory for PDF output out of 74296 (max. 10000000)
 

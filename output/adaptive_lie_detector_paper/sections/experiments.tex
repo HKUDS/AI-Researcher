@@ -8,7 +8,6 @@ We evaluate behavioral deception detection across seven LLMs spanning three mode
 
 \input{figures/summary_results}
 
-
 \subsection{Label-Free Detection Rule}
 \label{sec:hedging_baseline}
 
@@ -60,7 +59,26 @@ The adaptive interrogation pipeline served as the measurement instrument through
 
 \paragraph{Regex matches or exceeds under equalization.} On equalized data, refusal-count-only LOO matches or exceeds the 5-feature LLM pipeline on 6 of 7 models (Table~\ref{tab:refusal_only}). The pipeline's advantage is confined to the instructed condition, where it adds 4--14\,pp over the hedging baseline (Appendix~\ref{app:hedging_instructed}). Our cross-family pooled-LOO (64.7\%) falls below Pacchiardi et al.'s 67--73\% (their Table~1), but this comparison conflates two regime differences: (1)~cross-family vs.\ same-family extraction ($-$7--10\,pp), and (2)~model-scale pooling (EXP-K in Appendix~\ref{app:pacchiardi} shows $\geq$14B targets reach 80--84\% with claim-related follow-ups under equalization using Haiku, within Pacchiardi et al.'s range). The audit's force does not rest on showing their reported numbers are wrong; it rests on the equalization control demonstrating that the instructed-roleplay paradigm is dominated by instruction-following artifacts regardless of reported accuracy level.
 
-The rule is a strong baseline that should always be reported; the full pipeline adds value specifically at $\geq$14B multi-turn ($+$14--29\,pp; Appendix~\ref{app:multiturn_details}), arguably the most practically relevant regime for larger models in conversational use. Rule-vs-pipeline equivalence holds only in the single-turn / pooled-LOO regime.
+The rule is a strong baseline that should always be reported; the full pipeline adds value specifically at $\geq$14B multi-turn ($+$14--29\,pp; Table~\ref{tab:multiturn_equalized_main}), arguably the most practically relevant regime for larger models in conversational use. Rule-vs-pipeline equivalence holds only in the single-turn / pooled-LOO regime.
+
+\begin{table}[h]
+\centering
+\caption{Multi-turn value under equalization: $K=1$ (single question) vs.\ adaptive LOO accuracy. The pipeline's advantage over the rule concentrates at $\geq$14B.}
+\label{tab:multiturn_equalized_main}
+\begin{small}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Model} & \textbf{$K=1$ LOO} & \textbf{Adaptive LOO} & \textbf{Gap} \\
+\midrule
+Llama~3.2~3B   & 61.0\% & 61.0\% & 0\,pp \\
+Mistral~7B     & 63.0\% & 71.0\% & +8.0\,pp \\
+Qwen~2.5~7B    & 77.0\% & 74.0\% & $-$3.0\,pp \\
+Qwen~2.5~14B   & 62.9\% & 82.5\% & +19.6\,pp \\
+Llama~3.3~70B  & 62.4\% & 83.9\% & +21.5\,pp \\
+\bottomrule
+\end{tabular}
+\end{small}
+\end{table}
 
 \subsection{Scale Patterns and Cross-Family Extraction}
 \label{sec:scale_transfer_cf}

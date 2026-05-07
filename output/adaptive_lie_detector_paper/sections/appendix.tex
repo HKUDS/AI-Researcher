@@ -570,7 +570,7 @@ Question count    & 0.13 & 0.14 & 0.28          & 0.14 & 0.11 \\
 
 \begin{table}[h]
 \centering
-\caption{Representative prompt-equalized claim pairs (5 of 50; full set in supplemental). Each pair modifies a single factual detail.}
+\caption{Representative prompt-equalized claim pairs (5 of 50; full set in released data). Each pair modifies a single factual detail.}
 \label{tab:claim_pairs}
 \begin{small}
 \begin{tabular}{llp{5cm}p{5cm}}
@@ -680,7 +680,7 @@ EXP-H & Qwen~14B re-ext. & 293 & Ollama & $\sim$1,800 & \$0.00 \\
 
 \paragraph{Model identification notes.} Mistral Large~3 (EXP-H cross-family extractor) was accessed via AWS Bedrock using the current Mistral-family flagship instruct model ID (us-east-2 region, April 2026). We use the name ``Mistral Large~3'' following AWS Bedrock documentation and position the model as ``a non-Anthropic cross-family extractor of AWS Bedrock flagship-Mistral capability''; we make no numerical claim about its parameter count, which Mistral AI has not publicly attested. A second non-Anthropic cross-family extractor, Llama~3.3~70B Instruct (Bedrock ID \texttt{us.meta.llama3-3-70b-instruct-v1:0}, us-east-2), is reported in Section~\ref{sec:cross_family_equalized} as a triangulation point for the Haiku--Mistral-Large gap.
 
-\paragraph{Reproducibility notes.} Each interrogation trial involves $\sim$3 API calls to the interrogator (question generation), $\sim$3 to the extractor (feature scoring), and $\sim$3 to the target (if API-served), for a total of $\sim$6--9 calls per trial. Local Ollama models incur no monetary cost but require a GPU with $\geq$16\,GB VRAM for models up to 14B. Llama~70B was served via Bedrock rather than locally due to memory requirements. Total wall-clock time across all experiments was approximately 40 hours, dominated by rate-limited Bedrock calls (Llama~70B and Claude Haiku) and local inference on Qwen~14B. All experiment scripts, claim sets, and analysis code are available in the supplemental material.
+\paragraph{Reproducibility notes.} Each interrogation trial involves $\sim$3 API calls to the interrogator (question generation), $\sim$3 to the extractor (feature scoring), and $\sim$3 to the target (if API-served), for a total of $\sim$6--9 calls per trial. Local Ollama models incur no monetary cost but require a GPU with $\geq$16\,GB VRAM for models up to 14B. Llama~70B was served via Bedrock rather than locally due to memory requirements. Total wall-clock time across all experiments was approximately 40 hours, dominated by rate-limited Bedrock calls (Llama~70B and Claude Haiku) and local inference on Qwen~14B. All experiment scripts, claim sets, and analysis code are provided with the released codebase.
 
 \subsection{Regex Pattern Specifications}
 \label{app:regex_patterns}
@@ -1233,7 +1233,7 @@ Three-rater machine-ICC (Shrout--Fleiss (2,1), absolute-agreement) on 5 targets 
 \section{Human ICC Study: $n=100$, 3 Annotators}
 \label{app:human_icc_n100}
 
-Three independent annotators rated $n=100$ AI conversation transcripts on five behavioural features (0--10 integer scale) via Prolific. Transcripts were stratified across 7 target models (50 truthful / 50 lying). Annotators were blind to ground-truth labels and to each other's ratings. Three attention-check items were embedded to verify engagement; all three annotators passed ($\leq 1$ failure allowed). Raw per-rater CSVs are released in supplementary material.
+Three independent annotators rated $n=100$ AI conversation transcripts on five behavioural features (0--10 integer scale) via Prolific. Transcripts were stratified across 7 target models (50 truthful / 50 lying). Annotators were blind to ground-truth labels and to each other's ratings. Three attention-check items were embedded to verify engagement; all three annotators passed ($\leq 1$ failure allowed). Raw per-rater CSVs are included in the released data.
 
 \paragraph{Annotator quality control.} Three attention-check items were embedded at fixed positions in each annotator's task (rows 20, 50, 80 of 103). Allowed failures: $\leq 1$ per annotator. Results: Ann1 (0 failures, PASS), Ann2 (1 failure on check 1: specificity/elaboration off by 1 point, PASS), Ann3 (1 failure on check 1: specificity/elaboration off by 1 point, PASS). Rating-distribution quality: correction-marker density showed healthy spread across all three annotators (SD: 2.8, 2.6, 3.0; full 0--10 range used), consistent with genuine feature discrimination rather than scale compression. Elaboration showed mild ceiling compression (mean 6.9--8.8, SD 0.4--1.4), expected given the transcripts are multi-turn LLM conversations; this does not affect any paper claims since elaboration is not a primary feature.
 
