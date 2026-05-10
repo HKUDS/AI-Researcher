@@ -69,6 +69,8 @@ WORKFLOW:
 
 4. Idea Generation/Enhancement:
    Generate/Enhance EXACTLY 5 distinct future work proposals, each including:
+   IMPORTANT: The 5 proposals MUST collectively cover ALL provided papers.
+   Do NOT focus on only one paper. Distribute the proposals across papers.
    [Idea 1], [Idea 2], ... [Idea 5]
 
    a) Challenges:

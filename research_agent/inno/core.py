@@ -68,14 +68,17 @@ def should_retry_error(retry_state: RetryCallState):
         "server disconnected" in error_msg,
         "eof occurred" in error_msg,
         "timeout" in error_msg,
-        "rate limit" in error_msg,  # 添加 rate limit 错误检查
-        "rate_limit_error" in error_msg,  # Anthropic 的错误类型
-        "too many requests" in error_msg,  # HTTP 429 错误
-        "overloaded" in error_msg,  # 添加 Anthropic overloaded 错误
-        "overloaded_error" in error_msg,  # 添加 Anthropic overloaded 错误的另一种形式
-        "负载已饱和" in error_msg,  # 添加中文错误消息匹配
-        "error code: 429" in error_msg,  # 添加 HTTP 429 状态码匹配
-        "context_length_exceeded" in error_msg  # 添加上下文长度超限错误匹配
+        "rate limit" in error_msg,  # rate limit 오류 검사 추가
+        "rate_limit_error" in error_msg,  # Anthropic의 오류 타입
+        "too many requests" in error_msg,  # HTTP 429 오류
+        "overloaded" in error_msg,  # Anthropic overloaded 오류 추가
+        "overloaded_error" in error_msg,  # Anthropic overloaded 오류의 다른 형태 추가
+        "error code: 429" in error_msg,  # HTTP 429 상태 코드 매칭 추가
+        "context_length_exceeded" in error_msg,  # 컨텍스트 길이 초과 오류 매칭 추가
+        "503" in error_msg,                    # HTTP 503 Service Unavailable (Gemini 과부하)
+        "service unavailable" in error_msg,    # 503의 텍스트 형태
+        "service_unavailable" in error_msg,
+        "error code: 503" in error_msg,
     ])
 __CTX_VARS_NAME__ = "context_variables"
 logger = LoggerManager.get_logger()

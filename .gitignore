@@ -30,3 +30,5 @@ research_agent/.env
 research_agent/*_tmp/*
 
 .env
+
+workplace_future_work/workplace/
