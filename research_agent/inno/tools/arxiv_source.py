@@ -6,8 +6,6 @@ import re
 import tarfile
 import os
 from typing import List
-
-
 def search_arxiv(query, max_results=10):
     """
     search arxiv papers
@@ -22,10 +20,15 @@ def search_arxiv(query, max_results=10):
     # API URL 구축
     base_url = 'http://export.arxiv.org/api/query?'
 
-    
+
+    # 하이픈(-), 콜론(:)은 Solr 특수문자 → 공백으로 치환 후 따옴표로 감싸기
+    safe_query = re.sub(r'[-:]', ' ', query)
+    safe_query = ' '.join(safe_query.split())
+
+
     # API 매개변수 설정
     params = {
-        'search_query': f'ti:{query}',
+        'search_query': f'ti:{safe_query}',
         'start': 0,
         'max_results': max_results,
         'sortBy': 'relevance',
@@ -120,15 +123,17 @@ def download_arxiv_source(arxiv_url, local_root, workplace_name, title: str):
             try: 
                 paper_src_dir = os.path.join(local_root, workplace_name, "paper_source")
                 os.makedirs(paper_src_dir, exist_ok=True)
-                filepath = os.path.join(paper_src_dir, f"{title.replace(' ', '_').lower()}.tar.gz")
+                safe_title = re.sub(r'[^\w\s]', '', title).strip()
+                filename_base = safe_title.replace(' ', '_').lower()
+                filepath = os.path.join(paper_src_dir, f"{filename_base}.tar.gz")
                 with open(filepath, 'wb') as f:
                     f.write(response.content)
                 tex_content = extract_tex_content(filepath)
                 paper_tex_dir = os.path.join(local_root, workplace_name, "papers")
                 os.makedirs(paper_tex_dir, exist_ok=True)
-                with open(os.path.join(paper_tex_dir, f"{title.replace(' ', '_').lower()}.tex"), 'w') as f:
+                with open(os.path.join(paper_tex_dir, f"{filename_base}.tex"), 'w') as f:
                     f.write(tex_content)
-                return {"status": 0, "message": f"Download paper '{title}' successfully", "path": f"/{workplace_name}/papers/{title.replace(' ', '_').lower()}.tex"}
+                return {"status": 0, "message": f"Download paper '{title}' successfully", "path": f"/{workplace_name}/papers/{filename_base}.tex"}
             except Exception as e:
                 return {"status": -1, "message": f"Download paper '{title}' failed with error: {str(e)}", "path": None}
         else:
@@ -159,77 +164,6 @@ def _title_similarity(a: str, b: str) -> float:
 
 
 
-def _search_best_match(title: str, max_results: int = 5):
-    """
-    Attempts multiple search strategies sequentially to return the most similar paper.
-    Returns: (best_paper dict, similarity float, used_strategy str)
-    If all strategies fail, returns (None, 0.0, "").
-    """
-    stop = {"a", "an", "the", "of", "in", "on", "for", "and", "with", "to", "from", "is", "are"}
-
-    def key_words(t):
-        # 불용어 제거 후 핵심 단어만 추출
-        words = re.sub(r'[^\w\s]', '', t.lower()).split()
-        return [w for w in words if w not in stop]
-
-    # arxiv API(Solr)에서 하이픈은 NOT 연산자로 해석되므로 공백으로 치환
-    safe_title = title.replace("-", " ")
-
-    strategies = []
-
-    # 전략 1: 제목 전체로 ti: 검색 (하이픈 → 공백)
-    strategies.append(("full title (ti:)", f"ti:{safe_title}"))
-
-    # 전략 2: 핵심 단어 앞 3개로 ti: 검색 (부제목 등 노이즈 제거)
-    kw = key_words(safe_title)
-    if len(kw) >= 2:
-        short_query = " ".join(kw[:3])
-        strategies.append(("short keywords (ti:)", f"ti:{short_query}"))
-
-    # 전략 3: 전체 필드(all:) 검색 — ti:에 없는 논문도 포함
-    strategies.append(("all fields (all:)", f"all:{safe_title}"))
-
-    best_paper, best_sim, best_strategy = None, 0.0, ""
-
-
-    base_url = 'http://export.arxiv.org/api/query?'
-
-    for strategy_name, query in strategies:
-        params = {
-            'search_query': query,
-            'start': 0,
-            'max_results': max_results,
-            'sortBy': 'relevance',
-            'sortOrder': 'descending',
-        }
-        response = feedparser.parse(base_url + urllib.parse.urlencode(params))
-        papers = []
-        for entry in response.entries:
-            papers.append({
-                'title': entry.title,
-                'author': [a.name for a in entry.authors],
-                'published': entry.published,
-                'summary': entry.summary,
-                'url': entry.link,
-                'pdf_url': next(l.href for l in entry.links if l.type == 'application/pdf'),
-            })
-            time.sleep(0.3)
-
-        if not papers:
-            continue
-
-        candidate = max(papers, key=lambda p: _title_similarity(p['title'], title))
-        sim = _title_similarity(candidate['title'], title)
-
-        if sim > best_sim:
-            best_paper, best_sim, best_strategy = candidate, sim, strategy_name
-
-        # 충분히 좋은 결과면 더 이상 시도하지 않음
-        if best_sim >= 0.6:
-            break
-
-    return best_paper, best_sim, best_strategy
-
 
 
 
@@ -244,13 +178,15 @@ def download_arxiv_source_by_title(paper_list: List[str], local_root: str, workp
     """
     ret_msg = []
     for title in paper_list:
-
-        best_paper, similarity, strategy = _search_best_match(title, max_results=5)
-
-        if best_paper is None:
-            ret_msg.append(f"Cannot find the paper '{title}' in arxiv (all search strategies exhausted).")
+        papers = search_arxiv(title, max_results=5)  # 논문을 5개 검색해서
+        if len(papers) == 0:
+            ret_msg.append(f"Cannot find the paper '{title}' in arxiv")
             continue
         
+        # Pick the result whose title best matches the requested title
+        best_paper = max(papers, key=lambda p: _title_similarity(p['title'], title))
+        similarity = _title_similarity(best_paper['title'], title)
+
         # 완전 다른 논문. 다운로드 안함, 경고만 출력
         if similarity < 0.3:
             ret_msg.append(
