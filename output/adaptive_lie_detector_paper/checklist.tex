@@ -66,8 +66,8 @@
 
 \item {\bf Open access to data and code}
     \item[] Question: Does the paper provide open access to the data and code, with sufficient instructions to faithfully reproduce the main experimental results, as described in supplemental material?
-    \item[] Answer: \answerNo{}
-    \item[] Justification: Code and datasets are not included as supplemental material due to anonymization concerns during review. We commit to releasing all experiment scripts, claim sets, raw transcripts, annotator CSVs, and analysis code upon acceptance. The paper provides sufficient methodological detail (Appendix~\ref{app:adage_details}, \ref{app:compute_cost}) to reproduce results independently.
+    \item[] Answer: \answerYes{}
+    \item[] Justification: Anonymized supplementary material is included: prompt templates, claim pairs, regex patterns, model settings, aggregate results, and a table-reproduction script. The full de-anonymized codebase and raw transcripts will be released upon acceptance. The paper also provides sufficient methodological detail (Appendix~\ref{app:adage_details}, \ref{app:compute_cost}) to reproduce results independently.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that paper does not include experiments requiring code.
@@ -214,7 +214,7 @@
     \item[] Question: Does the paper describe the usage of LLMs if it is an important, original, or non-standard component of the core methods in this research? Note that if the LLM is used only for writing, editing, or formatting purposes and does \emph{not} impact the core methodology, scientific rigor, or originality of the research, declaration is not required.
     %this research?
     \item[] Answer: \answerYes{}
-    \item[] Justification: LLMs are core to the methodology: as interrogation targets (7 open-weight models + 2 frontier), as feature extractors (Claude Haiku, Mistral Large, Llama 70B), and as adaptive interrogators (Claude Haiku). All model identifiers, access methods, and roles are fully specified in Sections~\ref{sec:methodology}, \ref{sec:experiments}, and Appendix~\ref{app:adage_details}.
+    \item[] Justification: LLMs are core to the methodology: as interrogation targets (7 open-weight models + 2 frontier), as feature extractors (Claude Haiku, Mistral Large, Llama 70B), and as adaptive interrogators (Claude Haiku). All model identifiers, access methods, and roles are fully specified in Sections~\ref{sec:methodology}, \ref{sec:experiments}, and Appendix~\ref{app:adage_details}. Additionally, agentic LLM support (Claude Code) was used to assist with writing experiment code and paper preparation; the authors take full responsibility for all content, including verification of all results, figures, and references.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the core method development in this research does not involve LLMs as any important, original, or non-standard components.

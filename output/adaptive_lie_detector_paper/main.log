@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  6 MAY 2026 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.6.9)  7 MAY 2026 14:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -989,76 +989,6 @@ ts.groupplots.code.tex
 s/tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))
-
-! LaTeX Error: Command \answerYes already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 ...nswerYes}[1][]{\textcolor{blue}{[Yes] #1}}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Command \answerNo already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.82 ...nswerNo}[1][]{\textcolor{orange}{[No] #1}}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Command \answerNA already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.83 ...answerNA}[1][]{\textcolor{gray}{[N/A] #1}}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Command \answerTODO already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.84 ...swerTODO}[1][]{\textcolor{red}{[TODO] #1}}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Command \justificationTODO already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.85 ...{\textcolor{red}{[Justification TODO] #1}}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count369
@@ -1239,7 +1169,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 (./sections/abstract.tex
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 3.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 4.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1phv.fd
@@ -1287,8 +1217,7 @@ LaTeX Info: Symbol \textrightarrow not provided by
 )
 
 [3]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
@@ -1346,7 +1275,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 [14]
-<figures/feature_collapse.pdf, id=632, 859.63786pt x 261.91829pt>
+<figures/feature_collapse.pdf, id=631, 859.63786pt x 261.91829pt>
 File: figures/feature_collapse.pdf Graphic file (type pdf)
 <use figures/feature_collapse.pdf>
 Package pdftex.def Info: figures/feature_collapse.pdf  used on input line 117.
@@ -1382,7 +1311,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/probe_layer_curve_panel.pdf, id=726, 787.27187pt x 236.62376pt>
+<figures/probe_layer_curve_panel.pdf, id=725, 787.27187pt x 236.62376pt>
 File: figures/probe_layer_curve_panel.pdf Graphic file (type pdf)
 <use figures/probe_layer_curve_panel.pdf>
 Package pdftex.def Info: figures/probe_layer_curve_panel.pdf  used on input lin
@@ -1561,19 +1490,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 77634F4CE30242E50FB582B7A8B425C7;15804.
+(rerunfilecheck)             Checksum: 2A04F09F40D94192E365F423A0918D79;16004.
  ) 
 Here is how much of TeX's memory you used:
- 40895 strings out of 473190
- 910766 string characters out of 5715801
+ 40914 strings out of 473190
+ 910943 string characters out of 5715801
  1464809 words of memory out of 5000000
  62759 multiletter control sequences out of 15000+600000
- 632262 words of font info for 371 fonts, out of 8000000 for 9000
+ 633416 words of font info for 383 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,19n,87p,6549b,2403s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
@@ -1598,10 +1523,10 @@ ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/
 type1/urw/times/utmbi8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on main.pdf (45 pages, 527314 bytes).
+Output written on main.pdf (45 pages, 527886 bytes).
 PDF statistics:
  1273 PDF objects out of 1440 (max. 8388607)
  1043 compressed objects within 11 object streams
- 294 named destinations out of 1000 (max. 500000)
+ 295 named destinations out of 1000 (max. 500000)
  73799 words of extra memory for PDF output out of 74296 (max. 10000000)
 

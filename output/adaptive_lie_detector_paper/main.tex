@@ -77,14 +77,14 @@
   backgroundcolor=\color{gray!10},
 }
 
-% NeurIPS checklist macros
-\newcommand{\answerYes}[1][]{\textcolor{blue}{[Yes] #1}}
-\newcommand{\answerNo}[1][]{\textcolor{orange}{[No] #1}}
-\newcommand{\answerNA}[1][]{\textcolor{gray}{[N/A] #1}}
-\newcommand{\answerTODO}[1][]{\textcolor{red}{[TODO] #1}}
-\newcommand{\justificationTODO}[1][]{\textcolor{red}{[Justification TODO] #1}}
+% NeurIPS checklist macros (providecommand avoids clash if sty defines them)
+\providecommand{\answerYes}[1][]{\textcolor{blue}{[Yes] #1}}
+\providecommand{\answerNo}[1][]{\textcolor{orange}{[No] #1}}
+\providecommand{\answerNA}[1][]{\textcolor{gray}{[N/A] #1}}
+\providecommand{\answerTODO}[1][]{\textcolor{red}{[TODO] #1}}
+\providecommand{\justificationTODO}[1][]{\textcolor{red}{[Justification TODO] #1}}
 
-\title{Correction-Marker Signals Are Not Sufficient for Deception Detection in Instructed-Roleplay Evaluations: A Three-Control Study of English Open-Weight LLMs (3B--70B)}
+\title{Behavioral Deception Detection in Instructed LLM Roleplay Is Dominated by Correction-Marker and Instruction-Following Signals: A Three-Control Audit (3B--70B, English)}
 
 \author{%
   Anupam ~Mediratta \\

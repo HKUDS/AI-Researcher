@@ -15,15 +15,15 @@ Correction-marker density is the \emph{only} validated feature. \textbf{Key impl
 \paragraph{Per-feature LOO ablation.}
 Removing correction-marker density drops LOO from 67.1\% to 57.0\% ($-$10.2\,pp); the four ICC-failing features contribute $\leq$3.2\,pp individually (Appendix~\ref{app:feature_validity}). \textbf{Cross-family construct-valid bound:} under Mistral~L3 extraction, the four ICC-failing features alone achieve 57.0\% (Table~\ref{tab:feature_ablation_proxy}); correction-marker density accounts for the remaining $+$10.2\,pp uplift to 67.1\%. The construct-valid cross-family signal is therefore $\sim$10\,pp above chance, substantially below the 64.7\% headline. \textbf{L-indep claims} (80.1\% rule, 30--41\,pp collapse) are unaffected.
 
-\subsection{Three Transfer Regimes}
+\subsection{Transfer Beyond Instructed Roleplay (Secondary)}
 \label{sec:transfer_regimes}
 \label{sec:blackbox_vs_whitebox}
 
-\paragraph{Regime 1: Instructed roleplay.} The explicit instruction dominates: equalization collapses LOO from 93.9--100\% to 52--69\% (30--41\,pp). The residual is surface-lexical (80.1\% rule).
+\paragraph{Regime 1: Instructed roleplay (primary scope).} The explicit instruction dominates: equalization collapses LOO from 93.9--100\% to 52--69\% (30--41\,pp). The residual is surface-lexical (80.1\% rule).
 
 \paragraph{Regime 2: Semi-autonomous (sycophancy).} Largely dispositional ({\S}\ref{sec:autonomous_pilot}): marginal epistemic-pressure contribution is $+$5--14\,pp over the system-prompt-only baseline.
 
-\paragraph{Regime 3: Fully autonomous (persona/false-belief).} Null results; scenario-design artifact as leading candidate explanation ({\S}\ref{sec:exp_i_4th_scenario}). This finding rests on $n\!=\!10$ spot-checked trials from a single model (Qwen~14B); extension to Llama~3B and Mistral~7B is the highest-priority replication gap (limitation~(f)).
+\paragraph{Regime 3: Fully autonomous (exploratory).} Null results; scenario-design artifact as leading candidate explanation ({\S}\ref{sec:exp_i_4th_scenario}). This finding rests on $n\!=\!10$ spot-checked trials from a single model (Qwen~14B); extension to Llama~3B and Mistral~7B is the highest-priority replication gap (limitation~(f)).
 
 \paragraph{Frontier-scale targets.}
 \label{sec:haiku_defensiveness}
@@ -36,11 +36,11 @@ The primary contribution is a \textbf{methodological audit}: we provide an indep
 
 \paragraph{Protocol generality.}
 \label{sec:protocol_generality}
-Applied to SAPLMA-style LR probes~\cite{azaria2023internal} ($n\!=\!3$ targets; §\ref{sec:saplma_application}), probes fall within $\pm$6\,pp of the surface-lexical ceiling, replicating the core finding in an activation-probing paradigm.
+Applied to SAPLMA-style LR probes~\cite{azaria2023internal} ($n\!=\!3$ targets; §\ref{sec:saplma_application}), last-layer logistic regression probes trained on internal representations achieve 65--71\% LOO under equalized prompts, all within $\pm$6\,pp of the refusal-count rule. This replicates the core finding in a fundamentally different paradigm: even when the detector has access to internal model activations rather than behavioral text, the surface-lexical baseline still bounds performance under equalization. The three-control protocol thus generalizes beyond the behavioral-feature paradigm to activation probing.
 
 \paragraph{Classifier generalization.}
 \label{sec:loo_across_models}
-Leave-one-model-out yields 64.2\%, within $+$3.0\,pp of pooled LOO (Appendix~\ref{app:loo_across_models}).
+Leave-one-model-out (train on 6 targets, test on the 7th) yields 64.2\% mean accuracy, within $+$3.0\,pp of pooled LOO, confirming within-distribution generalization (Appendix~\ref{app:loo_across_models}). The Claude Haiku fold is an informative outlier: the classifier over-predicts ``lying'' on Haiku truthful trials (T-acc 24.5\%, L-acc 98.0\%) because Haiku's RLHF compliance produces correction markers in \emph{both} conditions, making its truthful responses behaviorally indistinguishable from other models' lying responses. This is consistent with the finding that Haiku's 97.8\% instructed accuracy primarily detects safety compliance rather than deception.
 
 \paragraph{Reflexive implication.} The regimes where detection is validated are precisely where controls reveal artifactual or dispositional signal: instructed-roleplay accuracy is dominated by instruction-following (30--41\,pp collapse), and semi-autonomous sycophancy is largely dispositional (system-prompt-only baselines account for the majority of signal). The deployment-relevant autonomous regime, where genuine strategic deception would most matter, is precisely where this paper has null results. This creates an uncomfortable asymmetry: high detection accuracy is achievable only in settings where the ``deception'' is an artifact of evaluation design.
 
