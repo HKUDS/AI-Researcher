@@ -1025,7 +1025,7 @@ def create_ui():
                     f"<span class='status-indicator status-success'></span> {status}"
                 )
 
-            yield token_count, status_with_indicator, filtered_logs, scroll_script, updated_index
+            yield state, status_with_indicator, filtered_logs, scroll_script, updated_index
             # yield token_count, status_with_indicator, logs2
         else:
             logs2, updated_index = get_latest_logs(500, state, LOG_QUEUE, last_index)
