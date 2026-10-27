@@ -68,7 +68,11 @@ def get_args():
     parser.add_argument("--port", type=int, default=12345)
     parser.add_argument("--max_iter_times", type=int, default=0)
     parser.add_argument("--category", type=str, default="recommendation")
+    parser.add_argument("--idea-checkpoint-dir", help="Persist idea-stage requests in this directory")
+    parser.add_argument("--resume-ideas", action="store_true", help="Resume the same idea checkpoint directory")
     args = parser.parse_args()
+    if args.resume_ideas and not args.idea_checkpoint_dir:
+        parser.error("--resume-ideas requires --idea-checkpoint-dir")
     return args
 
 class EvalMetadata(BaseModel):
@@ -98,7 +102,7 @@ def github_search(metadata: Dict) -> str:
     return github_result
 
 class InnoFlow(FlowModule):
-    def __init__(self, cache_path: str, log_path: Union[str, None, MetaChainLogger] = None, model: str = "gpt-4o-2024-08-06", code_env: DockerEnv = None, web_env: BrowserEnv = None, file_env: RequestsMarkdownBrowser = None):
+    def __init__(self, cache_path: str, log_path: Union[str, None, MetaChainLogger] = None, model: str = "gpt-4o-2024-08-06", code_env: DockerEnv = None, web_env: BrowserEnv = None, file_env: RequestsMarkdownBrowser = None, idea_checkpoint_dir=None, resume_ideas=False):
         super().__init__(cache_path, log_path, model)
         self.load_ins = ToolModule(load_instance, cache_path)
         self.git_search = ToolModule(github_search, cache_path)
@@ -108,6 +112,10 @@ class InnoFlow(FlowModule):
         self.ml_agent = AgentModule(get_ml_agent(model=COMPLETION_MODEL, code_env=code_env), self.client, cache_path)
         self.judge_agent = AgentModule(get_judge_agent(model=CHEEP_MODEL, code_env=code_env, web_env=web_env, file_env=file_env), self.client, cache_path)
         self.idea_agent = AgentModule(get_idea_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
+        if idea_checkpoint_dir is not None:
+            from research_agent.inno.checkpoint import CheckpointedIdeaModule
+            self.idea_agent = CheckpointedIdeaModule(self.idea_agent.agent, self.client,
+                file_env, idea_checkpoint_dir, resume=resume_ideas)
         # self.survey_agent = AgentModule(get_survey_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
         self.code_survey_agent = AgentModule(get_code_survey_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
         self.exp_analyser = AgentModule(get_exp_analyser_agent(model=CHEEP_MODEL, file_env=file_env, code_env=code_env), self.client, cache_path)
@@ -549,7 +557,7 @@ def main(args, references):
     setup_dataset(args.category, code_env.local_workplace)
     web_env = BrowserEnv(browsergym_eval_env = None, local_root=env_config.local_root, workplace_name=env_config.workplace_name)
     file_env = RequestsMarkdownBrowser(viewport_size=1024 * 4, local_root=env_config.local_root, workplace_name=env_config.workplace_name, downloads_folder=os.path.join(env_config.local_root, env_config.workplace_name, "downloads"))
-    flow = InnoFlow(cache_path="cache_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__"), log_path="log_" + instance_id, code_env=code_env, web_env=web_env, file_env=file_env, model=args.model)
+    flow = InnoFlow(cache_path="cache_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__"), log_path="log_" + instance_id, code_env=code_env, web_env=web_env, file_env=file_env, model=args.model, idea_checkpoint_dir=args.idea_checkpoint_dir, resume_ideas=args.resume_ideas)
     # ml_result = await flow(instance_path=instance_path)
     asyncio.run(flow(instance_path=args.instance_path, task_level=args.task_level, local_root=local_root, workplace_name=args.workplace_name, max_iter_times=args.max_iter_times, category=args.category, references = references))
     # print(judge_result)

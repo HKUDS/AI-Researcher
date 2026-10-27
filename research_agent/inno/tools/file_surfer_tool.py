@@ -11,7 +11,7 @@ import mimetypes
 import base64
 import uuid
 import os
-from litellm import completion
+from research_agent.inno.checkpoint import completion
 from research_agent.constant import COMPLETION_MODEL, API_BASE_URL
 def with_env(env: RequestsMarkdownBrowser):
     """将env注入到工具函数中的装饰器"""

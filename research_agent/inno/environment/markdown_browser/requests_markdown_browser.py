@@ -22,6 +22,7 @@ from .markdown_search import AbstractMarkdownSearch, BingMarkdownSearch
 from .mdconvert import FileConversionException, MarkdownConverter, UnsupportedFormatException  # type: ignore
 from inno.memory.paper_memory import PaperMemory
 from constant import API_BASE_URL
+from research_agent.inno.checkpoint import ensure_paper_index
 def normalize_collection_name(name: str) -> str:
     """
     Normalize collection name to meet the following requirements:
@@ -257,8 +258,7 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
             raise FileNotFoundError("No file is opened, please open a file first.")
         collection = self._current_page_path.split("/")[-1].replace(".", "_dot_")
         collection = normalize_collection_name(collection)
-        if self._memory.count(collection) == 0:
-            self._memory.add_paper_content(paper_content=self.page_content, collection=collection)
+        ensure_paper_index(self._memory, collection, self.page_content)
         query_results = self._memory.query_paper_content(query_text=question, collection=collection, n_results=5)
         wrapped_results = "\n".join([f"## Chunk {i+1}. {result}" for i, result in enumerate(query_results)])
         return wrapped_results

@@ -18,7 +18,7 @@ from .types import (
     Response,
     Result,
 )
-from litellm import completion, acompletion
+from research_agent.inno.checkpoint import completion, acompletion
 from pathlib import Path
 from .logger import MetaChainLogger, LoggerManager
 from httpx import RemoteProtocolError, ConnectError

@@ -6,6 +6,7 @@ import chromadb
 from chromadb.utils import embedding_functions
 from abc import ABC, abstractmethod
 from openai import OpenAI
+from research_agent.inno.checkpoint import embedding_create
 import numpy as np
 from chromadb.api.types import QueryResult
 chromadb.logger.setLevel(chromadb.logging.ERROR)
@@ -37,7 +38,7 @@ class Memory:
         # use the OpenAI embedding function if the openai section is set in the configuration.
         if platform == 'OpenAI':
             openai_client = OpenAI(api_key=api_key or os.environ["OPENAI_API_KEY"], base_url=API_BASE_URL)
-            self.embedder = lambda x: [i.embedding for i in openai_client.embeddings.create(input=x, model=embedding_model).data]
+            self.embedder = lambda x: [i.embedding for i in embedding_create(openai_client, input=x, model=embedding_model).data]
         else:
             # self.embedder = embedding_functions.DefaultEmbeddingFunction()
             self.embedder = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")

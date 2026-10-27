@@ -1098,3 +1098,7 @@ A more detailed technical report will be released soon. 🚀:
       url={https://arxiv.org/abs/2505.18705},
 }
 ```
+
+### Resume interrupted idea generation
+
+The native idea workflow supports opt-in [request-level checkpoints](docs/idea-checkpoints.md) with `--idea-checkpoint-dir` and `--resume-ideas`.
