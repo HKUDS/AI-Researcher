@@ -522,12 +522,16 @@ class MetaChain:
                 json.loads(message.model_dump_json())
             )  # to avoid OpenAI types (?)
 
+            if not execute_tools:
+                self.logger.info("Ending turn without executing tools.", title="End Turn", color="red")
+                break
+
             if enter_agent.tool_choice != "required":
-                if (not message.tool_calls and active_agent.name == enter_agent.name) or not execute_tools:
+                if not message.tool_calls and active_agent.name == enter_agent.name:
                     self.logger.info("Ending turn.", title="End Turn", color="red")
                     break
             else: 
-                if (message.tool_calls and message.tool_calls[0].function.name == "case_resolved") or not execute_tools:
+                if message.tool_calls and message.tool_calls[0].function.name == "case_resolved":
                     self.logger.info("Ending turn with case resolved.", title="End Turn", color="red")
                     try:
                         partial_response = self.handle_tool_calls(
@@ -544,7 +548,7 @@ class MetaChain:
                         self.logger.info(f"Error: {e}", title="Error", color="red")
                         history.append({"role": "error", "content": f"Error: {e}"})
                         break
-                elif (message.tool_calls and message.tool_calls[0].function.name == "case_not_resolved") or not execute_tools:
+                elif message.tool_calls and message.tool_calls[0].function.name == "case_not_resolved":
                     self.logger.info("Ending turn with case not resolved.", title="End Turn", color="red")
                     try:
                         partial_response = self.handle_tool_calls(
