@@ -86,8 +86,6 @@ You should complete the workflow graph in the following way:
     response = completion(model='gpt-4o-2024-08-06', messages=messages, response_format=response_format)
     return json.loads(response.choices[0].message.content)
 if __name__ == '__main__':
-    import os
-    os.environ['OPENAI_API_KEY'] = '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'
     with open('/Users/tangjiabin/Documents/reasoning/metachain/chaingraph/common_ragflow-2024.json', 'r') as f:
         fschema = json.load(f)
     graph_dict = transfer_fschema_to_dict(fschema)

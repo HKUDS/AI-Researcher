@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+from pathlib import Path
 from datetime import datetime
 import random
 from abc import ABC, abstractmethod
@@ -40,8 +41,6 @@ class SectionComposer(ABC):
             f"{self.research_field}/temp",
             f"{self.research_field}/target_sections",
             f"{self.research_field}/{self.section_name}_checkpoints",
-            f"{self.research_field}/writing_templates/{self.section_name}"
-            # f"{self.research_field}/target_sections/{self.section_name}"
         ]
         for directory in directories:
             os.makedirs(directory, exist_ok=True)
@@ -97,16 +96,18 @@ class SectionComposer(ABC):
 
     def get_random_template(self) -> str:
         """Randomly select a writing template from the templates directory"""
-        template_dir = f"{self.research_field}/writing_templates/{self.section_name}"
-        template_files = [f for f in os.listdir(template_dir) if f.endswith('_template.txt')]
+        relative_dir = Path(self.research_field) / "writing_templates" / self.section_name
+        template_files = list(relative_dir.glob("*_template.txt"))
+        if not template_files:
+            bundled_dir = Path(__file__).resolve().parent / relative_dir
+            template_files = list(bundled_dir.glob("*_template.txt"))
         if not template_files:
             logging.warning("No templates found. Will proceed without template.")
             return ""
         
         selected_template = random.choice(template_files)
         try:
-            with open(os.path.join(template_dir, selected_template), 'r', encoding='utf-8') as f:
-                return f.read()
+            return selected_template.read_text(encoding="utf-8")
         except Exception as e:
             logging.error(f"Error reading template {selected_template}: {str(e)}")
             return ""

@@ -10,7 +10,8 @@ import time
 import traceback
 import uuid
 from typing import Any, Dict, List, Optional, Tuple, Union
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import urljoin, urlparse
+from urllib.request import url2pathname
 
 import pathvalidate
 import requests
@@ -20,8 +21,7 @@ from .markdown_search import AbstractMarkdownSearch, BingMarkdownSearch
 
 # TODO: Fix unfollowed import
 from .mdconvert import FileConversionException, MarkdownConverter, UnsupportedFormatException  # type: ignore
-from inno.memory.paper_memory import PaperMemory
-from constant import API_BASE_URL
+from research_agent.inno.memory.paper_memory import PaperMemory
 def normalize_collection_name(name: str) -> str:
     """
     Normalize collection name to meet the following requirements:
@@ -126,8 +126,7 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
 
         self._find_on_page_query: Union[str, None] = None
         self._find_on_page_last_result: Union[int, None] = None  # Location of the last result
-        platform = 'default'
-        self._memory = PaperMemory(project_path="./paper_db", db_name=".paper_memory_" + platform, platform=platform, api_key=os.getenv("OPENAI_API_KEY"), embedding_model='text-embedding-3-small')
+        self._memory: Optional[PaperMemory] = None
         self._current_page_path = None
 
     @property
@@ -255,7 +254,11 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
         """
         if self._current_page_path is None:
             raise FileNotFoundError("No file is opened, please open a file first.")
-        collection = self._current_page_path.split("/")[-1].replace(".", "_dot_")
+        if self._memory is None:
+            self._memory = PaperMemory(
+                project_path="./paper_db", db_name=".paper_memory_default", platform="default"
+            )
+        collection = os.path.basename(self._current_page_path).replace(".", "_dot_")
         collection = normalize_collection_name(collection)
         if self._memory.count(collection) == 0:
             self._memory.add_paper_content(paper_content=self.page_content, collection=collection)
@@ -306,6 +309,16 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
         self._current_page_path = full_path
         return self.viewport
 
+    def open_text(self, address: str, content: str) -> None:
+        """Display text at an address without fetching it."""
+        self.history.append((address, time.time()))
+        self.page_title = None
+        self._current_page_path = None
+        self._find_on_page_query = None
+        self._find_on_page_last_result = None
+        self.viewport_current_page = 0
+        self._set_page_content(content)
+
     def _split_pages(self) -> None:
         """Split the page contents into pages that are approximately the viewport size. Small deviations are permitted to ensure words are not broken."""
         # Handle empty pages
@@ -342,7 +355,11 @@ class RequestsMarkdownBrowser(AbstractMarkdownBrowser):
         # print(url)
         try:
             if url.startswith("file://"):
-                download_path = os.path.normcase(os.path.normpath(unquote(url[7:])))
+                file_uri = urlparse(url)
+                uri_path = file_uri.path
+                if file_uri.netloc and file_uri.netloc.lower() != "localhost":
+                    uri_path = f"//{file_uri.netloc}{uri_path}"
+                download_path = os.path.normpath(url2pathname(uri_path))
                 if os.path.isdir(download_path):  # TODO: Fix markdown_converter types
                     res = self._markdown_converter.convert_stream(  # type: ignore
                         io.StringIO(self._fetch_local_dir(download_path)), file_extension=".html"

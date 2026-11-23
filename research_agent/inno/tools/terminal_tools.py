@@ -10,7 +10,6 @@ from research_agent.inno.environment.markdown_browser.requests_markdown_browser 
 from typing import Tuple, Optional, Dict
 import time
 import tiktoken
-from datetime import datetime
 from functools import wraps
 from rich.console import Console
 from pathlib import Path
@@ -42,24 +41,6 @@ def _get_browser_state(env: RequestsMarkdownBrowser) -> Tuple[str, str]:
         header += f"[NOTE] The output of the tool `{tool_name}`, you can use `terminal_page_up` to scroll up and `terminal_page_down` to scroll down. If there are many pages with meaningless content like progress bar or output of generating directory structure when there are many datasets in the directory, you can use `terminal_page_to` to move the viewport to the end of terminal where the meaningful content is.\n"
     return (header, env.viewport)
 
-def open_local_terminal_output(path: str):
-    """
-    Open a local file at a path in the text-based browser and return current viewport content.
-
-    Args:
-        path: The absolute path of a local file to visit.
-    """
-    try: 
-        # assert DOCKER_WORKPLACE_NAME in path, f"The path must be a absolute path from `/{DOCKER_WORKPLACE_NAME}/` directory"
-        # local_path = path.replace('/' + DOCKER_WORKPLACE_NAME, LOCAL_ROOT + f'/{DOCKER_WORKPLACE_NAME}')
-        # print(local_path)
-        terminal_env.open_local_file(path)
-        header, content = _get_browser_state(terminal_env)
-        final_response = header.strip() + "\n==============================================\n" + content + "\n==============================================\n"
-        return final_response
-    except Exception as e:
-        return f"Error in `open_local_terminal_output`: {e}"
-    
 @register_tool("terminal_page_up")
 def terminal_page_up():
     """
@@ -112,15 +93,10 @@ def process_terminal_response(func):
         # 如果返回值是字典且包含 status 和 result
         if isinstance(result, dict) and 'status' in result and 'result' in result:
             try:
-                res_output = result['result']
-                if res_output == "": res_output = " "
-                tmp_dir = os.path.join(os.getcwd(), "terminal_tmp")
-                os.makedirs(tmp_dir, exist_ok=True)
-                tmp_file = os.path.join(os.getcwd(), "terminal_tmp", "terminal_output_{}___{}.txt".format(datetime.now().strftime("%Y%m%d_%H%M%S"), func.__name__))
-                
-                with open(tmp_file, "w") as f:
-                    f.write(res_output)
-                return open_local_terminal_output(tmp_file)
+                address = f"terminal://{time.time_ns()}/{func.__name__}"
+                terminal_env.open_text(address, result["result"] or " ")
+                header, content = _get_browser_state(terminal_env)
+                return f"{header.strip()}\n==============================================\n{content}\n==============================================\n"
             except Exception as e:
                 return f"Error in the post-processing of `{func.__name__}`: {e}"
             

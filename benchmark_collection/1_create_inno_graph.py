@@ -4,13 +4,11 @@ import string
 import asyncio
 from typing import List, Dict, Any, Tuple
 from pathlib import Path
-import sys
 import time
 from datetime import datetime, timedelta
 import logging
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.pdf_utils import read_pdf, truncate_text
-from utils.openai_utils import GPTClient
+from benchmark_collection.utils.pdf_utils import read_pdf, truncate_text
+from benchmark_collection.utils.openai_utils import GPTClient
 
 # Set up logging
 logging.basicConfig(

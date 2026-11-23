@@ -1,4 +1,4 @@
-from main_ai_researcher import main_ai_researcher
+from main_ai_researcher import ENV_FILE, PROJECT_DIR, get_args_paper, main_ai_researcher
 import os
 import gradio as gr
 import time
@@ -7,7 +7,7 @@ import logging
 import datetime
 from typing import Tuple
 import importlib
-from dotenv import load_dotenv, set_key, find_dotenv, unset_key
+from dotenv import dotenv_values, load_dotenv, set_key, unset_key
 import threading
 import queue
 import re  # For regular expression operations
@@ -17,18 +17,13 @@ import base64
 
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-# If you want to use proxy, please uncomment the following lines
-os.environ['https_proxy'] = 'http://100.68.161.73:3128'
-os.environ['http_proxy'] = 'http://100.68.161.73:3128'
-os.environ['no_proxy'] = 'localhost,127.0.0.1,0.0.0.0'
-
 def setup_path():
     # logs_dir = os.path.join("casestudy_results", f'agent_{container_name}', 'logs')
     logs_dir = os.path.join("casestudy_results", f'agent', 'logs')
     os.makedirs(logs_dir, exist_ok=True)
 
     # 生成日志文件名（使用当前日期）
-    current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     # current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     log_file = os.path.join(logs_dir, f"gradio_log_{current_date}.log")
     return log_file
@@ -74,11 +69,14 @@ def return_log_file():
     return LOG_FILE
 
 def return_paper_file():
-    category = os.getenv("CATEGORY")
-    instance_id = os.getenv("INSTANCE_ID")
-    global PAPER_FILE
-    PAPER_FILE = f'{category}/target_sections/{instance_id}/iclr2025_conference.pdf'
-    return PAPER_FILE
+    load_env_vars()
+    args = get_args_paper([])
+    paper_path = f"{args.research_field}/target_sections/{args.instance_id}/iclr2025_conference.pdf"
+    for output_dir in (PROJECT_DIR, PROJECT_DIR / "paper_agent"):
+        paper_file = output_dir / paper_path
+        if paper_file.is_file():
+            return str(paper_file)
+    raise gr.Error("Paper PDF not found. Generate the paper for the configured category and instance first.")
 
 def return_paper_log_file():
     return PAPER_LOG
@@ -158,11 +156,6 @@ def get_base64_image(image_path):
 LOG_FILE = None
 LOG_READ_FILE = None
 PAPER_LOG = None
-category = os.getenv("CATEGORY")
-instance_id = os.getenv("INSTANCE_ID")
-
-PAPER_FILE = f'{category}/target_sections/{instance_id}/iclr2025_conference.pdf'
-# PAPER_FILE = './vq/target_sections/rotated_vq/iclr2025_conference.pdf'
 # PAPER_LOG = './paper_agent/paper_logs/rotated_vq.log'
 LOG_QUEUE: queue.Queue = queue.Queue()
 STOP_LOG_THREAD = threading.Event()
@@ -522,7 +515,7 @@ def run_ai_researcher(question: str, reference: str, example_module: str) -> Tup
 
     try:
         # 确保环境变量已加载
-        load_dotenv(find_dotenv(), override=True)
+        load_env_vars()
         logging.info(f"Processing question: '{question}', using module: {example_module}")
 
         # 检查模块是否在MODULE_DESCRIPTIONS中
@@ -584,12 +577,12 @@ WEB_FRONTEND_ENV_VARS: dict[str, str] = {}
 
 def init_env_file():
     """初始化.env文件如果不存在"""
-    dotenv_path = find_dotenv()
-    if not dotenv_path:
-        with open(".env", "w") as f:
+    try:
+        with ENV_FILE.open("x", encoding="utf-8") as f:
             f.write(DEFAULT_ENV_TEMPLATE)
-        dotenv_path = find_dotenv()
-    return dotenv_path
+    except FileExistsError:
+        pass
+    return ENV_FILE
 
 
 def load_env_vars():
@@ -602,14 +595,9 @@ def load_env_vars():
     load_dotenv(dotenv_path, override=True)
 
     # 从.env文件读取环境变量
-    env_file_vars = {}
-    with open(dotenv_path, "r") as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#"):
-                if "=" in line:
-                    key, value = line.split("=", 1)
-                    env_file_vars[key.strip()] = value.strip().strip("\"'")
+    env_file_vars = {
+        key: value for key, value in dotenv_values(dotenv_path).items() if value is not None
+    }
 
     # 从系统环境变量中获取
     system_env_vars = {

@@ -13,7 +13,7 @@ from typing import Dict, Optional
 from collections import Counter
 import string
 from urllib.parse import urlparse
-from utils.openai_utils import GPTClient
+from benchmark_collection.utils.openai_utils import GPTClient
 
 # Set up logging
 logging.basicConfig(

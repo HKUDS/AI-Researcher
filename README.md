@@ -136,16 +136,16 @@ playwright install
 
 #### Docker Installation
 
-To set up the agent-interactive environment, we use Docker for containerization. Please ensure you have [Docker](https://www.docker.com/) installed on your system before proceeding. For running the research agent, we utilize the Docker image 'tjbtech1/airesearcher:v1t'. You can pull this image by executing the following command:
+Install [Docker](https://www.docker.com/) before pulling the research agent image.
 
 ```bash
 docker pull tjbtech1/airesearcher:v1
 ```
 
-or you can build the docker image from our provided [Dockerfile](./docker/Dockerfile). 
+If Docker Hub is inaccessible, build the image from the repository root using the provided [Dockerfile](./docker/Dockerfile). Keep `BASE_IMAGES=tjbtech1/airesearcher:v1` in `.env` to use the locally tagged image.
 
 ```bash
-cd ./docker && docker build -t tjbtech1/airesearcher:v1 .
+docker build -t tjbtech1/airesearcher:v1 ./docker
 ```
 
 <span id='api-keys-setup'/>
@@ -988,60 +988,36 @@ Select the following example to run our AI-Researcher:
 
 ### 1. Research Agent
 
-If you want to use research agent with the given idea (Level 1 tasks), conducting extensive survey and experiments,  you can use the following command in the [`research_agent/run_infer_level_1.sh`](./research_agent/run_infer_level_1.sh):
+Run this command from the repository root to use the example benchmark's research idea.
 
 ```bash
-current_dir=$(dirname "$(readlink -f "$0")")
-cd $current_dir
-export DOCKER_WORKPLACE_NAME=workplace_paper
-
-export BASE_IMAGES=tjbtech1/paperagent:latest
-
-export COMPLETION_MODEL=claude-3-5-sonnet-20241022
-export CHEEP_MODEL=claude-3-5-haiku-20241022
-
-category=vq
-instance_id=one_layer_vq
-export GPUS='"device=0,1"'
-
-python run_infer_plan.py --instance_path ../benchmark/final/${category}/${instance_id}.json --container_name paper_eval --task_level task1 --model $COMPLETION_MODEL --workplace_name workplace --cache_path cache --port 12372 --max_iter_times 0 --category ${category}
+bash research_agent/run_infer_level_1.sh
 ```
 
-If you want to just give the reference papers, and let the research agent to generate the idea then conduct the experiments (Level 2 tasks), you can use the following command in the [`research_agent/run_infer_level_2.sh`](./research_agent/run_infer_level_2.sh):
+Run this command to generate an idea from the benchmark's reference papers and run the experiments.
 
 ```bash
-current_dir=$(dirname "$(readlink -f "$0")")
-cd $current_dir
-export DOCKER_WORKPLACE_NAME=workplace_paper
-
-export BASE_IMAGES=tjbtech1/paperagent:latest
-
-export COMPLETION_MODEL=claude-3-5-sonnet-20241022
-export CHEEP_MODEL=claude-3-5-haiku-20241022
-
-category=vq
-instance_id=one_layer_vq
-export GPUS='"device=0,1"'
-
-python run_infer_idea.py --instance_path ../benchmark/final/${category}/${instance_id}.json --container_name paper_eval --model $COMPLETION_MODEL --workplace_name workplace --cache_path cache --port 12372 --max_iter_times 0 --category ${category}
+bash research_agent/run_infer_level_2.sh
 ```
+
+Both scripts use the model and Docker image configured in `.env`. Pass `--help` to see options for selecting a different benchmark or providing your own inputs.
 
 ### 2. Paper Writing Agent
 
-If you want to generate the paper after the research agent has conducted the research, you can use the following command in the [`paper_agent/run_infer.sh`](./paper_agent/run_paper.sh):
+If you want to generate the paper after the research agent has conducted the research, you can use the following command in the [`paper_agent/run_paper.sh`](./paper_agent/run_paper.sh):
 
 ```bash
 #!/bin/bash
 
-cd path/to/AI-Researcher/paper_agent
+cd path/to/AI-Researcher
 
-export OPENAI_API_KEY=sk-SKlupNntta4WPmvDCRo7uuPbYGwOnUQcb25Twn8c718tPpXN
+export OPENAI_API_KEY="your_openai_api_key"
 
 
 research_field=vq
-instance_id=rotated_vq
+instance_id=rotation_vq
 
-python path/to/AI-Researcher/paper_agent/writing.py --research_field ${research_field} --instance_id ${instance_id}
+python paper_agent/writing.py --research_field ${research_field} --instance_id ${instance_id}
 ```
 
 ### 3. Benchmark Data and Collection
