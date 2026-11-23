@@ -154,12 +154,18 @@ class FiniteScalarQuantization(nn.Module):
         if self.training:
             self.update_codebook(z, assignments)
 
-        # Calculate losses with temperature scaling
-        commitment_loss = F.mse_loss(z, quantized_z.detach()) / self.temperature
-        codebook_loss = F.mse_loss(quantized_z, z.detach()) / self.temperature
+        # Calculate losses - use mean reduction and scale to prevent explosion
+        # Commitment: encourage encoder output to match quantized
+        # Codebook: encourage quantized to match encoder (STE passes grad to encoder)
+        commitment_loss = F.mse_loss(z, quantized_z.detach(), reduction='mean')
+        codebook_loss = F.mse_loss(quantized_z, z.detach(), reduction='mean')
         
-        # Add entropy regularization
-        entropy_loss = -self.compute_entropy_rate() * 0.1
+        # Scale down quantization losses to balance with reconstruction
+        commitment_loss = commitment_loss * 0.25
+        codebook_loss = codebook_loss * 0.25
+        
+        # Add entropy regularization (scalar, no grad)
+        entropy_loss = -self.compute_entropy_rate() * 0.01
         
         total_loss = commitment_loss + codebook_loss + entropy_loss
 

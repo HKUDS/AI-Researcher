@@ -37,6 +37,9 @@ class Trainer:
         start_time = time.time()
         
         for batch_idx, batch in enumerate(self.train_loader):
+            # CIFAR10 returns (images, labels), we only need images
+            if isinstance(batch, (list, tuple)):
+                batch = batch[0]
             batch = batch.to(self.device)
             
             # Forward pass
@@ -45,6 +48,8 @@ class Trainer:
             
             # Backward pass
             output['loss'].backward()
+            # Gradient clipping to prevent explosion
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
             self.optimizer.step()
             
             # Accumulate losses

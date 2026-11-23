@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from scipy import linalg
 from torch.nn.functional import adaptive_avg_pool2d
-from torchvision.models import inception_v3
+from torchvision.models import inception_v3, Inception_V3_Weights
 import torch.nn.functional as F
 
 class InceptionScore:
@@ -13,7 +13,7 @@ class InceptionScore:
             device: Device to run calculations on
         """
         self.device = device
-        self.model = inception_v3(pretrained=True, transform_input=False).to(device)
+        self.model = inception_v3(weights=Inception_V3_Weights.IMAGENET1K_V1, transform_input=False).to(device)
         self.model.eval()
         
     @torch.no_grad()
@@ -31,8 +31,8 @@ class InceptionScore:
         if images.shape[2] != 299 or images.shape[3] != 299:
             images = F.interpolate(images, size=(299, 299), mode='bilinear', align_corners=True)
             
-        # Get activations
-        act = self.model(images)[0]
+        # Get activations (logits from Inception - used for FID feature statistics)
+        act = self.model(images)
         
         # Calculate statistics
         mu = torch.mean(act, dim=0).cpu().numpy()
@@ -64,10 +64,12 @@ class InceptionScore:
         diff = mu1 - mu2
         
         # Product might be almost singular
-        covmean, _ = linalg.sqrtm(sigma1.dot(sigma2), disp=False)
+        sqrtm_result = linalg.sqrtm(sigma1.dot(sigma2))
+        covmean = sqrtm_result[0] if isinstance(sqrtm_result, tuple) else sqrtm_result
         if not np.isfinite(covmean).all():
             offset = np.eye(sigma1.shape[0]) * eps
-            covmean = linalg.sqrtm((sigma1 + offset).dot(sigma2 + offset))
+            sqrtm_result = linalg.sqrtm((sigma1 + offset).dot(sigma2 + offset))
+            covmean = sqrtm_result[0] if isinstance(sqrtm_result, tuple) else sqrtm_result
             
         # Numerical error might give slight imaginary component
         if np.iscomplexobj(covmean):
@@ -113,6 +115,9 @@ class Evaluator:
         generated_images = []
         
         for batch in self.test_loader:
+            # CIFAR10 returns (images, labels), we only need images
+            if isinstance(batch, (list, tuple)):
+                batch = batch[0]
             batch = batch.to(self.device)
             
             # Forward pass
