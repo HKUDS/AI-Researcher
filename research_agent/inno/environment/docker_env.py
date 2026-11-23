@@ -1,7 +1,7 @@
 import os
 import os.path as osp
 import subprocess
-from constant import BASE_IMAGES, AI_USER, GITHUB_AI_TOKEN, GPUS, PLATFORM
+from research_agent.constant import BASE_IMAGES, AI_USER, GITHUB_AI_TOKEN, GPUS, PLATFORM
 import time
 import socket
 import json
@@ -116,13 +116,11 @@ class DockerEnv:
                 # 额外检查 tcp_server 是否运行
                 try:
                     port_info = check_container_ports(self.container_name)
-                    assert port_info and (port_info[0] == port_info[1])
-                    available_port = port_info[0]
-                    self.communication_port = available_port
-                    result = self.run_command('ps aux')
-                    print("result", result)
-                    if "tcp_server.py" in result['result']:
-                        return True
+                    if port_info:
+                        self.communication_port = port_info[0]
+                        result = self.run_command('ps aux')
+                        if "tcp_server.py" in result['result']:
+                            return True
                 except Exception as e:
                     print(f"Failed to check container ports: {e}")
                 
@@ -246,7 +244,7 @@ def check_container_ports(container_name: str):
         if '->' in mapping:
             # parse '0.0.0.0:12345->12345/tcp' to (12345, 12345)
             host_part, container_part = mapping.split('->')
-            host_port = host_part.split(':')[1]  # get '12345' from '0.0.0.0:12345'
+            host_port = host_part.rsplit(':', 1)[-1]
             container_port = container_part.split('/')[0]  # get '12345' from '12345/tcp'
             return (int(host_port), int(container_port))  # convert to integers
     return None

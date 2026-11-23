@@ -58,7 +58,7 @@ Args:
 
 - `--save_dir`: The directory to save the results.
 
-The API key of DeepSeek Chat is in the directory `/workplace/dataset_candidate/math_reasoning/.env`, that is `sk-d4656d7459264eb8acf55848081cf6bc`. Other models are not supported.
+Set `OPENAI_API_KEY` to your DeepSeek API key in the environment. For local configuration, copy `/workplace/dataset_candidate/math_reasoning/.env.template` to `.env` in the same directory and fill in the key. Other models are not supported.
 
 [IMPORTANT]
 1. Note that for reasoning tasks, DO NOT follow the directory structure with `training`, `testing`, etc. Construct the directory structure similar to `math_reasoning`. Focus on the reasoning techniques, and refer to the exmaple of `math_reasoning` for more details.

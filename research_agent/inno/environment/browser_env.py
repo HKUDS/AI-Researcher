@@ -25,11 +25,10 @@ from browsergym.core.action.functions import goto, page, get_elem_by_bid, demo_m
 import os
 from typing import Dict, Union, cast, Literal
 from playwright.sync_api import Page, Download
-from inno.io_utils import read_file
-from inno.environment.mdconvert import _get_page_markdown
-from inno.environment.browser_cookies import convert_cookies_to_python
-from inno.environment.cookies_data import COOKIES_LIST
-# from constant import DOCKER_WORKPLACE_NAME, LOCAL_ROOT
+from research_agent.inno.io_utils import read_file
+from .mdconvert import _get_page_markdown
+from .browser_cookies import convert_cookies_to_python
+from .cookies_data import COOKIES_LIST
 from functools import update_wrapper
 from inspect import signature
 import types    
@@ -642,6 +641,3 @@ def source_to_function(source_code: str, func_name: str):
     finally:
         # 清理临时文件
         os.unlink(temp_path)
-
-    
-    

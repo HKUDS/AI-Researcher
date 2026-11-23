@@ -21,11 +21,11 @@ from research_agent.inno.environment.markdown_browser import RequestsMarkdownBro
 import asyncio
 import argparse
 import os
+from pathlib import Path
 from typing import List, Dict, Any, Union
 from research_agent.inno.logger import MetaChainLogger
 import importlib
 from research_agent.inno.environment.utils import setup_dataset
-# instance_path = "benchmark/gnn.json"
 # task_level = "task1"
 def warp_source_papers(source_papers):
     return "\n".join([f"Title: {source_paper['reference']}; You can use this paper in the following way: {source_paper['usage']}" for source_paper in source_papers])
@@ -59,15 +59,17 @@ def extract_json_from_output(output_text: str) -> dict:
     return {}
 def get_args(): 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--instance_path", type=str, default="benchmark/gnn.json")
+    default_instance = Path(__file__).resolve().parents[1] / "benchmark/final/vq/one_layer_vq.json"
+    parser.add_argument("--instance_path", type=str, default=str(default_instance))
     parser.add_argument('--container_name', type=str, default='paper_eval')
     parser.add_argument("--task_level", type=str, default="task1")
-    parser.add_argument("--model", type=str, default="gpt-4o-2024-08-06")
+    parser.add_argument("--model", type=str, default=COMPLETION_MODEL)
     parser.add_argument("--workplace_name", type=str, default="workplace")
     parser.add_argument("--cache_path", type=str, default="cache")
     parser.add_argument("--port", type=int, default=12345)
     parser.add_argument("--max_iter_times", type=int, default=0)
-    parser.add_argument("--category", type=str, default="recommendation")
+    parser.add_argument("--category", type=str, default="vq")
+    parser.add_argument("--references", help="Reference papers to use. Defaults to the benchmark references.")
     args = parser.parse_args()
     return args
 
@@ -506,7 +508,7 @@ Note that you should fully utilize the existing code in the directory `/{workpla
 
         print(refine_res)
         
-def main(args, references):
+def main(args, references=None):
     """
     MAX_ATTEMPTS
 
@@ -534,6 +536,8 @@ def main(args, references):
     # load the eval instance
     with open(args.instance_path, "r", encoding="utf-8") as f:
         eval_instance = json.load(f)
+    if references is None:
+        references = "\n".join(paper["reference"] for paper in eval_instance["source_papers"])
     instance_id = eval_instance["instance_id"] + "_idea"
     local_root = os.path.join(os.getcwd(),"workplace_paper" , f"task_{instance_id}" + "_" + COMPLETION_MODEL.replace("/", "__"),  args.workplace_name)
     container_name = args.container_name + "_" + instance_id + "_" + COMPLETION_MODEL.replace("/", "__")
@@ -559,7 +563,7 @@ def main(args, references):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args)
+    main(args, args.references)
 
 
 
